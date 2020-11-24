@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class PictureTable extends Migration
+class HoopsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class PictureTable extends Migration
      */
     public function up()
     {
-        Schema::create('pictures', function (Blueprint $table) {
+        Schema::create('hoops', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->string('picture');
-            $table->text('content');
             $table->timestamps();
+            $table->string('name');
+            $table->string('adress');
+            $table->string('phone')->nullable();
+            $table->string('detail1')->nullable();
+            $table->string('detail2')->nullable();
+            $table->string('detail3')->nullable();
         });
     }
 
@@ -29,6 +32,6 @@ class PictureTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pictures');
+        Schema::dropIfExists('hoops');
     }
 }

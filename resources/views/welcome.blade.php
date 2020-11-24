@@ -1,7 +1,9 @@
 @extends('commons.layouts')
 @section('content')
 @if(Auth::check())
+    {{--ユーザのトップ画面--}}
     <div class="row">
+        {{--シューズ--}}
         <aside class="col-6">
             <h5 class="mt-1">-basket shoes-</h5>
             @foreach($manyShoes as $shoes)
@@ -12,23 +14,40 @@
                 </div>
             @endforeach
             @include('card.shoes')
-            @if(Auth::id()==$user->id)
-            <div class="text-right">
-                <h1 class="mb-5">{!!link_to_route('users.edit','edit',['user'=>$user->id])!!} </h1>
+            <div class="row">
+                <aside class="col-4">
+                    {!!link_to_route('pictures.create','new pic',[],['class'=>'btn btn-outline-primary btn-block'])!!}
+                    {!!link_to_route('users.index','message',[],['class'=>'btn btn-outline-secondary btn-block'])!!}
+                    {!!link_to_route('users.index','friends',[],['class'=>'btn btn-outline-primary btn-block'])!!}
+                </aside>
+                <div class="col-8">
+                    @if(Auth::id()==$user->id)
+                        <h1 class="mb-5 text-right">{!!link_to_route('users.edit','edit',['user'=>$user->id])!!} </h1>
+                    @endif
+                </div>
             </div>
-            @endif
         </aside>
+        {{--ユーザ--}}
         <div class="col-6 ">
             <h3 class="text-right">{{ Auth::user()->name}}</h3>
             @include('card.user')
         </div>
+        <div class="row mt-4">
+            @foreach($pictures as $picture)
+                <div class="col-4">
+                    <img class="mt-1"src={!!$picture->pic!!} alt="" width=100%></li>
+                </div>
+            @endforeach
+        </div>
     </div>
-    @else
+@else
+    {{--ユーザ以外の表示画面--}}
         <div class="text-center">
             <h1>{!!link_to_route('login','log in',[],)!!}</h1>
             <p class="mt-4">or</p>
             <h1 class="mb-5">{!!link_to_route('signup.get','register',[],)!!} </h1>
-            <h1 class="mt-5">Bas×Bas</h1>
-        </div>
-    @endif
+        <h1 class="mt-5">Bas×Bas</h1>
+    @include('commons.pictures')
+@endif
 @endsection('content')
+

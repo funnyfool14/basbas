@@ -64,11 +64,11 @@ class ShoesController extends Controller
 
     public function destroy($id)
     {
-        $shoes=Shoe::findOrFail($id);
+        $shoes=\App\Shoe::findOrFail($id);
         if(\Auth::id()==$shoes->user_id){
-        $shoes->delete();
+            $shoes->delete();
         }
         
-        return redirect('/');
+        return back();
     }
 }

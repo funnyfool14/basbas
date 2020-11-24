@@ -39,11 +39,11 @@ class User extends Authenticatable
     
    // public function brand()
     //{
-      //  return $this->hasMany(Shoe::class);
+      //  return $this>hasMany(Shoe::class);
     //}
     
     public function shoes()
     {
-        return $this->hasMany(Shoe::class);
+        return $this>hasMany(Shoe::class);
     }
 }
