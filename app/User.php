@@ -44,6 +44,49 @@ class User extends Authenticatable
     
     public function shoes()
     {
-        return $this>hasMany(Shoe::class);
+        return $this->hasMany(Shoe::class);
     }
+    
+        public function pictures()
+    {
+        return $this->hasMany(Picture::class);
+    }
+    
+        public function nice()
+    {
+        return $this->belongsToMany(Picture::class,'nice','user_id','pic_id')->withTimestamps();
+    }
+    
+    public function is_nice($picId)
+    {
+    //Userインスタンスのnice一覧からpic_idのカラムに$picIdがあるか確認
+        return $this->nice()->where('pic_id',$picId)->exists();   
+    }
+    
+    public function like($picId)
+    {
+        $exist=$this->is_nice($picId);
+        
+        if($exist){
+            return false;
+        }
+        else{
+            $this->nice()->attach($picId);
+        }
+    }
+    
+    public function not_so($picId)
+    {
+        $exist=$this->is_nice($picId);
+        
+        if($exist){
+            $this->nice()->detach($picId);
+        }
+        else{
+            return false;
+        };
+    }
+    
+    
+    
 }
