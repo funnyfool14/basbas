@@ -42,9 +42,12 @@ class PicturesController extends Controller
     {
         //全部表示するページも作る
         $allPictures=Picture::orderby('id','desc')->get();
-        
-        return view('pictures.index',
-        ['allPictures'=>$allPictures],);
+        foreach($allPictures as $picture)
+        $picture->loadRelationshipCounts();
+        return view('pictures.index',[
+            'allPictures'=>$allPictures,
+            'picture'=>$picture,
+        ]);
     }
     
     public function destroy ($id){

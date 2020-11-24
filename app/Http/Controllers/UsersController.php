@@ -23,10 +23,11 @@ class UsersController extends Controller
         
         return view('welcome',$data);}
             
-        else
+        else{
             $data=['allPictures'=>$allPictures,];
             
         return view('welcome',$data);
+        }
     }
     
     public function edit($id)
@@ -71,6 +72,6 @@ class UsersController extends Controller
             $data=['user'=>$user,'name'=>$name,'manyShoes'=>$manyShoes,'pictures'=>$pictures,'allPictures'=>$allPictures,];
         
         return view('users.show',$data);
-        };
+        }
     }
 }

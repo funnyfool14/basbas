@@ -25,7 +25,7 @@
         </aside>
         {{--ユーザ--}}
         <div class="col-6 ">
-            <h3 class="text-right">{{ Auth::user()->name}}</h3>
+            <h3 class="text-right">{{$name}}</h3>
             @include('card.user')
         </div>
         <div class="row mt-4">

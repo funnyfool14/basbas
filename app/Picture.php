@@ -16,12 +16,12 @@ class Picture extends Model
         
     public function take_nice()
     {
-        return $this->belongsToMany(User::class,'nice','pic_id','uer_id')->withTimeStamps();
+        return $this->belongsToMany(User::class,'nice','pic_id','user_id')->withTimeStamps();
     }     
     
     public function loadRelationshipCounts()
     {
-        $this->loadcounts('take_nice');
+        $this->loadcount('take_nice');
     }
     
     //public function favorite_users()
