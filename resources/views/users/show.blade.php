@@ -32,6 +32,9 @@
             @foreach($pictures as $picture)
                 <div class="col-4">
                     <img class="mt-1"src={!!$picture->pic!!} alt="" width=100%></li>
+                    <div class="row offset-6">
+                        @include('commons.nice_button')
+                    </div>
                 </div>
             @endforeach
         </div>

@@ -1,32 +1,16 @@
-<div class="row mt-5">
+<div class="row">
     @foreach($allPictures as $picture)
-        <div class="col-4">
+        <div class="col-4 mt-4">
             <img class=""src={!!$picture->pic!!} alt="" width=100%></li>
            {{--ログインしているユーザ--}}
             @if(Auth::check())
                 {{--pictureがユーザの投稿したものではないとき時--}}
                 @if(Auth::user()!=$picture->user)
                     <div class="row">
-                        <h4 class="col-6 text-center mt-1">
+                        <h5 class="col-5 text-center mt-1">
                             {!!link_to_route('users.show',$picture->user->name,['user'=>$picture->user->id])!!}
-                        </h4>
-                        {{--nice/notボタン--}}
-                            <p class="mt-2">nice?</p>
-                            <div class="ml-1">
-                            @if(Auth::user()->is_nice($picture->id))
-                                {!!Form::open(['route'=>['not.picture',$picture->id],'method'=>'delete'])!!}
-                                {!!Form::submit('not',['class'=>'btn btn-outline-danger btn-sm'])!!}
-                                {!!Form::close()!!}
-                            @else
-                                {!!Form::open(['route'=>['like.picture',$picture->id]])!!}
-                                {!!Form::submit('nice',['class'=>'btn btn-outline-success btn-sm'])!!}
-                                {!!Form::close()!!}
-                            @endif
-                            </div>
-                        <div class="ml-3 mt-2 row">
-                            {!!$picture->take_nice_count!!}
-                            <p class="ml-1">nice!</p>
-                        </div> 
+                        </h5>
+                        @include('commons.nice_button')
                     </div>
                 @endif
             {{--ログイン指定ないユーザ--}}

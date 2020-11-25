@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Picture;
+use App\Message;
 
 class UsersController extends Controller
 {
@@ -38,6 +39,8 @@ class UsersController extends Controller
             $name=$user->name;
             $manyShoes=$user->shoes()->orderby('id','desc')->get();
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
+
+            
         
             $data=['user'=>$user,'name'=>$name,'manyShoes'=>$manyShoes,'pictures'=>$pictures,];}
         return view('users.edit',$data);
@@ -68,8 +71,14 @@ class UsersController extends Controller
             $name=$user->name;
             $manyShoes=$user->shoes()->orderby('id','desc')->paginate(1);
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
+            //$user->loadRelationshipCounts();
+            foreach($pictures as $picture)
+            $picture->loadRelationshipCounts();
+            /*$messages=$user->messages()->orderby('created_at','desc')->get();
+            foreach($messages as $message);*/
             
-            $data=['user'=>$user,'name'=>$name,'manyShoes'=>$manyShoes,'pictures'=>$pictures,'allPictures'=>$allPictures,];
+            $data=['user'=>$user,'name'=>$name,'manyShoes'=>$manyShoes,'pictures'=>$pictures,
+            'allPictures'=>$allPictures,'picture'=>$picture,/*'message'=>$message,*/];
         
         return view('users.show',$data);
         }

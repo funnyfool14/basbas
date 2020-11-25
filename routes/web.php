@@ -12,9 +12,9 @@
 */
 
 Route::get('/', 'UsersController@index');
-//Route::get('show','UsersController@show')->name('users.show');
+//Route::get('users','UsersController@show')->name('users.show');
 
-Route::get('index','HoopsController@index')->name('hoops.index');
+Route::get('hoops','HoopsController@index')->name('hoops.index');
 
 Route::get('signup','Auth\RegisterController@showRegistrationForm')->name('signup.get');
 Route::post('signup','Auth\RegisterController@register')->name('signup.post');
@@ -27,6 +27,9 @@ Route::group(['middleware'=>['auth']],function(){
     Route::resource('users','UsersController'/*,['except' => ['show',]]*/);
     Route::resource('shoes','ShoesController');
     Route::resource('pictures','PicturesController');
+    Route::get('messages','MessageController@show')->name('messages.show');
+    Route::post('messages','MessageController@store')->name('messages.store');
+    Route::get('messages/create','MessageController@create')->name('message.create');
     
     Route::group(['prefix'=>'picture/{id}'],function(){
         Route::post('like','NiceController@like')->name('like.picture');
@@ -35,6 +38,6 @@ Route::group(['middleware'=>['auth']],function(){
     });
     
     Route::get('create','HoopsController@create')->name('hoops.create');
-    Route::post('store','HoopsController@store')->name('hoops.store');
+    Route::post('hoops','HoopsController@store')->name('hoops.store');
     //Route::group(['prefix'=>'hoops/{id}'],function(){});
 });

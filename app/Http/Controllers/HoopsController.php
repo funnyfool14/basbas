@@ -60,7 +60,7 @@ class HoopsController extends Controller
             'detail3'=>$request->detail3,
             ]);
         
-        return redirect('hoops.index');
+        return redirect()->route('hoops.index');
     }
 
     /**
