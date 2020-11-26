@@ -17,7 +17,7 @@
             <div class="row">
                 <aside class="col-4">
                     {{--{!!link_to_route('pictures.create','new pic',[],['class'=>'btn btn-outline-primary btn-block'])!!}--}}
-                    {!!link_to_route('users.show','message',['user'=>$user->id],['class'=>'btn btn-outline-secondary btn-block'])!!}
+                    {!!link_to_route('messages.show','message',['id'=>$user->id],['class'=>'btn btn-outline-secondary btn-block'])!!}
                     {!!link_to_route('users.show','friends',['user'=>$user->id],['class'=>'btn btn-outline-primary btn-block'])!!}
                 </aside>
                 <div class="col-8">

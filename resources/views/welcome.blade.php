@@ -18,7 +18,7 @@
                 <aside class="col-4">
                     {!!link_to_route('pictures.create','new pic',[],['class'=>'btn btn-outline-primary btn-block'])!!}
                     {!!link_to_route('users.index','message',[],['class'=>'btn btn-outline-secondary btn-block'])!!}
-                    {!!link_to_route('users.index','friends',[],['class'=>'btn btn-outline-primary btn-block'])!!}
+                    {!!link_to_route('messages.index','friends',[],['class'=>'btn btn-outline-primary btn-block'])!!}
                 </aside>
                 <div class="col-8">
                     @if(Auth::id()==$user->id)

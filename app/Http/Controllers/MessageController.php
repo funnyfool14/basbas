@@ -5,16 +5,28 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Message;
 use App\User;
+//これがないと”Auth::"が使えない
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
+    public function index()
+    {
+        $user=Auth::user();
+        $users=User::where('id','<>',$user->id)->get();
+        
+        return view('messages.index',[
+            'users'=>$users,
+            /*'message'=>$message,*/]);
+    }
+    
+    
     public function show($id)
     {
         $sender_id=\Auth::user()->id;
         $reciever_id=User::findOrFail($id)->id;
-        $message=new Message;
         /*Messageモデルでsender_idのカラムにログインユーザのidがあり
-        reciever_idのカラムに指定したユーザのidがあるインスタンスを取得*/
+        かつreciever_idのカラムに指定したユーザのidがあるインスタンスを取得*/
         $messages=Message::where('sender_id',$sender_id)->where('reciever_id',$reciever_id);
         //AandB orWhere CandD AかつBもしくはCかつD  
         $messages->orWhere(function($messages)use($sender_id,$reciever_id){
@@ -24,23 +36,27 @@ class MessageController extends Controller
         return view('messages.show',[
             'sender_id'=>$sender_id,
             'reciever_id'=>$reciever_id,
-            'messages'=>$messages,
-            'message'=>$message,]);
+            'messages'=>$messages,]);
     }
     
-    public function store(Request $request)
+    
+    public function store(Request $request,$reciever_id)
     {   
+        $message=new Message;
         $request->validate([
             'message'=>'required|max:255',
             ]);
-        $sender_id=\Auth::id();
-        $message=$request->message;
+            
+        $message->sender_id=Auth::id();
+        $message->reciever_id=$reciever_id;
+        $message->message=$request->message;
+        $message->save();
         
-        $request->user()->messages()->create([
-            'sender_id'=>$request->sender_id,
-            'message'=>$request->messsage,
-            ]);
-        return redirect()->route('messages.show');
+        //$messages=Message::orderBy('id','desc')->get();
+        
+        return redirect(route('messages.show',[
+            'id'=>$reciever_id,
+            ]));
     }
     
     

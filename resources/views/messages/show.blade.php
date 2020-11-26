@@ -1,24 +1,29 @@
 @extends('commons.layouts')
 @section('content')
-    {{--  チャットルーム  --}}
+    {{--メッセージ確認--}}
     <div id="room">
-        @foreach($messages as $chat)
-            {{--   送信したメッセージ  --}}
-            @if($chat->send == \Illuminate\Support\Facades\Auth::id())
+        @foreach($messages as $message)
+            @if($message->send==Auth::id())
                 <div class="send" style="text-align: right">
                     <p>{{$message->message}}</p>
                 </div>
-            @endif    
-            {{--   受信したメッセージ  --}}
-            @if($chat->recieve == \Illuminate\Support\Facades\Auth::id())
+            @endif
+            @if($message->recieve==Auth::id())
                 <div class="recieve" style="text-align: left">
-                    <p>{{$chat->message}}</p>
+                    <p>{{$message->message}}</p>
                 </div>
             @endif
         @endforeach
     </div>
-    {!!Form::model($message,['route'=>'messages.store'])!!}
-    {!!Form::text('name',null,['class'=>'form-control'])!!}
-    {!!Form::submit('send',['class'=>'text text-primary'])!!}
+    {{--メッセージ送信--}}
+    {!!Form::open(['route'=>['messages.store',$reciever_id],'method'=>'post'])!!}
+    <div class="row">
+        <div class="col-10">
+            {!!Form::text('message',null,['class'=>'form-control'])!!}
+        </div>    
+        <div class="col-2">    
+            {!!Form::submit('send',['class'=>'btn btn-outline-primary btn-block'])!!}
+        <div>    
+    </div>
     {!!Form::close()!!}
 @endsection(‘content’)

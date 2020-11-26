@@ -27,9 +27,11 @@ Route::group(['middleware'=>['auth']],function(){
     Route::resource('users','UsersController'/*,['except' => ['show',]]*/);
     Route::resource('shoes','ShoesController');
     Route::resource('pictures','PicturesController');
-    Route::get('messages','MessageController@show')->name('messages.show');
-    Route::post('messages','MessageController@store')->name('messages.store');
+    Route::get('messages','MessageController@index')->name('messages.index');
+    Route::get('/messages/{id}','MessageController@show')->name('messages.show');
+    Route::post('messages/{id}','MessageController@store')->name('messages.store');
     Route::get('messages/create','MessageController@create')->name('message.create');
+    
     
     Route::group(['prefix'=>'picture/{id}'],function(){
         Route::post('like','NiceController@like')->name('like.picture');
