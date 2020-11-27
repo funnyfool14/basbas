@@ -39,7 +39,7 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('nice','NiceController@take_nice')->name('nice.picture');
     });
     
-    Route::get('create','HoopsController@create')->name('hoops.create');
+    Route::get('hoops/register','HoopsController@create')->name('hoops.create');
     Route::post('hoops','HoopsController@store')->name('hoops.store');
     //Route::group(['prefix'=>'hoops/{id}'],function(){});
 });
