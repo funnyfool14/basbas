@@ -8,7 +8,7 @@
                     <p>{{$message->message}}</p>
                 </div>
             @endif
-            @if($message->recieveer_id==Auth::id())
+            @if($message->reciever_id==Auth::id())
                 <div class="text-left">
                     <p>{{$message->message}}</p>
                 </div>

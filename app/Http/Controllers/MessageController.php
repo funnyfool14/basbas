@@ -29,10 +29,11 @@ class MessageController extends Controller
         かつreciever_idのカラムに指定したユーザのidがあるインスタンスを取得*/
         $messages=Message::where('sender_id','=',$sender_id)->where('reciever_id','=',$reciever_id);
         //AandB orWhere CandD AかつBもしくはCかつD  
-        $messages->orWhere(function($messages)use($sender_id,$reciever_id){
+        $messages=$messages->orWhere(function($messages)use($sender_id,$reciever_id){
             $messages->where('sender_id','=',$reciever_id);
             $messages->where('reciever_id','=',$sender_id);
-        });
+        })->get();
+        
         return view('messages.show',[
             'sender_id'=>$sender_id,
             'reciever_id'=>$reciever_id,

@@ -33,6 +33,7 @@ Route::group(['middleware'=>['auth']],function(){
     Route::get('messages/create','MessageController@create')->name('messages.create');
     Route::get('request/{id}','FriendsController@request')->name('friend.request');
     Route::post('request/{id}','FriendsController@store')->name('request.store');
+    //Route::post('request/{id}','FriendsController@sancel')->name('request.cancel');
     
     
     Route::group(['prefix'=>'picture/{id}'],function(){

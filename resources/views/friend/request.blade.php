@@ -15,6 +15,7 @@
 @else
     <div class="centering">
         <h3>承認待ち</h3>
+        {{-{!!link_to_route('request.cancel','cancel',['id'=>$user->id],['class'=>'btn btn-outline-danger btn-block'])!!}-}}
     </div>
 @endif
 @endsection(‘content’)
