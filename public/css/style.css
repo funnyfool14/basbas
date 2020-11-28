@@ -2,6 +2,11 @@
     line-height:  0px;
 }
 
-.contain{
-    object-fit: contain;
+.centering{
+    margin-top: 200px;
+    text-align: center;
+}
+
+.edit{
+    margin-top: 80px
 }

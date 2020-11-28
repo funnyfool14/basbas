@@ -42,6 +42,7 @@ class User extends Authenticatable
       //  return $this>hasMany(Shoe::class);
     //}
     
+    
     public function shoes()
     {
         return $this->hasMany(Shoe::class);
@@ -92,5 +93,57 @@ class User extends Authenticatable
         return $this->hasMany(Message::class);
     }
     
+    public function requests()
+    {
+        return $this->belongsToMany(User::class,'friends','friend_id','user_id')->withTimestamps();
+        
+    }
     
+    public function asked()
+    {
+        return $this->belongstoMnay(User::class,'friends','user_id','friend_id')->withTimestamps;
+    }
+        //$user->loadRelationshipCounts();
+    
+    public function request($friend_id)
+    {
+        $exist=$this->sent_request($friend_id);
+        //$exist=Auth::user()->sent_request($friend_id);
+        $itsme=$this->id==($friend_id);
+        
+        if($exist|$itsme){
+            return false;
+        }
+        else{
+            $this->requests()->attach($friend_id);
+        }
+    }    
+    
+    public function refuse()
+    {
+        ;
+    }
+    
+    public function accept()
+    {
+        ;
+    }
+    
+    public function sent_request($friend_id)
+    {
+        return $this->requests()->where('friend_id',$friend_id)->exists(); 
+    }
+        
+    /*public function friends()
+    {
+        //AかつBの記述方法
+        return $this->belongsToMany(User::class,'friends','user_id','friend_id')
+        ->hasMany(User::class,'friends','friend_id','user_id')->withTimestamps();
+    }*/
+    
+    
+    public function loadRelationshipCounts()
+    {
+        $this->loadCount(['requests',/*'friends'*/]);
+    }
 }

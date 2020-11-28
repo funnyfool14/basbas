@@ -30,7 +30,9 @@ Route::group(['middleware'=>['auth']],function(){
     Route::get('messages','MessageController@index')->name('messages.index');
     Route::get('/messages/{id}','MessageController@show')->name('messages.show');
     Route::post('messages/{id}','MessageController@store')->name('messages.store');
-    Route::get('messages/create','MessageController@create')->name('message.create');
+    Route::get('messages/create','MessageController@create')->name('messages.create');
+    Route::get('request/{id}','FriendsController@request')->name('friend.request');
+    Route::post('request/{id}','FriendsController@store')->name('request.store');
     
     
     Route::group(['prefix'=>'picture/{id}'],function(){

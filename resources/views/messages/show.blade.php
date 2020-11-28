@@ -3,13 +3,13 @@
     {{--メッセージ確認--}}
     <div id="room">
         @foreach($messages as $message)
-            @if($message->send==Auth::id())
-                <div class="send" style="text-align: right">
+            @if($message->sender_id==Auth::id())
+                <div class="text-right">
                     <p>{{$message->message}}</p>
                 </div>
             @endif
-            @if($message->recieve==Auth::id())
-                <div class="recieve" style="text-align: left">
+            @if($message->recieveer_id==Auth::id())
+                <div class="text-left">
                     <p>{{$message->message}}</p>
                 </div>
             @endif
