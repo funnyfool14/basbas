@@ -17,7 +17,7 @@
             <div class="row">
                 <aside class="col-4">
                     <div class="mt-2">
-                        {!!link_to_route('friend.request','request',['id'=>$user->id],['class'=>'btn btn-outline-success btn-block'])!!}
+                        {!!link_to_route('request.friend','request',['id'=>$user->id],['class'=>'btn btn-outline-success btn-block'])!!}
                     </div>
                     <div class="mt-2">
                         {!!link_to_route('messages.show','message',['id'=>$user->id],['class'=>'btn btn-outline-secondary btn-block'])!!}

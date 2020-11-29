@@ -27,13 +27,19 @@ Route::group(['middleware'=>['auth']],function(){
     Route::resource('users','UsersController'/*,['except' => ['show',]]*/);
     Route::resource('shoes','ShoesController');
     Route::resource('pictures','PicturesController');
+    
     Route::get('messages','MessageController@index')->name('messages.index');
     Route::get('/messages/{id}','MessageController@show')->name('messages.show');
     Route::post('messages/{id}','MessageController@store')->name('messages.store');
     Route::get('messages/create','MessageController@create')->name('messages.create');
-    Route::get('request/{id}','FriendsController@request')->name('friend.request');
-    Route::post('request/{id}','FriendsController@store')->name('request.store');
-    //Route::post('request/{id}','FriendsController@sancel')->name('request.cancel');
+
+    Route::group(['prefix'=>'users/{id}'], function () {
+        Route::get('request','FriendsController@confirm')->name('request.friend');
+        Route::post('request','FriendsController@send')->name('request.send');
+        Route::delete('cancel','FriendsController@destroy')->name('request.cancel');
+        Route::get('ask','FriendsController@ask')->name('request.ask');
+        Route::get('asked','FriendsController@asked')->name('request.asked');
+    });
     
     
     Route::group(['prefix'=>'picture/{id}'],function(){

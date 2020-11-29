@@ -95,13 +95,13 @@ class User extends Authenticatable
     
     public function requests()
     {
-        return $this->belongsToMany(User::class,'friends','friend_id','user_id')->withTimestamps();
+        return $this->belongsToMany(User::class,'friends','user_id','friend_id')->withTimestamps();
         
     }
     
     public function asked()
     {
-        return $this->belongstoMnay(User::class,'friends','user_id','friend_id')->withTimestamps;
+        return $this->belongsToMany(User::class,'friends','friend_id','user_id')->withTimestamps;
     }
         //$user->loadRelationshipCounts();
     
@@ -109,15 +109,29 @@ class User extends Authenticatable
     {
         $exist=$this->sent_request($friend_id);
         //$exist=Auth::user()->sent_request($friend_id);
-        $itsme=$this->id==($friend_id);
+        $its_me=$this->id==$friend_id;
         
-        if($exist|$itsme){
+        if($exist||$its_me){
             return false;
         }
         else{
             $this->requests()->attach($friend_id);
         }
-    }    
+    }
+    
+    public function cancel($friend_id)
+    {
+        $exist=$this->sent_request($friend_id);
+        $its_me=$this->id==$friend_id;
+        
+        if($exist&&$its_me){
+            $this->requests()->detach($friend_id);
+            
+        }
+        else{
+            return false;
+        }
+    }
     
     public function refuse()
     {
@@ -144,6 +158,6 @@ class User extends Authenticatable
     
     public function loadRelationshipCounts()
     {
-        $this->loadCount(['requests',/*'friends'*/]);
+        $this->loadCount(['requests','asked',]);
     }
 }

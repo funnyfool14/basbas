@@ -19,7 +19,6 @@ class UsersController extends Controller
             $name=$user->name;
             $manyShoes=$user->shoes()->orderby('id','desc')->paginate(1);
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
-            $user->loadRelationshipCounts();
             
             $data=['user'=>$user,'name'=>$name,'manyShoes'=>$manyShoes,'pictures'=>$pictures,'allPictures'=>$allPictures,];
         
@@ -73,13 +72,13 @@ class UsersController extends Controller
             $manyShoes=$user->shoes()->orderby('id','desc')->paginate(1);
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
             //$user->loadRelationshipCounts();
-            foreach($pictures as $picture)
-            $picture->loadRelationshipCounts();
+            //foreach($pictures as $picture)
+            //$picture->loadRelationshipCounts();
             /*$messages=$user->messages()->orderby('created_at','desc')->get();
             foreach($messages as $message);*/
             
             $data=['user'=>$user,'name'=>$name,'manyShoes'=>$manyShoes,'pictures'=>$pictures,
-            'allPictures'=>$allPictures,'picture'=>$picture,/*'message'=>$message,*/];
+            'allPictures'=>$allPictures,/*'picture'=>$picture,/*'message'=>$message,*/];
         
         return view('users.show',$data);
         }

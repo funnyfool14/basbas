@@ -2,15 +2,17 @@
 @section('content')
     {{--メッセージ確認--}}
     <div id="room">
+        <nav class="navbar  navbar-info bg-info">{{$reciever->name}}<>
+        {{--<h4 class="bg-info">{{$reciever->name}}</h4>--}}
         @foreach($messages as $message)
             @if($message->sender_id==Auth::id())
                 <div class="text-right">
-                    <p>{{$message->message}}</p>
+                    <h3 class="mb-5 mr-5">{{$message->message}}</h3>
                 </div>
             @endif
             @if($message->reciever_id==Auth::id())
                 <div class="text-left">
-                    <p>{{$message->message}}</p>
+                    <h3 class="mb-5 ml-5">{{$message->message}}</h3>
                 </div>
             @endif
         @endforeach

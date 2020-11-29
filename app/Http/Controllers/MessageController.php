@@ -24,7 +24,8 @@ class MessageController extends Controller
     public function show($id)
     {
         $sender_id=\Auth::user()->id;
-        $reciever_id=User::findOrFail($id)->id;
+        $reciever=User::findOrFail($id);
+        $reciever_id=$reciever->id;        
         /*Messageモデルでsender_idのカラムにログインユーザのidがあり
         かつreciever_idのカラムに指定したユーザのidがあるインスタンスを取得*/
         $messages=Message::where('sender_id','=',$sender_id)->where('reciever_id','=',$reciever_id);
@@ -36,6 +37,7 @@ class MessageController extends Controller
         
         return view('messages.show',[
             'sender_id'=>$sender_id,
+            'reciever'=>$reciever,
             'reciever_id'=>$reciever_id,
             'messages'=>$messages,]);
     }

@@ -7,7 +7,7 @@ use App\User;
 
 class FriendsController extends Controller
 {
-    public function request($friend_id)
+    public function confirm($friend_id)
     {
         $user=User::findOrFail($friend_id);
         
@@ -15,10 +15,18 @@ class FriendsController extends Controller
         ['user'=>$user,]);
     }
     
-    public function store($friend_id)
+    public function send($friend_id)
     {
-        Auth::user()->request($friend_id);
+        \Auth::user()->request($friend_id);
         
+        return redirect(route('users.show',
+        ['user'=>$friend_id,]));
+    }
+    
+    public function destroy($friend_id)
+    {
+        \Auth::user()->cancel($friend_id);
+        $uer=User::findOrFail($friend_id);
         return back();
     }
 }
