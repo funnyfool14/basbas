@@ -8,7 +8,7 @@
                 @if(Auth::user()!=$picture->user)
                     <div class="row">
                         <h5 class="col-5 text-center mt-1">
-                            {!!link_to_route('users.show',$picture->user->name,['user'=>$picture->user->id])!!}
+                            {!!link_to_route('users.show',$picture->user->firstName,['user'=>$picture->user->id])!!}
                         </h5>
                         @include('commons.nice_button')
                     </div>
@@ -16,7 +16,7 @@
             {{--ログイン指定ないユーザ--}}
             @else
                 <div class="">
-                    {!!link_to_route('users.show',$picture->user->name,['user'=>$picture->user->id])!!}
+                    {!!link_to_route('users.show',$picture->user->firstName,['user'=>$picture->user->id])!!}
                 </div>
             @endif
         </div>

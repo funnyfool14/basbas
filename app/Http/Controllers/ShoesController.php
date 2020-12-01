@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Shoe;
+use App\Picture;
 
 class ShoesController extends Controller
 {
     public function create()
     {
         $shoes=new Shoe;
+        //$picture=new Picture;
         
-        return view('shoes.create',
-        ['shoes'=>$shoes],);
+        return view('shoes.create',[
+            'shoes'=>$shoes,
+            /*'picture'=>$picture*/
+        ]);
     }
     
     public function store(Request $request)

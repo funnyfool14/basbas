@@ -26,7 +26,37 @@ class FriendsController extends Controller
     public function destroy($friend_id)
     {
         \Auth::user()->cancel($friend_id);
-        $uer=User::findOrFail($friend_id);
+        //$uer=User::findOrFail($friend_id);
         return back();
+    }
+    
+    public function asked()
+    {
+        $users=\Auth::user()->requested()->get();
+        
+        return view('friend.asked',[
+            'users'=>$users,]);
+    }
+    
+    public function index()
+    {
+        $users=\Auth::user()->friends()->get();
+
+        return view('friend.index',[
+            'users'=>$users,]);        
+    }
+    
+    public function store($friend_id)
+    {
+        \Auth::user()->accept($friend_id);
+        
+        return redirect('/');
+    }
+    
+    public function release($friend_id)
+    {
+        \Auth::user()->friends()->detach($friend_id);
+        
+        return redirect('/');
     }
 }

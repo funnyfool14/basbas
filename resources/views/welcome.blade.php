@@ -23,7 +23,7 @@
                             {!!link_to_route('users.index','message',[],['class'=>'btn btn-outline-secondary btn-block'])!!}
                         </div>
                         <div class="mt-2">
-                            {!!link_to_route('messages.index','friends',[],['class'=>'btn btn-outline-primary btn-block'])!!}
+                            {!!link_to_route('friend.index','friends',[],['class'=>'btn btn-outline-primary btn-block'])!!}
                         </div>
                 </aside>
                 <div class="col-8">
@@ -37,9 +37,12 @@
         </aside>
         {{--ユーザ--}}
         <div class="col-sm-6">
-            <h3 class="text-right">{{ Auth::user()->name}}</h3>
-            <div class="text-right">
-                {!!link_to_route('users.index',$user->requests_count,[],['class'=>'btn btn-danger w-5'])!!}
+            <div class="row">
+                <h3 class="offset-6">{{ Auth::user()->firstName}}</h3>
+                <h3 class="ml-2">{{ Auth::user()->lastName}}</h3>
+                <div class="ml-2">
+                    {!!link_to_route('request.asked',$user->requested_count,[$user->id],['class'=>'btn btn-danger w-5'])!!}
+                </div>
             </div>
             @include('card.user')
         </div>

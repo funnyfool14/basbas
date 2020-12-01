@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'firstName','lastName', 'email', 'password','comment'
     ];
 
     /**
@@ -95,15 +95,21 @@ class User extends Authenticatable
     
     public function requests()
     {
-        return $this->belongsToMany(User::class,'friends','user_id','friend_id')->withTimestamps();
+        return $this->belongsToMany(User::class,'friends','user_id','friend_id')->where('accept',0)->withTimestamps();
         
     }
     
-    public function asked()
+    public function requested()
     {
-        return $this->belongsToMany(User::class,'friends','friend_id','user_id')->withTimestamps;
+        return $this->belongsToMany(User::class,'friends','friend_id','user_id')->where('accept',0)->withTimestamps();
     }
-        //$user->loadRelationshipCounts();
+    
+        public function friends()
+    {
+        return $this->belongsToMany(User::class,'friends','friend_id','user_id')->where('accept',1)->withTimestamps();
+    
+    }
+    
     
     public function request($friend_id)
     {
@@ -124,7 +130,7 @@ class User extends Authenticatable
         $exist=$this->sent_request($friend_id);
         $its_me=$this->id==$friend_id;
         
-        if($exist&&$its_me){
+        if($exist&&!$its_me){
             $this->requests()->detach($friend_id);
             
         }
@@ -138,9 +144,13 @@ class User extends Authenticatable
         ;
     }
     
-    public function accept()
+    public function accept($friend_id)
     {
-        ;
+        $requestuser=User::findOrFail($friend_id);
+        $requests_id=\Auth::id();
+        
+        return $this->requested()->updateExistingPivot($friend_id,['accept'=>'1']);
+        return $requestuser->requests()->updateExistingPivot($requests_id,['accept'=>'1']);
     }
     
     public function sent_request($friend_id)
@@ -148,16 +158,10 @@ class User extends Authenticatable
         return $this->requests()->where('friend_id',$friend_id)->exists(); 
     }
         
-    /*public function friends()
-    {
-        //AかつBの記述方法
-        return $this->belongsToMany(User::class,'friends','user_id','friend_id')
-        ->hasMany(User::class,'friends','friend_id','user_id')->withTimestamps();
-    }*/
-    
     
     public function loadRelationshipCounts()
     {
-        $this->loadCount(['requests','asked',]);
+        $this->loadcount('requested');
     }
+    
 }

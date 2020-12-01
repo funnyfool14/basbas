@@ -8,8 +8,12 @@
         <div class="col-sm-6 offset-sm-3">
             {!!Form::open(['route'=>'signup.post'])!!}
                 <div class="form-group">
-                    {!!Form::label('name','Name')!!}
-                    {!!Form::text('name',old('name'),['class'=>'form-control'])!!}
+                    {!!Form::label('firstName','FirstName')!!}
+                    {!!Form::text('firstName',old('firstName'),['class'=>'form-control'])!!}
+                </div>
+                <div class="form-group">
+                    {!!Form::label('lastName','LastName')!!}
+                    {!!Form::text('lastName',old('lastName'),['class'=>'form-control'])!!}
                 </div>
                 <div class="form-group">
                     {!!Form::label('email','E-mail')!!}

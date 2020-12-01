@@ -29,7 +29,7 @@
             @include('card.shoes')
         </aside>
         <div class="col-6 ">
-            <h3 class="text-right">{{ Auth::user()->name}}</h3>
+            <h3 class="text-right">{{ Auth::user()->firstName}}</h3>
             <div class="text-right">
                 {!!Form::model($user,['route'=>['users.update',$user->id],'method'=>'put'])!!}
                 {!!Form::label('name','rename')!!}

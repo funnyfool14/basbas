@@ -16,9 +16,10 @@ class UsersController extends Controller
         
         if(\Auth::check()){ 
             $user=\Auth::user();
-            $name=$user->name;
+            $name=$user->firstName;
             $manyShoes=$user->shoes()->orderby('id','desc')->paginate(1);
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
+            $user->loadRelationshipCounts();
             
             $data=['user'=>$user,'name'=>$name,'manyShoes'=>$manyShoes,'pictures'=>$pictures,'allPictures'=>$allPictures,];
         
@@ -36,7 +37,7 @@ class UsersController extends Controller
         $data=[];
         if(\Auth::check()){
             $user=\Auth::user();
-            $name=$user->name;
+            $name=$user->firstName;
             $manyShoes=$user->shoes()->orderby('id','desc')->get();
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
 
@@ -68,10 +69,9 @@ class UsersController extends Controller
         
         if(\Auth::check()){ 
             $user=User::findOrFail($id);
-            $name=$user->name;
+            $name=$user->firstName;
             $manyShoes=$user->shoes()->orderby('id','desc')->paginate(1);
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
-            //$user->loadRelationshipCounts();
             //foreach($pictures as $picture)
             //$picture->loadRelationshipCounts();
             /*$messages=$user->messages()->orderby('created_at','desc')->get();
