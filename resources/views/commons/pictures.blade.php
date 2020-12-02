@@ -9,7 +9,7 @@
                     <div class="row">
                         <h5 class="col-5 text-center mt-1">
                             {!!link_to_route('users.show',$picture->user->firstName,['user'=>$picture->user->id])!!}
-                            {!!link_to_route('users.show',$picture->user->lastName,['user'=>$picture->user->id])!!}
+                            {!!link_to_route('users.show',$picture->user->lastName,['user'=>$picture->user->id])!!}                            
                         </h5>
                         @include('commons.nice_button')
                     </div>

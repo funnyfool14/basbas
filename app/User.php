@@ -143,9 +143,12 @@ class User extends Authenticatable
     {
         $requestuser=User::findOrFail($friend_id);
         $requests_id=\Auth::id();
-        $data1=$requestuser->requests()->updateExistingPivot($requests_id,['accept'=>'1']);
         
-        return $this->requested()->updateExistingPivot($friend_id,['accept'=>'1'])->union($data1)->exsists();
+        $requestuser->requested()->attach($this->id,['accept'=>'1']);
+        return $this->requested()->updateExistingPivot($friend_id,['accept'=>'1']);
+        
+        /*$requestuser->requests()->updateExistingPivot($requests_id,['accept'=>'1']);
+        return $this->requested()->updateExistingPivot($friend_id,['accept'=>'1']);*/
     }
     
     
