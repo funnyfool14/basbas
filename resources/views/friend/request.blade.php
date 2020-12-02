@@ -7,7 +7,7 @@
             {!!Form::submit('cancel',['class'=>'btn btn-outline-danger btn-block'])!!}
             {!!Form::close()!!}
     </div>
-@else
+{{--@else
         <div class="text-center">
             <h4>friend申請しますか？</h4>
         </div>
@@ -26,8 +26,8 @@
                 {!!link_to_route('users.show','戻る',[$user->id],['class'=>'btn btn-outline-secondary btn-block'])!!}
             </div>
         </div>
-@endif
-{{--@else
+@endif--}}
+@else
         <div class="text-center mt-3 mb-3">
             <h4>friend申請しますか？</h4>
         </div>
@@ -39,13 +39,10 @@
             </div>
             <div class="col-3 text-left">
                 {!!link_to_route('users.show','No',[$user->id],['class'=>'btn btn-outline-danger btn-block'])!!}
-                {!!Form::open(['route'=>['users.show',$user->id]])!!}
-                {!!Form::submit('No',['class'=>'btn btn-outline-danger btn-block'])!!}
-                {!!Form::close()!!}
             </div>
         </div>
         <div class="mt-4 offset-5 col-2">
             {!!link_to_route('users.show','戻る',[$user->id],['class'=>'btn btn-outline-secondary btn-block'])!!}
         </div>
-@endif--}}
+@endif
 @endsection(‘content’)

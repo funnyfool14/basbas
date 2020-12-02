@@ -42,6 +42,7 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('asked','FriendsController@asked')->name('request.asked');
         Route::get('accept','FriendsController@store')->name('request.accept');
         Route::delete('release','FriendsController@release')->name('friend.release');
+        Route::delete('reject','FriendsController@reject')->name('request.reject');
         
     });
     

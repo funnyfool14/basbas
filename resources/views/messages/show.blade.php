@@ -2,7 +2,10 @@
 @section('content')
     {{--メッセージ確認--}}
     <div id="room">
-        <h4 class="bg-info">{{$reciever->firstName}}</h4>
+        <div class="row bg-info mb-5">
+            <h4>{{$reciever->firstName}}</h4>
+            <h4 class="ml-2">{{$reciever->lastName}}</h4>
+        </div>            
         @foreach($messages as $message)
             @if($message->sender_id==Auth::id())
                 <div class="text-right">

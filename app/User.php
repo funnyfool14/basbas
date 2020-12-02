@@ -139,19 +139,15 @@ class User extends Authenticatable
         }
     }
     
-    public function refuse()
-    {
-        ;
-    }
-    
     public function accept($friend_id)
     {
         $requestuser=User::findOrFail($friend_id);
         $requests_id=\Auth::id();
+        $data1=$requestuser->requests()->updateExistingPivot($requests_id,['accept'=>'1']);
         
-        return $this->requested()->updateExistingPivot($friend_id,['accept'=>'1']);
-        return $requestuser->requests()->updateExistingPivot($requests_id,['accept'=>'1']);
+        return $this->requested()->updateExistingPivot($friend_id,['accept'=>'1'])->union($data1)->exsists();
     }
+    
     
     public function sent_request($friend_id)
     {
@@ -161,7 +157,7 @@ class User extends Authenticatable
     
     public function loadRelationshipCounts()
     {
-        $this->loadcount('requested');
+        $this->loadcount('requested','friends');
     }
     
 }

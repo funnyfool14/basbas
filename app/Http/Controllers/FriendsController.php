@@ -59,4 +59,14 @@ class FriendsController extends Controller
         
         return redirect('/');
     }
+    
+    public function reject($friend_id)
+    {
+        $requestuser=User::findOrFail($friend_id);
+        $requesteduser_id=\Auth::id();
+        
+        $requestuser->requests()->detach($requesteduser_id);
+        
+        return redirect('/');
+    }
 }

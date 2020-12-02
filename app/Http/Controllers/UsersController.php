@@ -69,7 +69,6 @@ class UsersController extends Controller
         
         if(\Auth::check()){ 
             $user=User::findOrFail($id);
-            $name=$user->firstName;
             $manyShoes=$user->shoes()->orderby('id','desc')->paginate(1);
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
             //foreach($pictures as $picture)
@@ -77,7 +76,7 @@ class UsersController extends Controller
             /*$messages=$user->messages()->orderby('created_at','desc')->get();
             foreach($messages as $message);*/
             
-            $data=['user'=>$user,'name'=>$name,'manyShoes'=>$manyShoes,'pictures'=>$pictures,
+            $data=['user'=>$user,'manyShoes'=>$manyShoes,'pictures'=>$pictures,
             'allPictures'=>$allPictures,/*'picture'=>$picture,/*'message'=>$message,*/];
         
         return view('users.show',$data);

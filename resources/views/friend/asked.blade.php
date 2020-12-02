@@ -8,10 +8,12 @@
                 <h3 class="ml-2">{!!link_to_route('users.show',$user->lastName,[$user->id],['class'=>'text-dark'])!!}</h3>
     	    </div>
     	    <div class="col-2">
-                {!!link_to_route('request.accept','承認',[$user->id],['class'=>'btn btn-outline-success btn-block'])!!}
+                {!!link_to_route('request.accept','accept',[$user->id],['class'=>'btn btn-outline-success btn-block'])!!}
     	    </div>
      	    <div class="col-2">
-                {!!link_to_route('request.accept','拒否',[$user->id],['class'=>'btn btn-outline-danger btn-block'])!!}
+     	        {!!Form::open(['route'=>['request.reject','id'=>$user->id],'method'=>'delete'])!!}
+                {!!Form::submit('reject',['class'=>'btn btn-outline-danger btn-block'])!!}
+                {!!Form::close()!!}
     	    </div>
     	</div>
     @endforeach
