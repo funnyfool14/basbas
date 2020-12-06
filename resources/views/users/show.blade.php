@@ -28,14 +28,34 @@
                         {!!link_to_route('friend.index','friends',['id'=>$user->id],['class'=>'btn btn-outline-primary btn-block'])!!}
                     </div>
                 </aside>
-                <div class="col-8 text-right">
-                    <h4>{{$profile->nickname}}</h4>
-                    <h4>{{$profile->gender}}</h4>
-                    <h4>{{$profile->birthplace}}</h4>
-                    <h4>{{$profile->local}}</h4>
-                    <h4>{{$profile->position}}</h4>
-                    <h4>{{$profile->favorite_player}}</h4>
-                    <h4>{{$profile->coment}}</h4>                    
+                <div class="col-8">
+                    <div class="row">
+                        <p>nickname</p>
+                        <h4 class="ml-3">{{$profile->nickname}}</h4>
+                    </div>
+                    <div class="row">
+                        <p>sex</p>
+                        <h4 class="ml-3">{{$profile->gender}}</h4>
+                    </div>
+                    <div class="row">
+                        <p>birthplace</p>
+                        <h4 class="ml-3">{{$profile->birthplace}}</h4>
+                    </div>
+                    <div class="row">
+                        <p>local</p>
+                        <h4 class="ml-3">{{$profile->local}}</h4>
+                    </div>
+                    <div class="row">
+                        <p>position</p>
+                        <h4 class="ml-3">{{$profile->position}}</h4>
+                    </div>
+                    <div class="row">
+                        <p>favorite player</p>
+                        <h4 class="ml-3">{{$profile->favorite_player}}</h4>
+                    </div>
+                    <div class="row">
+                        <h5>{{$profile->coment}}</h5>
+                    </div>
                 </div>
             </div>
         </aside>

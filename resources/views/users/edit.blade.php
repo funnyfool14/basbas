@@ -67,7 +67,7 @@
             {{--未作成--}}
             @else
             <div class="">
-                {!!Form::model($profile,['route'=>['profile.update',$user->id],'method'=>'post'])!!}
+                {!!Form::model($profile,['route'=>['profile.update',$user->id],'method'=>'put'])!!}
             <div class="">  
                 {!!Form::label('nickname','ニックネーム')!!}
                 {!!Form::text('nickname',null,['class'=>'form-control'])!!}
