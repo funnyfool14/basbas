@@ -19,6 +19,7 @@
                     <div class="mt-2">
                         {!!link_to_route('request.friend','request',['id'=>$user->id],['class'=>'btn btn-outline-success btn-block'])!!}
                     </div>
+                    {{--各ユーザの最新のメッセージ確認--}}
                     {{--<div class="mt-2">
                         {!!link_to_route('messages.show','message',['id'=>$user->id],['class'=>'btn btn-outline-secondary btn-block'])!!}
                     </div>--}}
