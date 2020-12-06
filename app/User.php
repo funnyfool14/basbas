@@ -44,6 +44,11 @@ class User extends Authenticatable
       //  return $this>hasMany(Shoe::class);
     //}
     
+    public function profile()
+    {
+        return $this->has(Plofile::class);
+    }    
+    
     
     public function shoes()
     {

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Picture;
 use App\Message;
+use App\Profile;
 
 class UsersController extends Controller
 {
@@ -37,13 +38,15 @@ class UsersController extends Controller
         $data=[];
         if(\Auth::check()){
             $user=\Auth::user();
+            $id=\Auth::id();
             $name=$user->firstName;
             $manyShoes=$user->shoes()->orderby('id','desc')->get();
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
+            $profile=Profile::where('user_id',$id);
 
             
         
-            $data=['user'=>$user,'name'=>$name,'manyShoes'=>$manyShoes,'pictures'=>$pictures,];}
+            $data=['user'=>$user,'name'=>$name,'manyShoes'=>$manyShoes,'pictures'=>$pictures,'profile'=>$profile];}
         return view('users.edit',$data);
     }
     
@@ -71,6 +74,7 @@ class UsersController extends Controller
             $user=User::findOrFail($id);
             $manyShoes=$user->shoes()->orderby('id','desc')->paginate(1);
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
+            $profile=Profile::where('user_id',$id);
             //foreach($pictures as $picture)
             //$picture->loadRelationshipCounts();
             /*$messages=$user->messages()->orderby('created_at','desc')->get();

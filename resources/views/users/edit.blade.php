@@ -27,13 +27,47 @@
                 {!!link_to_route('shoes.create','get new shose!',[],['class'=>'btn btn-outline-primary btn-block'])!!}
             </div>
             @include('card.shoes')
+            <div class="">
+                {!!Form::model($profile,['route'=>['profile.update',$user->id],'method'=>'put'])!!}
+            <div class="">  
+                {!!Form::label('nickname','ニックネーム')!!}
+                {!!Form::text('nickname',null,['class'=>'form-control'])!!}
+            </div>   
+            <div class="">  
+                {!!Form::label('gender','性別')!!}
+                {!!Form::text('gender',null,['class'=>'form-control text-secondary'])!!}
+            </div>   
+            <div class="">
+                {!!Form::label('birthplace','出身地')!!}
+                {!!Form::text('birthplace',null,['class'=>'form-control'])!!}
+            </div>   
+            <div class="">
+                {!!Form::label('local','居住地')!!}
+                {!!Form::text('local',null,['class'=>'form-control'])!!}
+            </div>   
+            <div class="">  
+                {!!Form::label('position','ポジション')!!}
+                {!!Form::text('position',null,['class'=>'form-control'])!!}
+            </div>   
+            <div class="">  
+                {!!Form::label('favorite_player','好きな選手')!!}
+                {!!Form::text('favorite_player',null,['class'=>'form-control'])!!}
+            </div>
+                {!!Form::submit('update',['class'=>'mt-2 btn btn-outline-primary'])!!}
+                {!!Form::close()!!}
+            </div>
         </aside>
-        <div class="col-6 ">
+        {{--表示右側--}}
+        <div class="col-sm-6">
+            <div class="row">
             <h3 class="text-right">{{ Auth::user()->firstName}}</h3>
+            <h3 class="text-right ml-2">{{ Auth::user()->firstName}}</h3>
+            </div>
             <div class="text-right">
                 {!!Form::model($user,['route'=>['users.update',$user->id],'method'=>'put'])!!}
-                {!!Form::label('name','rename')!!}
-                {!!Form::text('name',null,['class'=>'form-controll'])!!}
+                {!!Form::label('firstName','rename')!!}
+                {!!Form::text('firstName',null)!!}
+                {!!Form::text('lastName',null)!!}
                 {!!Form::submit('update',[])!!}
                 {!!Form::close()!!}
             </div>

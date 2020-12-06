@@ -25,6 +25,7 @@ Route::get('logout','Auth\LoginController@logout')->name('logout.get');
 Route::group(['middleware'=>['auth']],function(){
     //index,showはログインユーザの縛りを外す
     Route::resource('users','UsersController'/*,['except' => ['show',]]*/);
+    Route::resource('profile','ProfileController');
     Route::resource('shoes','ShoesController');
     Route::resource('pictures','PicturesController');
     Route::get('friend{id}','FriendsController@index')->name('friend.index');

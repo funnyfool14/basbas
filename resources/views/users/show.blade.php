@@ -1,7 +1,7 @@
 @extends('commons.layouts')
 @section('content')
-    {{--ユーザの詳細--}}
     <div class="row">
+        {{--左側表示--}}
         {{--シューズ--}}
         <aside class="col-6">
             <h5 class="mt-1">-basket shoes-</h5>
@@ -13,6 +13,7 @@
                 </div>
             @endforeach
             {!!$manyShoes->links()!!}
+            {{--シューズ写真--}}
             @include('card.shoes')
             <div class="row">
                 <aside class="col-4">
@@ -27,10 +28,12 @@
                         {!!link_to_route('friend.index','friends',['id'=>$user->id],['class'=>'btn btn-outline-primary btn-block'])!!}
                     </div>
                 </aside>
-                <div class="col-8">
+                <div class="col-8 text-right">
+                    {{$profile->nickname}}
+                </div>
             </div>
         </aside>
-        {{--ユーザ--}}
+        {{--右側表示--}}
         <div class="col-sm-6">
             <div class="row">
                 <h3 class="offset-6">{{$user->firstName}}</h3>
