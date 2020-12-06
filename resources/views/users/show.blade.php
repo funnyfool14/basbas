@@ -29,7 +29,13 @@
                     </div>
                 </aside>
                 <div class="col-8 text-right">
-                    {{$profile->nickname}}
+                    <h4>{{$profile->nickname}}</h4>
+                    <h4>{{$profile->gender}}</h4>
+                    <h4>{{$profile->birthplace}}</h4>
+                    <h4>{{$profile->local}}</h4>
+                    <h4>{{$profile->position}}</h4>
+                    <h4>{{$profile->favorite_player}}</h4>
+                    <h4>{{$profile->coment}}</h4>                    
                 </div>
             </div>
         </aside>

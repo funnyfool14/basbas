@@ -17,12 +17,13 @@ class ProfileTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->unsignedBigInteger('user_id');
-            $table->string('nickname');
-            $table->boolean('gender');
-            $table->string('local');
-            $table->string('position');
-            $table->string('favorite_player');
-            $table->string('birthplace');
+            $table->string('nickname')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('local')->nullable();
+            $table->string('position')->nullable();
+            $table->string('favorite_player')->nullable();
+            $table->string('birthplace')->nullable();
+            $table->text('coment')->nullable();
             
             $table->foreign('user_id')->references('id')->on('users');
         });

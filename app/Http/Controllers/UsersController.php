@@ -42,7 +42,8 @@ class UsersController extends Controller
             $name=$user->firstName;
             $manyShoes=$user->shoes()->orderby('id','desc')->get();
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
-            $profile=Profile::where('user_id',$id);
+            $profile=$user->profile()->orderby('created_at','desc')->first();
+            //$profile=Profile::findOrFail($id)->orderby('id','desc')->first();
 
             
         
@@ -55,10 +56,13 @@ class UsersController extends Controller
         $user=User::findOrFail($id);
         
         $request->validate([
-            'name'=>'required']);
+            'firstName'=>'required',
+            'lastName'=>'required'
+            ]);
             
         if(\Auth::id()==$user->id){
-            $user->name=$request->name;
+            $user->firstName=$request->firstName;
+            $user->lastName=$request->lastName;
             
             $user->save();
         }
@@ -74,14 +78,16 @@ class UsersController extends Controller
             $user=User::findOrFail($id);
             $manyShoes=$user->shoes()->orderby('id','desc')->paginate(1);
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
-            $profile=Profile::where('user_id',$id);
+            //$profile=$user->profile()->orderby('created_at','desc')->first();
+            $profile=Profile::findOrFail($id)->orderby('id','desc')->first();
+            //$profile=Profile::orderby('id','desc')->where('user_id',$id)->first();
             //foreach($pictures as $picture)
             //$picture->loadRelationshipCounts();
             /*$messages=$user->messages()->orderby('created_at','desc')->get();
             foreach($messages as $message);*/
             
             $data=['user'=>$user,'manyShoes'=>$manyShoes,'pictures'=>$pictures,
-            'allPictures'=>$allPictures,/*'picture'=>$picture,/*'message'=>$message,*/];
+            'allPictures'=>$allPictures,'profile'=>$profile,/*'picture'=>$picture,/*'message'=>$message,*/];
         
         return view('users.show',$data);
         }

@@ -46,7 +46,7 @@ class User extends Authenticatable
     
     public function profile()
     {
-        return $this->has(Plofile::class);
+        return $this->hasOne(Profile::class);
     }    
     
     
@@ -187,7 +187,7 @@ class User extends Authenticatable
     
     public function loadRelationshipCounts()
     {
-        $this->loadcount('requested','friends');
+        $this->loadcount('requested','friends','profile');
         //$this->loadcount('requested');
     }
     

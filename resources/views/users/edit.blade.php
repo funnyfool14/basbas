@@ -27,8 +27,12 @@
                 {!!link_to_route('shoes.create','get new shose!',[],['class'=>'btn btn-outline-primary btn-block'])!!}
             </div>
             @include('card.shoes')
+            {{--プロフィール--}}
+            {{--作成済み--}}
+            @if (is_null($profile))
+            {{--https://qiita.com/shinichi-takii/items/00aed26f96cf6bb3fe62--}}
             <div class="">
-                {!!Form::model($profile,['route'=>['profile.update',$user->id],'method'=>'put'])!!}
+                {!!Form::model($profile,['route'=>['profile.store',$user->id],'method'=>'put'])!!}
             <div class="">  
                 {!!Form::label('nickname','ニックネーム')!!}
                 {!!Form::text('nickname',null,['class'=>'form-control'])!!}
@@ -53,9 +57,49 @@
                 {!!Form::label('favorite_player','好きな選手')!!}
                 {!!Form::text('favorite_player',null,['class'=>'form-control'])!!}
             </div>
+            <div class="">  
+                {!!Form::label('coment','コメント')!!}
+                {!!Form::text('coment',null,['class'=>'form-control'])!!}
+            </div>
+                {!!Form::submit('register',['class'=>'mt-2 btn btn-outline-primary'])!!}
+                {!!Form::close()!!}
+            </div>
+            {{--未作成--}}
+            @else
+            <div class="">
+                {!!Form::model($profile,['route'=>['profile.update',$user->id],'method'=>'post'])!!}
+            <div class="">  
+                {!!Form::label('nickname','ニックネーム')!!}
+                {!!Form::text('nickname',null,['class'=>'form-control'])!!}
+            </div>   
+            <div class="">  
+                {!!Form::label('gender','性別')!!}
+                {!!Form::text('gender',null,['class'=>'form-control text-secondary'])!!}
+            </div>   
+            <div class="">
+                {!!Form::label('birthplace','出身地')!!}
+                {!!Form::text('birthplace',null,['class'=>'form-control'])!!}
+            </div>   
+            <div class="">
+                {!!Form::label('local','居住地')!!}
+                {!!Form::text('local',null,['class'=>'form-control'])!!}
+            </div>   
+            <div class="">  
+                {!!Form::label('position','ポジション')!!}
+                {!!Form::text('position',null,['class'=>'form-control'])!!}
+            </div>   
+            <div class="">  
+                {!!Form::label('favorite_player','好きな選手')!!}
+                {!!Form::text('favorite_player',null,['class'=>'form-control'])!!}
+            </div>
+            <div class="">  
+                {!!Form::label('coment','コメント')!!}
+                {!!Form::text('coment',null,['class'=>'form-control'])!!}
+            </div>
                 {!!Form::submit('update',['class'=>'mt-2 btn btn-outline-primary'])!!}
                 {!!Form::close()!!}
             </div>
+        @endif
         </aside>
         {{--表示右側--}}
         <div class="col-sm-6">
