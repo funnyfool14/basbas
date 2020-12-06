@@ -28,11 +28,11 @@
             </div>
             @include('card.shoes')
             {{--プロフィール--}}
-            {{--作成済み--}}
+            {{--未作成--}}
             @if (is_null($profile))
             {{--https://qiita.com/shinichi-takii/items/00aed26f96cf6bb3fe62--}}
             <div class="">
-                {!!Form::model($profile,['route'=>['profile.store',$user->id],'method'=>'put'])!!}
+                {!!Form::model($profile,['route'=>['profile.store',$user->id],'method'=>'post'])!!}
             <div class="">  
                 {!!Form::label('nickname','ニックネーム')!!}
                 {!!Form::text('nickname',null,['class'=>'form-control'])!!}
@@ -64,7 +64,7 @@
                 {!!Form::submit('register',['class'=>'mt-2 btn btn-outline-primary'])!!}
                 {!!Form::close()!!}
             </div>
-            {{--未作成--}}
+            {{--作成済み--}}
             @else
             <div class="">
                 {!!Form::model($profile,['route'=>['profile.update',$user->id],'method'=>'put'])!!}
@@ -105,7 +105,7 @@
         <div class="col-sm-6">
             <div class="row">
             <h3 class="text-right">{{ Auth::user()->firstName}}</h3>
-            <h3 class="text-right ml-2">{{ Auth::user()->firstName}}</h3>
+            <h3 class="text-right ml-2">{{ Auth::user()->lastName}}</h3>
             </div>
             <div class="text-right">
                 {!!Form::model($user,['route'=>['users.update',$user->id],'method'=>'put'])!!}

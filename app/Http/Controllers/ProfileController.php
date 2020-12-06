@@ -49,6 +49,7 @@ class ProfileController extends Controller
             
             $request->user()->profile()->create([
             //この記述だとuser_idの設定がいらない
+            //->save()だと設定が必要
             'nickname'=>$request->nickname,
             'gender'=>$request->gender,
             'birthplace'=>$request->birthplace,
@@ -57,18 +58,6 @@ class ProfileController extends Controller
             'favorite_player'=>$request->favorite_player,
             'coment'=>$request->coment
             ]);
-            
-            /*$profile->user_id=$id;
-            $profile->nickname=$request->nickname;
-            $profile->gender=$request->gender;
-            $profile->birthplace=$request->birthplace;
-            $profile->local=$request->local;
-            $profile->position=$request->position;
-            $profile->favorite_player=$request->favorite_player;
-            $profile->coment=$request->coment;
-        
-            $profile->save();*/
-        
         
         return redirect(route('users.show',[
             'user'=>$id,
@@ -125,17 +114,7 @@ class ProfileController extends Controller
             'position'=>$request->position,
             'favorite_player'=>$request->favorite_player,
             'coment'=>$request->coment
-            ]);        
-            /*$profile->user_id=$id;
-            $profile->nickname=$request->nickname;
-            $profile->gender=$request->gender;
-            $profile->birthplace=$request->birthplace;
-            $profile->local=$request->local;
-            $profile->position=$request->position;
-            $profile->favorite_player=$request->favorite_player;
-            $profile->coment=$request->coment;
-        
-            $profile->save();*/
+            ]);
         }
         
         return redirect(route('users.show',[
