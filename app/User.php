@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Illuminate\Support\Facades\DB;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -95,19 +97,34 @@ class User extends Authenticatable
     
     public function requests()
     {
-        return $this->belongsToMany(User::class,'friends','user_id','friend_id')->where('accept',0)->withTimestamps();
+        //自分が誰かにリクエストを送って未承認の数の取得
+        return $this->belongsToMany(User::class,'friends','user_id','friend_id')->withTimestamps();
         
     }
     
     public function requested()
     {
+        //承認してないリクエストの数の取得
         return $this->belongsToMany(User::class,'friends','friend_id','user_id')->where('accept',0)->withTimestamps();
     }
     
-        public function friends()
-    {
-        return $this->belongsToMany(User::class,'friends','friend_id','user_id')->where('accept',1)->withTimestamps();
+    public function friends()
+    {   
+        //承認したリクエストの数の取得
+        return $this->belongsToMany(User::class,'friends','friend_id','user_id')->where('accept',1)->withTimestamps();;
+        
+        // return $data1->union($data2->select(DB::raw('users.*, `friends`.`user_id` as `pivot_user_id`, `friends`.`friend_id` as `pivot_friend_id`')));
     
+        /*$data1 = $this->leftJoin('friends', 'users.id', '=', 'friends.friend_id')->where('user_id', $this->id)->where('accept', 1)->select('users.*');
+        $data2 = $this->leftJoin('friends', 'users.id', '=', 'friends.user_id')->where('friend_id', $this->id)->where('accept', 1)->select('users.*');
+
+        return $data1->union($data2);*/
+    
+    }
+    
+    public function is_friend($friend_id)
+    {
+        return $this->friends()->where('user_id',$friend_id)->exists();
     }
     
     
@@ -117,25 +134,13 @@ class User extends Authenticatable
         //$exist=Auth::user()->sent_request($friend_id);
         $its_me=$this->id==$friend_id;
         
+        //リクエスト済みなら実行しない
         if($exist||$its_me){
             return false;
         }
         else{
+            //リクエストしてなければfriend_idカラムに$friend_idを入力
             $this->requests()->attach($friend_id);
-        }
-    }
-    
-    public function cancel($friend_id)
-    {
-        $exist=$this->sent_request($friend_id);
-        $its_me=$this->id==$friend_id;
-        
-        if($exist&&!$its_me){
-            $this->requests()->detach($friend_id);
-            
-        }
-        else{
-            return false;
         }
     }
     
@@ -144,9 +149,19 @@ class User extends Authenticatable
         $requestuser=User::findOrFail($friend_id);
         $requests_id=\Auth::id();
         
+        //リクエストされた側のidをリクエストしたユーザのfriend_idに入力しacceptカラムを１にする
         $requestuser->requested()->attach($this->id,['accept'=>'1']);
+        //送られたリクエストのacceptカラムを１にする
         return $this->requested()->updateExistingPivot($friend_id,['accept'=>'1']);
         
+        //return $this->requested()->attach($friend_id,['accept'=>'1']);
+        /*ここから下を実行するとFriendsTableのデータごと消える
+        $requestuser->requested()->detach($requests_id);
+        $requestuser->requests()->detach($requests_id);
+        $this->requested()->detach($friend_id);
+        return $this->requests()->detach($friend_id);*/
+        
+        //同じデータで同じことしてるだけ
         /*$requestuser->requests()->updateExistingPivot($requests_id,['accept'=>'1']);
         return $this->requested()->updateExistingPivot($friend_id,['accept'=>'1']);*/
     }
@@ -156,11 +171,19 @@ class User extends Authenticatable
     {
         return $this->requests()->where('friend_id',$friend_id)->exists(); 
     }
+    
+        public function take_request($friend_id)
+    {
+        $requestuser=User::findOrFail($friend_id);
+        $my_id=\Auth::id();
+        return $requestuser->requests()->where('friend_id',$my_id)->exists(); 
+    }
         
     
     public function loadRelationshipCounts()
     {
         $this->loadcount('requested','friends');
+        //$this->loadcount('requested');
     }
     
 }

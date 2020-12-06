@@ -19,11 +19,11 @@
                     <div class="mt-2">
                         {!!link_to_route('request.friend','request',['id'=>$user->id],['class'=>'btn btn-outline-success btn-block'])!!}
                     </div>
-                    <div class="mt-2">
+                    {{--<div class="mt-2">
                         {!!link_to_route('messages.show','message',['id'=>$user->id],['class'=>'btn btn-outline-secondary btn-block'])!!}
-                    </div>
+                    </div>--}}
                     <div class="mt-2">
-                        {!!link_to_route('users.show','friends',['user'=>$user->id],['class'=>'btn btn-outline-primary btn-block'])!!}
+                        {!!link_to_route('friend.index','friends',['id'=>$user->id],['class'=>'btn btn-outline-primary btn-block'])!!}
                     </div>
                 </aside>
                 <div class="col-8">

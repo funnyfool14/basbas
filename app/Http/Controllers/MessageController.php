@@ -12,12 +12,19 @@ class MessageController extends Controller
 {
     public function index()
     {
-        $user=Auth::user();
-        $users=User::where('id','<>',$user->id)->get();
+        $id=\Auth::id();
+        
+        //全部のエッセージを降順で取得
+        $messages=Message::orderby('id','desc')->where('reciever_id',$id)->get();
+        //全メッセージのユーザを取得
+        foreach($messages as $message);
+        $sender_id=$message->sender_id;
+        $users=User::findOrFail($sender_id)->get();
         
         return view('messages.index',[
             'users'=>$users,
-            /*'message'=>$message,*/]);
+            'messages'=>$messages,
+            ]);
     }
     
     
@@ -69,4 +76,5 @@ class MessageController extends Controller
         
         return view('messages,show');
     }
+
 }

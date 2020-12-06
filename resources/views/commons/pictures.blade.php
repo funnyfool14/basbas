@@ -5,7 +5,7 @@
            {{--ログインしているユーザ--}}
             @if(Auth::check())
                 {{--pictureがユーザの投稿したものではないとき時--}}
-                @if(Auth::user()!=$picture->user)
+                {{--@if(Auth::user()!=$picture->user)--}}
                     <div class="row">
                         <h5 class="col-5 text-center mt-1">
                             {!!link_to_route('users.show',$picture->user->firstName,['user'=>$picture->user->id])!!}
@@ -13,7 +13,7 @@
                         </h5>
                         @include('commons.nice_button')
                     </div>
-                @endif
+                {{--@endif--}}
             {{--ログイン指定ないユーザ--}}
             @else
                 <div class="">

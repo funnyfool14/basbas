@@ -17,13 +17,16 @@
             <div class="row">
                 <aside class="col-4">
                         <div class="mt-2">
+                            {{--画像投稿--}}
                             {!!link_to_route('pictures.create','new pic',[],['class'=>'btn btn-outline-success btn-block'])!!}
                         </div>
+                        {{--各ユーザの最新のメッセージ確認--}}
+                        {{--<div class="mt-2">
+                            {!!link_to_route('messages.index','message',[],['class'=>'btn btn-outline-secondary btn-block'])!!}
+                        </div>--}}
                         <div class="mt-2">
-                            {!!link_to_route('users.index','message',[],['class'=>'btn btn-outline-secondary btn-block'])!!}
-                        </div>
-                        <div class="mt-2">
-                            {!!link_to_route('friend.index','friends',[],['class'=>'btn btn-outline-primary btn-block'])!!}
+                            {{--friend一覧へ--}}
+                            {!!link_to_route('friend.index','friends',['id'=>$user->id],['class'=>'btn btn-outline-primary btn-block'])!!}
                         </div>
                 </aside>
                 <div class="col-8">
@@ -41,6 +44,7 @@
                 <h3 class="offset-6">{{ Auth::user()->firstName}}</h3>
                 <h3 class="ml-2">{{ Auth::user()->lastName}}</h3>
                 <div class="ml-2">
+                    {{--リクエスト数のカウント--}}
                     {!!link_to_route('request.asked',$user->requested_count,[$user->id],['class'=>'btn btn-danger w-5'])!!}
                 </div>
             </div>
