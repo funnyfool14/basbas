@@ -16,7 +16,8 @@
             {{--シューズ写真--}}
             @include('card.shoes')
             <div class="row">
-                <aside class="col-4">
+                <aside class="col-sm-4">
+                    @if($user!=Auth::user())
                     <div class="mt-2">
                         {!!link_to_route('request.friend','request',['id'=>$user->id],['class'=>'btn btn-outline-success btn-block'])!!}
                     </div>
@@ -27,31 +28,32 @@
                     <div class="mt-2">
                         {!!link_to_route('friend.index','friends',['id'=>$user->id],['class'=>'btn btn-outline-primary btn-block'])!!}
                     </div>
+                    @endif
                 </aside>
-                <div class="col-8">
+                <div class="offset-sm-1 col-sm-7">
                     <div class="row">
                         <p>nickname</p>
-                        <h4 class="ml-3">{{$profile->nickname}}</h4>
+                        <h4 class="right">{{$profile->nickname}}</h4>
                     </div>
                     <div class="row">
                         <p>sex</p>
-                        <h4 class="ml-3">{{$profile->gender}}</h4>
+                        <h4 class="right">{{$profile->gender}}</h4>
                     </div>
                     <div class="row">
                         <p>birthplace</p>
-                        <h4 class="ml-3">{{$profile->birthplace}}</h4>
+                        <h4 class="right">{{$profile->birthplace}}</h4>
                     </div>
                     <div class="row">
                         <p>local</p>
-                        <h4 class="ml-3">{{$profile->local}}</h4>
+                        <h4 class="right">{{$profile->local}}</h4>
                     </div>
                     <div class="row">
                         <p>position</p>
-                        <h4 class="ml-3">{{$profile->position}}</h4>
+                        <h4 class="right">{{$profile->position}}</h4>
                     </div>
                     <div class="row">
                         <p>favorite player</p>
-                        <h4 class="ml-3">{{$profile->favorite_player}}</h4>
+                        <h4 class="right">{{$profile->favorite_player}}</h4>
                     </div>
                     <div class="row">
                         <h5>{{$profile->coment}}</h5>

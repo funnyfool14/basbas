@@ -187,8 +187,7 @@ class User extends Authenticatable
     
     public function loadRelationshipCounts()
     {
-        $this->loadcount('requested','friends','profile');
-        //$this->loadcount('requested');
+        $this->loadcount('requested','friends','profile',);
     }
     
 }

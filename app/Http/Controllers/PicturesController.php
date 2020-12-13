@@ -46,7 +46,7 @@ class PicturesController extends Controller
         $picture->loadRelationshipCounts();
         return view('pictures.index',[
             'allPictures'=>$allPictures,
-            'picture'=>$picture,
+            //'picture'=>$picture,
         ]);
     }
     

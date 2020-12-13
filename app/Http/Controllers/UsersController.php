@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\User;
 use App\Picture;
@@ -14,20 +15,23 @@ class UsersController extends Controller
     {
         $data=[];
         $allPictures=Picture::orderby('id','desc')->get();
-        
         if(\Auth::check()){ 
             $user=\Auth::user();
-            $name=$user->firstName;
             $manyShoes=$user->shoes()->orderby('id','desc')->paginate(1);
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
+            foreach($pictures as $picture)
+            $picture->loadRelationshipCounts();
             $user->loadRelationshipCounts();
             
-            $data=['user'=>$user,'name'=>$name,'manyShoes'=>$manyShoes,'pictures'=>$pictures,'allPictures'=>$allPictures,];
+            $data=['user'=>$user,'manyShoes'=>$manyShoes,'pictures'=>$pictures,'allPictures'=>$allPictures,];
         
         return view('welcome',$data);}
             
         else{
             $data=['allPictures'=>$allPictures,];
+            foreach($allPictures as $picture)
+            $picture->loadRelationshipCounts();
+            
             
         return view('welcome',$data);
         }
@@ -91,5 +95,6 @@ class UsersController extends Controller
         
         return view('users.show',$data);
         }
+        
     }
 }

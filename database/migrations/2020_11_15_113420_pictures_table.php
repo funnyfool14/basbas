@@ -16,9 +16,8 @@ class PicturesTable extends Migration
         Schema::create('pictures', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            //$table->string('uploader');
             $table->string('pic');
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->timestamps();
             
             $table->foreign('user_id')->references('id')->on('users');
