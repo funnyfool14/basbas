@@ -2,7 +2,7 @@
 @section('content')
 @if(Auth::check())
     <div class="row">
-        <aside class="col-6">
+        <aside class="col-sm-6">
             <p class="mt-1">-shoes一覧-</p>
             {{--shose一覧を表示--}}
             @foreach($manyShoes as $shoes)
@@ -10,12 +10,12 @@
                     <h5 class="ml-3">{!!$shoes->model!!}</h5>
                     <p class="mt-1 text-right col-5">{!!number_format($shoes->size, 1)!!}cm</p>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-sm-6">
                             {!!Form::model($shoes,['route'=>['shoes.edit',$shoes->id],'method'=>'get','class'=>'xxxx'])!!}
 　                          {!!Form::submit('edit',['class'=>'btn btn-outline-secondary btn-sm btn-block'])!!}
                         　  {!!Form::close()!!}
                     </div>
-                    <div class="col-6">
+                    <div class="col-sm-6">
                             {!!Form::model($shoes,['route'=>['shoes.destroy',$shoes->id],'method'=>'delete','class'=>'xxxx'])!!}
 　                          {!!Form::submit('delete',['class'=>'btn btn-outline-danger btn-sm btn-block'])!!}
                             {!!Form::close()!!}
@@ -67,7 +67,7 @@
             {{--作成済み--}}
             @else
             <div class="">
-                {!!Form::model($profile,['route'=>['profile.update',$user->id],'method'=>'put'])!!}
+                {!!Form::model($profile,['route'=>['profile.update',$profile->id],'method'=>'put'])!!}
             <div class="">  
                 {!!Form::label('nickname','ニックネーム')!!}
                 {!!Form::text('nickname',null,['class'=>'form-control'])!!}

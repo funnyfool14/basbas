@@ -19,18 +19,20 @@ class UsersController extends Controller
             $user=\Auth::user();
             $manyShoes=$user->shoes()->orderby('id','desc')->paginate(1);
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
+            $profile=$user->profile()->get();
+            /* $pictureにする意味ある？ $pictureでよくない？
             foreach($pictures as $picture)
-            $picture->loadRelationshipCounts();
+            $picture->loadRelationshipCounts();*/
             $user->loadRelationshipCounts();
             
-            $data=['user'=>$user,'manyShoes'=>$manyShoes,'pictures'=>$pictures,'allPictures'=>$allPictures,];
+            $data=['user'=>$user,'manyShoes'=>$manyShoes,'pictures'=>$pictures,'allPictures'=>$allPictures,'profile'=>$profile];
         
         return view('welcome',$data);}
             
         else{
             $data=['allPictures'=>$allPictures,];
-            foreach($allPictures as $picture)
-            $picture->loadRelationshipCounts();
+            /*foreach($allPictures as $picture)
+            $picture->loadRelationshipCounts();*/
             
             
         return view('welcome',$data);
@@ -82,8 +84,13 @@ class UsersController extends Controller
             $user=User::findOrFail($id);
             $manyShoes=$user->shoes()->orderby('id','desc')->paginate(1);
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
+            foreach($pictures as $picture)
+            $picture->loadRelationshipCounts();
+            $profile=$user->profile()->orderby('id','desc')->first();
+            
+            //$profile=Profile::findOrFail($id)->orderby('id','desc')->first();
+            
             //$profile=$user->profile()->orderby('created_at','desc')->first();
-            $profile=Profile::findOrFail($id)->orderby('id','desc')->first();
             //$profile=Profile::orderby('id','desc')->where('user_id',$id)->first();
             //foreach($pictures as $picture)
             //$picture->loadRelationshipCounts();

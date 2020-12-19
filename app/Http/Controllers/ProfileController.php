@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Profile;
+use App\User;
 
 class ProfileController extends Controller
 {
@@ -44,8 +45,13 @@ class ProfileController extends Controller
             'local'=>'max:20',
             'position'=>'max:20',
             'favorite_player'=>'max:20',
-            'coment'=>'max:255'
+            'coment'=>'max:255',
+            'user_pic'=>'image'
             ]);
+            
+        $user_pic=$request->file('user_pic');
+        $user_path=Storage::disk('s3')->putfile('user_album',$user_pic,'public');
+        $user_url=Storage::disk('s3')->url($user_path);
             
             $request->user()->profile()->create([
             //この記述だとuser_idの設定がいらない
@@ -56,7 +62,8 @@ class ProfileController extends Controller
             'local'=>$request->local,
             'position'=>$request->position,
             'favorite_player'=>$request->favorite_player,
-            'coment'=>$request->coment
+            'coment'=>$request->coment,
+            'user_pic'=>$user_url
             ]);
         
         return redirect(route('users.show',[
@@ -93,7 +100,7 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $profile_id)
     {
         $request->validate([
             'nickname'=>'max:20',
@@ -104,8 +111,22 @@ class ProfileController extends Controller
             'favorite_player'=>'max:20',
             'coment'=>'max:255'
             ]);
+        
+        $profile=Profile::findOrFail($profile_id);
+        $id=$profile->user_id;
+
         if(\Auth::id()==$id){
-            $request->user()->profile()->create([
+            $profile->nickname=$request->nickname;
+            $profile->gender=$request->gender;
+            $profile->birthplace=$request->birthplace;
+            $profile->local=$request->local;
+            $profile->position=$request->position;
+            $profile->favorite_player=$request->favorite_player;
+            $profile->coment=$request->coment;
+            
+            $profile->save();
+            
+            /*$request->user()->profile()->create([
             //この記述だとuser_idの設定がいらない
             'nickname'=>$request->nickname,
             'gender'=>$request->gender,
@@ -114,7 +135,7 @@ class ProfileController extends Controller
             'position'=>$request->position,
             'favorite_player'=>$request->favorite_player,
             'coment'=>$request->coment
-            ]);
+            ]);*/
         }
         
         return redirect(route('users.show',[

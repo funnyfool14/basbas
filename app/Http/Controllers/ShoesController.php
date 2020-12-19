@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Shoe;
 use App\Picture;
 
@@ -24,11 +25,18 @@ class ShoesController extends Controller
         $request->validate([
             'brand'=>'required|max:20',
             'model'=>'required|max:30',
+            'shoes_pic'=>'image'
             ]);
+            
+        $shoes_pic=$request->file('shoes_pic');
+        $shoes_path=Storage::disk('s3')->putfile('shoes_album',$shoes_pic,'public');
+        $shoes_url=Storage::disk('s3')->url($shoes_path);
+        
         $request->user()->shoes()->create([
             'brand'=>$request->brand,
             'model'=>$request->model,
             'size'=>$request->size,
+            'shoes_pic'=>$shoes_url,
             ]);
         
         return redirect('/');

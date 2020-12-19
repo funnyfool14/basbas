@@ -11,8 +11,12 @@
                     <h2>{!!$shoes->model!!}</h2>
                     <h5 class="mt-2 ml-3">{!!number_format($shoes->size, 1)!!}cm</h5>
                 </div>
+                <img class="shoes_pic"src={!!$shoes->shoes_pic!!} alt="">
             @endforeach
-            @include('card.shoes')
+            @if($manyShoes!==null)
+            <h3 class="mt-5">show off your shoes!!</h3>
+            <img class="shoes_pic"src="image/shoes_pic.jpg" alt="">
+            @endif
             <div class="row">
                 <aside class="col-4">
                     <div class="mt-2">
@@ -31,7 +35,8 @@
                 <div class="col-8">
                     @if(Auth::id()==$user->id){{--ユーザ情報編集画面ボタン--}}
                         <div class="edit">
-                            <h1 class="mb-5 text-right ml-2">{!!link_to_route('users.edit','edit',['user'=>$user->id])!!} </h1>
+                            <h2 class="text-right ml-2">{!!link_to_route('users.show','detail',['user'=>$user->id],)!!} </h2>
+                            <h2 class="mb-5 text-right ml-2">{!!link_to_route('users.edit','edit',['user'=>$user->id])!!} </h2>
                         </div>
                     @endif
                 </div>
@@ -47,7 +52,11 @@
                     {!!link_to_route('request.asked',$user->requested_count,[$user->id],['class'=>'btn btn-danger w-5'])!!}
                 </div>
             </div>
-            @include('card.user')
+            @if($profile!==null)
+            <img class="user_pic"src="image/user_pic.jpg" alt="">
+            @else
+            <img class="user_pic"src={!!$profile->user_pic!!} alt="">
+            @endif
         </div>
         <div class="row mt-4">
             @foreach($pictures as $picture)

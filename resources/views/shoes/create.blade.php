@@ -1,6 +1,6 @@
 @extends('commons.layouts')
 @section('content')
-{!!Form::model($shoes,['route'=>'shoes.store'])!!}
+{!!Form::model($shoes,['route'=>'shoes.store','files'=>true])!!}
     <div class="form-group">
         {!!Form::label('brand','brand')!!}
         {!!Form::text('brand',null,['class'=>'form-control'])!!}
@@ -12,6 +12,9 @@
     <div class="form-group">
         {!!Form::label('size','size')!!}
         {!!Form::text('size',null,['class'=>'form-control'])!!}
+    </div>
+    <div class="form-group">
+        {!!Form::file('shoes_pic')!!}
     </div>
 {{--{!!Form::model($picture,['route'=>'pictures.store','files'=>true])!!}
     <div class="form-group">    

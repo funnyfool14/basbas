@@ -24,6 +24,7 @@ class ProfileTable extends Migration
             $table->string('favorite_player')->nullable();
             $table->string('birthplace')->nullable();
             $table->text('coment')->nullable();
+            $table->string('user_pic')->nullable();
             
             $table->foreign('user_id')->references('id')->on('users');
         });

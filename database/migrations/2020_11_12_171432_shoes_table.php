@@ -19,6 +19,7 @@ class ShoesTable extends Migration
             $table->string('brand');
             $table->string('model');
             $table->float('size')->nullable();
+            $table->string('shoes_pic')->nullable();
             $table->timestamps();
             
             $table->foreign('user_id')->references('id')->on('users');
