@@ -1,6 +1,6 @@
 @extends('commons.layouts')
 @section('content')
-{!!Form::model($shoes,['route'=>'shoes.store','files'=>true])!!}
+{!!Form::model($shoes,['route'=>['shoes.store'],'files'=>true,'enctype'=>"multipart/form-data"])!!}
     <div class="form-group">
         {!!Form::label('brand','brand')!!}
         {!!Form::text('brand',null,['class'=>'form-control'])!!}

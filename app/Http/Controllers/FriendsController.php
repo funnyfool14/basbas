@@ -49,7 +49,8 @@ class FriendsController extends Controller
         $users=$user->friends()->where('friend_id',$id)->get();
 
         return view('friend.index',[
-            'users'=>$users,]);        
+            'users'=>$users,
+            'id'=>$id]);        
     }
     
     public function store($friend_id)

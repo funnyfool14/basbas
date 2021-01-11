@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Profile;
 use App\User;
 
@@ -46,16 +47,19 @@ class ProfileController extends Controller
             'position'=>'max:20',
             'favorite_player'=>'max:20',
             'coment'=>'max:255',
-            'user_pic'=>'image'
+            'user_pic'=>'image',
             ]);
             
-        $user_pic=$request->file('user_pic');
-        $user_path=Storage::disk('s3')->putfile('user_album',$user_pic,'public');
-        $user_url=Storage::disk('s3')->url($user_path);
-            
+        if(!is_null($request->user_pic)){
+            $user_pic=$request->file('user_pic');
+            $user_path=Storage::disk('s3')->putfile('user_album',$user_pic,'public');
+            $user_url=Storage::disk('s3')->url($user_path);
             $request->user()->profile()->create([
-            //この記述だとuser_idの設定がいらない
-            //->save()だと設定が必要
+            'user_pic'=>$user_url
+            ]);
+        }    
+                
+            $request->user()->profile()->create([
             'nickname'=>$request->nickname,
             'gender'=>$request->gender,
             'birthplace'=>$request->birthplace,
@@ -63,7 +67,6 @@ class ProfileController extends Controller
             'position'=>$request->position,
             'favorite_player'=>$request->favorite_player,
             'coment'=>$request->coment,
-            'user_pic'=>$user_url
             ]);
         
         return redirect(route('users.show',[
@@ -109,13 +112,21 @@ class ProfileController extends Controller
             'local'=>'max:20',
             'position'=>'max:20',
             'favorite_player'=>'max:20',
-            'coment'=>'max:255'
+            'coment'=>'max:255',
+            'user_pic'=>'image'
             ]);
         
         $profile=Profile::findOrFail($profile_id);
         $id=$profile->user_id;
 
         if(\Auth::id()==$id){
+        
+            if(!is_null($request->user_pic)){    
+                $user_pic=$request->file('user_pic');
+                $user_path=Storage::disk('s3')->putfile('user_album',$user_pic,'public');
+                $user_url=Storage::disk('s3')->url($user_path);
+                $profile->user_pic=$user_url;
+                }
             $profile->nickname=$request->nickname;
             $profile->gender=$request->gender;
             $profile->birthplace=$request->birthplace;
@@ -125,17 +136,6 @@ class ProfileController extends Controller
             $profile->coment=$request->coment;
             
             $profile->save();
-            
-            /*$request->user()->profile()->create([
-            //この記述だとuser_idの設定がいらない
-            'nickname'=>$request->nickname,
-            'gender'=>$request->gender,
-            'birthplace'=>$request->birthplace,
-            'local'=>$request->local,
-            'position'=>$request->position,
-            'favorite_player'=>$request->favorite_player,
-            'coment'=>$request->coment
-            ]);*/
         }
         
         return redirect(route('users.show',[

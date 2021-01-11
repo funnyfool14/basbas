@@ -12,18 +12,22 @@ class MessageController extends Controller
 {
     public function index()
     {
-        $id=\Auth::id();
+        $me=\Auth::user();
+        $my_id=$me->id;
+        //reciverとsenderを定義して重複を削除したものをviewに渡す
+        $messages=Message::where('reciever_id','=',$my_id)
+        ->orWhere('sender_id','=',$my_id)
+        //->user()
+        ->get();
         
-        //全部のエッセージを降順で取得
-        $messages=Message::orderby('id','desc')->where('reciever_id',$id)->get();
-        //全メッセージのユーザを取得
-        foreach($messages as $message);
-        $sender_id=$message->sender_id;
-        $users=User::findOrFail($sender_id)->get();
+        /*$messages=Message::where('reciever_id','=',$my_id)
+        ->orWhere('sender_id','=',$my_id)
+        ->get();*/
+        //全メッセージからそれぞれのユーザidを取得
+        
         
         return view('messages.index',[
-            'users'=>$users,
-            'messages'=>$messages,
+            'messages'=>$messages
             ]);
     }
     

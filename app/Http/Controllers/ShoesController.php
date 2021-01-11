@@ -28,17 +28,23 @@ class ShoesController extends Controller
             'shoes_pic'=>'image'
             ]);
             
-        $shoes_pic=$request->file('shoes_pic');
-        $shoes_path=Storage::disk('s3')->putfile('shoes_album',$shoes_pic,'public');
-        $shoes_url=Storage::disk('s3')->url($shoes_path);
-        
-        $request->user()->shoes()->create([
+        if(!is_null($request->shoes_pic)){
+            $shoes_pic=$request->file('shoes_pic');
+            $shoes_path=Storage::disk('s3')->putfile('shoes_album',$shoes_pic,'public');
+            $shoes_url=Storage::disk('s3')->url($shoes_path);
+            $request->user()->shoes()->create([
             'brand'=>$request->brand,
             'model'=>$request->model,
             'size'=>$request->size,
-            'shoes_pic'=>$shoes_url,
-            ]);
+            'shoes_pic'=>$shoes_url,]);
+        }
         
+        else{$request->user()->shoes()->create([
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'size'=>$request->size,
+            ]);
+        }
         return redirect('/');
     }
     
@@ -46,13 +52,10 @@ class ShoesController extends Controller
     {
         if(\Auth::check()){
             $shoes=Shoe::findOrFail($id);
-            $brand=$shoes->brand;
-            $model=$shoes->model;
-            $size=$shoes->size;
         }
             
         return view('shoes.edit',
-        ['shoes'=>$shoes,'brand'=>$brand,'model'=>$model,'size'=>$size]);
+        ['shoes'=>$shoes]);
     }    
     
     public function update(Request $request,$id)
@@ -62,9 +65,18 @@ class ShoesController extends Controller
             
         $request->validate([
             'brand'=>'required|max:20',
-            'model'=>'required|max:30',]);
+            'model'=>'required|max:30',
+            'shoes_pic'=>'image'
+            ]);
             
         if(\Auth::id()==$user->id){
+            if(!is_null($request->shoes_pic)){
+                $shoes_pic=$request->file('shoes_pic');
+                $shoes_path=Storage::disk('s3')->putfile('shoes_album',$shoes_pic,'public');
+                $shoes_url=Storage::disk('s3')->url($shoes_path);
+                $shoes->shoes_pic=$shoes_url;
+            }
+               
             $shoes->brand=$request->brand;
             $shoes->model=$request->model;
             $shoes->size=$request->size;
