@@ -2,6 +2,7 @@
 @section('content')
 @foreach($messages as $message)
     <div class="">
+        {{$message->id}}
         {{$message->message}}
 	</div>
 @endforeach
