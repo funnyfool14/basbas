@@ -136,7 +136,6 @@ class User extends Authenticatable
     public function request($friend_id)
     {
         $exist=$this->sent_request($friend_id);
-        //$exist=Auth::user()->sent_request($friend_id);
         $its_me=$this->id==$friend_id;
         
         //リクエスト済みなら実行しない
@@ -190,26 +189,16 @@ class User extends Authenticatable
         $this->loadcount('requested','friends','profile',);
     }
     
-    public function chat_room()
+    public function chat()
     {
         return $this->hasMany(Chat::class);
     }
     
     public function is_chatting($id)
     {
-        return $this->chat_room()->where('user_id1',$id)->orWhere('user_id2',$id)->exists();
+        return $this->chat_room()->where('user_id',$id)->exists();
     }
     
-    public function chat($id)
-    {
-        $exist=$this->is_chatting($id);
-        
-        if($exist){
-            return false;
-        }
-        else{
-            $this->chat_room()->attach($id);
-        }
-    }
+    
     
 }

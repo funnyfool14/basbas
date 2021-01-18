@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Message;
 use App\User;
+use App\Chat;
 //これがないと”Auth::"が使えない
 use Illuminate\Support\Facades\Auth;
 
@@ -18,6 +19,7 @@ class MessageController extends Controller
     
     public function show($id)
     {
+        
         $sender_id=\Auth::user()->id;
         $reciever=User::findOrFail($id);
         $reciever_id=$reciever->id;        
@@ -44,11 +46,25 @@ class MessageController extends Controller
     
     public function store(Request $request,$reciever_id)
     {   
+        
+        $me=\Auth::user();
+        $not_exist=$me->chat()->where('user_id','!=',$reciever_id);
+        
         $message=new Message;
         $request->validate([
             'message'=>'required|max:255',
             ]);
-            
+        
+        if($not_exist){
+            $chat=new Chat;
+            $chat->user_id=$reciever_id;
+            $chat->save();
+        }
+        else{
+            $chat=$me->chat()->where('user_id',$reciever_id);
+        }
+        
+        $message->chat_id=$chat->id;    
         $message->sender_id=Auth::id();
         $message->reciever_id=$reciever_id;
         $message->message=$request->message;
@@ -59,18 +75,6 @@ class MessageController extends Controller
         return redirect(route('messages.show',[
             'id'=>$reciever_id,
             ]));
-    }
-    
-    
-    public function create()
-    {
-        $message=new Message;
-        $chat=new Chat;
-        
-        $chat->user_id=\Auth::id();
-        $chat->save();
-        
-        return view('messages,show');
     }
 
 }
