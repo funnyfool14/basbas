@@ -12,23 +12,7 @@ class MessageController extends Controller
 {
     public function index()
     {
-        $me=\Auth::user();
-        $my_id=$me->id;
-        //reciverとsenderを定義して重複を削除したものをviewに渡す
-        $messages=Message::where('reciever_id','=',$my_id)
-        ->orWhere('sender_id','=',$my_id)
-        //->user()
-        ->get();
-        
-        /*$messages=Message::where('reciever_id','=',$my_id)
-        ->orWhere('sender_id','=',$my_id)
-        ->get();*/
-        //全メッセージからそれぞれのユーザidを取得
-        
-        
-        return view('messages.index',[
-            'messages'=>$messages
-            ]);
+       
     }
     
     
@@ -45,6 +29,10 @@ class MessageController extends Controller
             $messages->where('sender_id','=',$reciever_id);
             $messages->where('reciever_id','=',$sender_id);
         })->get();
+        
+        //試す
+        /*$messages=Message::where('sender_id','=',$sender_id)->where('reciever_id','=',$reciever_id)
+        ->orWhere('sender_id','=',$reciever_id)->where('reciever_id','=',$sender_id)->get()*/
         
         return view('messages.show',[
             'sender_id'=>$sender_id,
@@ -77,6 +65,10 @@ class MessageController extends Controller
     public function create()
     {
         $message=new Message;
+        $chat=new Chat;
+        
+        $chat->user_id=\Auth::id();
+        $chat->save();
         
         return view('messages,show');
     }

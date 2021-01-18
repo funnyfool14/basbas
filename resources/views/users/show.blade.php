@@ -60,8 +60,6 @@
                                 <h4 class="right">{{$profile->favorite_player}}</h4>
                             </div>
                         @endif
-                    @else
-                        <h3 class="mt-4">show your profiles!!</h3>
                     @endif
                 </div>
             </div>
@@ -74,10 +72,12 @@
             </div>
                 {{--ユーザ写真--}}
                 @include('users.picture')
-                @if(!is_null($profile->coment))
-                    <div class="mt-2">
-                        <h5 class="text-right">{{$profile->coment}}</h5>
-                    </div>
+                @if(isset($profiles))
+                    @if(!is_null($profile->coment))
+                        <div class="mt-2">
+                            <h5 class="text-right">{{$profile->coment}}</h5>
+                        </div>
+                    @endif
                 @endif
             {{--topに戻る--}}
             <div class="text-right mt-4">

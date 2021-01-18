@@ -1,7 +1,8 @@
 <h5 class="mt-1">-basket shoes-</h5>
     @if($manyShoes->isEmpty())
-        <h3 class="mt-4">show off your kicks!!</h3>
-        <img class="shoes_pic"src="{{asset('image/shoes_pic.jpg')}}" alt="">
+        <div class="mt-5">
+            <img class="shoes_pic"src="{{asset('image/shoes_pic.jpg')}}" alt="">
+        </div>
     @else
         @foreach($manyShoes as $shoes)
             <h4 class="mt-4">{!!$shoes->brand!!}</h4>

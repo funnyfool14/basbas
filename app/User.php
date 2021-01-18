@@ -55,12 +55,12 @@ class User extends Authenticatable
         return $this->hasMany(Shoe::class);
     }
     
-        public function pictures()
+    public function pictures()
     {
         return $this->hasMany(Picture::class);
     }
     
-        public function nice()
+    public function nice()
     {
         return $this->belongsToMany(Picture::class,'nice','user_id','pic_id')->withTimestamps();
     }
@@ -188,6 +188,28 @@ class User extends Authenticatable
     public function loadRelationshipCounts()
     {
         $this->loadcount('requested','friends','profile',);
+    }
+    
+    public function chat_room()
+    {
+        return $this->hasMany(Chat::class);
+    }
+    
+    public function is_chatting($id)
+    {
+        return $this->chat_room()->where('user_id1',$id)->orWhere('user_id2',$id)->exists();
+    }
+    
+    public function chat($id)
+    {
+        $exist=$this->is_chatting($id);
+        
+        if($exist){
+            return false;
+        }
+        else{
+            $this->chat_room()->attach($id);
+        }
     }
     
 }
