@@ -46,22 +46,22 @@ class MessageController extends Controller
     
     public function store(Request $request,$reciever_id)
     {   
-        
+    
         $me=\Auth::user();
-        $not_exist=$me->chat()->where('user_id','!=',$reciever_id);
+        $exist=$me->chat()->where('user_id',$reciever_id);
         
         $message=new Message;
         $request->validate([
             'message'=>'required|max:255',
             ]);
         
-        if($not_exist){
+        if($exist){
+            $chat=$me->chat()->where('user_id',$reciever_id);
+        }
+        else{
             $chat=new Chat;
             $chat->user_id=$reciever_id;
             $chat->save();
-        }
-        else{
-            $chat=$me->chat()->where('user_id',$reciever_id);
         }
         
         $message->chat_id=$chat->id;    
