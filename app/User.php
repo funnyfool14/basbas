@@ -194,11 +194,4 @@ class User extends Authenticatable
         return $this->hasMany(Chat::class);
     }
     
-    public function is_chatting($id)
-    {
-        return $this->chat_room()->where('user_id',$id)->exists();
-    }
-    
-    
-    
 }

@@ -1,8 +1,8 @@
 @extends('commons.layouts')
 @section('content')
-@foreach($rooms as $room)
+@foreach($chats as $chat)
     <div class="">
-        {{$room->user->firstName}}
+        {{$chat->sender->firstName}}
         <div class="col-3">
             {!!link_to_route('messages.show','message',['id'=>$user->id],['class'=>'btn btn-outline-primary btn-block'])!!}
         </div>

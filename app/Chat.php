@@ -10,4 +10,14 @@ class Chat extends Model
     {
         return $this->hasMany(Message::class);
     }
+    
+    public function sender()
+    {
+        return $this->belongsTo(User::class,'sender_id');
+    }
+    
+    public function reciever()
+    {
+        return $this->belongsTo(User::class,'reciver_id');
+    }
 }

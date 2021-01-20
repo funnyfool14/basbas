@@ -13,7 +13,11 @@ class MessageController extends Controller
 {
     public function index()
     {
-       
+        $me=\Auth::user();
+        $chats=$me->chat()->get();
+        
+        return view('message.index',[
+            'chats'=>$chats,]);
     }
     
     
@@ -48,21 +52,22 @@ class MessageController extends Controller
     {   
     
         $me=\Auth::user();
-        $exist=$me->chat()->where('user_id',$reciever_id);
+        $exist=$me->chat()->where('sender_id',$reciever_id)->orWhere('reciever',$reciever_id);
         
         $message=new Message;
         $request->validate([
             'message'=>'required|max:255',
             ]);
         
-        if($exist){
-            $chat=$me->chat()->where('user_id',$reciever_id);
+        /*if($exist){
+            $exist=$me->chat()->where('sender_id',$reciever_id)->orWhere('reciever',$reciever_id);
         }
-        else{
+        else{*/
             $chat=new Chat;
-            $chat->user_id=$reciever_id;
+            $chat->sender_id=\Auth::id();
+            $chat->reciever_id=$reciever_id;
             $chat->save();
-        }
+        //}
         
         $message->chat_id=$chat->id;    
         $message->sender_id=Auth::id();
