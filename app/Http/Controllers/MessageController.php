@@ -25,7 +25,16 @@ class MessageController extends Controller
         $reciever=User::findOrFail($id);
         
         
+        $chat=new Chat();
+        dd($chat->id);
+        
+        
         $messages=Message::where('user_id',$my_id)->orwhere('user_id',$id)->get();//変更点
+        
+        return view('messages.show',[
+            'chat'=>$chat,
+            'reciever'=>$reciever,
+            'messages'=>$messages,]);
         
         /*$sender_id=\Auth::user()->id;
         $reciever=User::findOrFail($id);
@@ -43,12 +52,11 @@ class MessageController extends Controller
         /*$messages=Message::where('sender_id','=',$sender_id)->where('reciever_id','=',$reciever_id)
         ->orWhere('sender_id','=',$reciever_id)->where('reciever_id','=',$sender_id)->get()*/
         
-        return view('messages.show',[
-            /*'sender_id'=>$sender_id,
-            'reciever_id'=>$reciever_id,*/
-            'chat'=>$chat,
+        /*return view('messages.show',[
+            'sender_id'=>$sender_id,
+            'reciever_id'=>$reciever_id,
             'reciever'=>$reciever,
-            'messages'=>$messages,]);
+            'messages'=>$messages,]);*/
     }
     
     
