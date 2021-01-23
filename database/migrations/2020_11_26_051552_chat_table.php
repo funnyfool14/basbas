@@ -15,12 +15,16 @@ class ChatTable extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('sender_id');
-            $table->unsignedBigInteger('reciever_id');
+            $table->unsignedBigInteger('my_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('message_id');
             $table->timestamps();
             
-            $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('reciever_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('my_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('message_id')->references('id')->on('messages');
+            
+            $table->unique(['my_id','user_id']);
         });
     }
 

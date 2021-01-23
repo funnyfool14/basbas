@@ -15,13 +15,11 @@ class MessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('chat_id');
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('reciever_id');
             $table->text('message');
             $table->timestamps();
             
-            $table->foreign('chat_id')->references('id')->on('chats');
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('reciever_id')->references('id')->on('users')->onDelete('cascade');
         });

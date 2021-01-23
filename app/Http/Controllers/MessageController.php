@@ -14,7 +14,7 @@ class MessageController extends Controller
     public function index()
     {
         $me=\Auth::user();
-        $chats=$me->chat()->get();
+        $chats=$me->chat();
         
         return view('message.index',[
             'chats'=>$chats,]);
@@ -48,11 +48,11 @@ class MessageController extends Controller
     }
     
     
-    public function store(Request $request,$reciever_id)
+    public function store(Request $request,$id)
     {   
-    
+        $my_id=\Auth::id();
         $me=\Auth::user();
-        $exist=$me->chat()->where('sender_id',$reciever_id)->orWhere('reciever',$reciever_id);
+        $exist=$me->chat()->where('user_id',$my_id);
         
         $message=new Message;
         $request->validate([
@@ -64,9 +64,13 @@ class MessageController extends Controller
         }
         else{*/
             $chat=new Chat;
-            $chat->sender_id=\Auth::id();
-            $chat->reciever_id=$reciever_id;
+            $chat->user_id=$my_id;
             $chat->save();
+            
+            $chat2=new Chat;
+            $chat2->user_id=$my_id;
+            $chat2->save();
+            
         //}
         
         $message->chat_id=$chat->id;    

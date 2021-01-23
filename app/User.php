@@ -191,7 +191,11 @@ class User extends Authenticatable
     
     public function chat()
     {
-        return $this->hasMany(Chat::class);
+        return $this->belongsToMany(Message::class,'chats','my_id','message_id')->withTimeStamps();
     }
     
+    public function is_chatting($id)
+    {
+        return $this->
+    }
 }
