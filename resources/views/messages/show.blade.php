@@ -7,12 +7,12 @@
             <h4 class="ml-2">{{$reciever->lastName}}</h4>
         </div>            
         @foreach($messages as $message)
-            @if($message->sender_id==Auth::id())
+            @if($message->user_id==Auth::id())
                 <div class="text-right">
                     <h3 class="mb-5 mr-5">{{$message->message}}</h3>
                 </div>
             @endif
-            @if($message->reciever_id==Auth::id())
+            @if($message->user_id==Auth::id())
                 <div class="text-left">
                     <h3 class="mb-5 ml-5">{{$message->message}}</h3>
                 </div>
@@ -20,7 +20,7 @@
         @endforeach
     </div>
     {{--メッセージ送信--}}
-    {!!Form::open(['route'=>['messages.store',$reciever_id],'method'=>'post'])!!}
+    {!!Form::open(['route'=>['messages.store',$reciever->id],'method'=>'post'])!!}
     <div class="row">
         <div class="col-10">
             {!!Form::text('message',null,['class'=>'form-control'])!!}

@@ -189,13 +189,28 @@ class User extends Authenticatable
         $this->loadcount('requested','friends','profile',);
     }
     
-    public function chat()
+    public function chats()
     {
-        return $this->belongsToMany(Message::class,'chats','my_id','message_id')->withTimeStamps();
+        $this->belongsToMany(Chat::class,'chats_users','user_id','chat_id')->withTimestamps;
     }
     
-    public function is_chatting($id)
+    public function is_chatting($chat_id)
     {
-        return $this->
+        $this->chats()->where('chat_id',$chat_id)->exists();
+    }
+    
+    public function chat_room($chat_id)
+    {
+        $exist=$this->chats()->where('chat_id',$chat_id);
+        
+        if($exist){
+            return false;
+        }
+        else{
+            $this->chat()->attach([
+                'user_id'=>\Auth::id(),
+                'chat_id'=>$chat_id
+                ]);
+        }
     }
 }
