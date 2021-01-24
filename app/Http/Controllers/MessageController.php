@@ -13,26 +13,35 @@ class MessageController extends Controller
 {
     public function index()
     {
-        $me=\Auth::user;
+        $me=\Auth::user();
         
         $chats=$me->chat()->get();
     }
     
     
-    public function show($id)
+    public function show($user_id)
     {
+        $me=\Auth::id();
         $my_id=\Auth::id();
-        $reciever=User::findOrFail($id);
+        $reciever=User::findOrFail($user_id);
         
-        
-        $chat=new Chat();
-        dd($chat->id);
+        if($me->chats()->where('user_id',$user_id)->exists()){
+            $chat_id=$me->chats()->where('user_id',$user_id);
+        }
+        else{
+            $chat=new Chat;
+            $chat->save();
+            $chat_id=$chat->id;
+            
+            $me->chats()->attach($chat_id);
+            $reciever->chats()->attach($chat_id);
+        }
         
         
         $messages=Message::where('user_id',$my_id)->orwhere('user_id',$id)->get();//変更点
         
         return view('messages.show',[
-            'chat'=>$chat,
+            'chat_id'=>$chat_id,
             'reciever'=>$reciever,
             'messages'=>$messages,]);
         

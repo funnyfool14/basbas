@@ -30,7 +30,7 @@ Route::group(['middleware'=>['auth']],function(){
     Route::get('friend{id}','FriendsController@index')->name('friend.index');
     
     Route::get('messages','MessageController@index')->name('messages.index');
-    Route::get('/messages/{id}','MessageController@show')->name('messages.show');
+    Route::get('/chat/{id}','MessageController@show')->name('messages.show');
     Route::post('messages/{id}','MessageController@store')->name('messages.store');
     Route::get('messages/create','MessageController@create')->name('messages.create');
 
