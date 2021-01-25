@@ -15,30 +15,29 @@ class MessageController extends Controller
     {
         $me=\Auth::user();
         
-        $chats=$me->chat()->get();
+        $chats=$me->chats()->get();
     }
     
     
     public function show($user_id)
     {
-        $me=\Auth::id();
+        $me=\Auth::user();
         $my_id=\Auth::id();
         $reciever=User::findOrFail($user_id);
         
-        if($me->chats()->where('user_id',$user_id)->exists()){
-            $chat_id=$me->chats()->where('user_id',$user_id);
-        }
-        else{
-            $chat=new Chat;
-            $chat->save();
-            $chat_id=$chat->id;
-            
-            $me->chats()->attach($chat_id);
-            $reciever->chats()->attach($chat_id);
-        }
+        $chat=new Chat;
+        $chat->save();
+        $chat_id=$chat->id;
+        //dd($chat_id);
+        //自分と相手の中間レコードにchat_idをレコード
+        //$me->chats()->attach($chat_id);
+        //$reciever->chats()->attach($chat_id);
         
+        //自分と相手のidを中間テーブルにレコード
+        $chat->users()->sync([$my_id,$user_id]);
         
-        $messages=Message::where('user_id',$my_id)->orwhere('user_id',$id)->get();//変更点
+        //chat_idでメッセージを呼び出す
+        $messages=Message::whwere('chat_id',$chat_id);
         
         return view('messages.show',[
             'chat_id'=>$chat_id,
