@@ -14,6 +14,7 @@
                         </div>
                         {{--メッセージ--}}
                         <div class="mt-2">
+                            {{--{!!link_to_route('chat.create','message',['id'=>$user->id],['class'=>'btn btn-outline-secondary btn-block'])!!}--}}
                             {!!link_to_route('messages.show','message',['id'=>$user->id],['class'=>'btn btn-outline-secondary btn-block'])!!}
                         </div>
                         {{---フレンド一覧--}}

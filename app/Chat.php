@@ -8,11 +8,11 @@ class Chat extends Model
 {
     public function messages()
     {
-        $this->hasMany(Message::class);
+        return $this->hasMany(Message::class);
     }
     
     public function users()
     {
-        $this->belongsToMany(User::class,'chats_users','chat_id','user_id')->withTimestamps();
+        return $this->belongsToMany(User::class,'chats_users','chat_id','user_id')->withTimestamps();
     }
 }

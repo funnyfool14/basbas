@@ -13,9 +13,9 @@ class MessageController extends Controller
 {
     public function index()
     {
-        $me=\Auth::user();
+        //$me=\Auth::user();
         
-        $chats=$me->chats()->get();
+        //$chats=$me->chats()->get();
     }
     
     
@@ -25,22 +25,32 @@ class MessageController extends Controller
         $my_id=\Auth::id();
         $reciever=User::findOrFail($user_id);
         
-        $chat=new Chat;
-        $chat->save();
-        $chat_id=$chat->id;
-        //dd($chat_id);
-        //自分と相手の中間レコードにchat_idをレコード
-        //$me->chats()->attach($chat_id);
-        //$reciever->chats()->attach($chat_id);
-        
-        //自分と相手のidを中間テーブルにレコード
-        $chat->users()->sync([$my_id,$user_id]);
-        
+        //自分と紐づくチャット一覧を取得
+        $chats=$me->chats();
+        foreach((array)$chats as $chat){
+            //それぞれのチャットのユーザを配列にして取り出す
+            $ids=$chat->users()->pluck('id');
+            //$my_idと$user_idの配列の組み合わせの時
+            if(in_array($my_id,$ids)&&in_array($user_id,$ids)){
+                //その組み合わせのチャットのidを取り出す
+                $chat_id=$chat->id
+            ;}
+            //なければ
+            else{
+                //インスタンスを生成し
+                $new_chat=new Chat;
+                $new_chat->save();
+                //生成したチャットのインスタンスからidを取得
+                $chat_id=$new_chat->id;
+                //自分と相手のidを中間テーブルにレコード
+                $new_chat->users()->sync([$my_id,$user_id]);
+            }
+        }
         //chat_idでメッセージを呼び出す
-        $messages=Message::whwere('chat_id',$chat_id);
+        $messages=Message::where('chat_id',$chat_id);
         
         return view('messages.show',[
-            'chat_id'=>$chat_id,
+            'id'=>$chat_id,
             'reciever'=>$reciever,
             'messages'=>$messages,]);
         
