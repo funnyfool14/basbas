@@ -24,12 +24,13 @@ class MessageController extends Controller
         $me=\Auth::user();
         $my_id=\Auth::id();
         $reciever=User::findOrFail($user_id);
-        
+
         //自分と紐づくチャット一覧を取得
-        $chats=$me->chats();
-        foreach((array)$chats as $chat){
+        $chats=$me->chats;
+        foreach($chats as $chat){
+                dd($chat_id);
             //それぞれのチャットのユーザを配列にして取り出す
-            $ids=$chat->users()->pluck('id');
+            $ids=$chat->users()->pluck('user_id')->toArray();
             //$my_idと$user_idの配列の組み合わせの時
             if(in_array($my_id,$ids)&&in_array($user_id,$ids)){
                 //その組み合わせのチャットのidを取り出す
