@@ -21,9 +21,10 @@ class ChatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($user_id)
     {
-        //
+        $chat=new Chat;
+        $chat->save();
     }
 
     /**

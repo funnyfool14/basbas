@@ -21,6 +21,7 @@ class MessageController extends Controller
     
     public function show($user_id)
     {
+        $chat_id=0;
         $me=\Auth::user();
         $my_id=\Auth::id();
         $reciever=User::findOrFail($user_id);
@@ -28,23 +29,27 @@ class MessageController extends Controller
         //自分と紐づくチャット一覧を取得
         $chats=$me->chats;
         foreach($chats as $chat){
-                dd($chat_id);
+            //dd($chat);
             //それぞれのチャットのユーザを配列にして取り出す
             $ids=$chat->users()->pluck('user_id')->toArray();
-            //$my_idと$user_idの配列の組み合わせの時
+            //$my_idと$user_idの配列の組み合わせがあれば
             if(in_array($my_id,$ids)&&in_array($user_id,$ids)){
                 //その組み合わせのチャットのidを取り出す
                 $chat_id=$chat->id
             ;}
+            
+            if($chat_id){
+                $chat=Chat::find($chat_id);
+            }
             //なければ
             else{
                 //インスタンスを生成し
-                $new_chat=new Chat;
-                $new_chat->save();
+                $chat=new Chat;
+                $chat->save();
                 //生成したチャットのインスタンスからidを取得
-                $chat_id=$new_chat->id;
+                $chat_id=$chat->id;
                 //自分と相手のidを中間テーブルにレコード
-                $new_chat->users()->sync([$my_id,$user_id]);
+                $chat->users()->sync([$my_id,$user_id]);
             }
         }
         //chat_idでメッセージを呼び出す
