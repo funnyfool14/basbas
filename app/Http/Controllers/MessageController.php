@@ -29,9 +29,15 @@ class MessageController extends Controller
         
 
         //自分と紐づくチャット一覧を取得
-        $chats=$me->chats;
-        $chat=$chats->where('id',$user_id);
-        dd($chat);
+        $my_chats=$me->chats;
+        $chats_users=$my_chats->users->toArray();
+        
+        if(inArray($chats_users,$user_id)) {
+            ;
+        }
+        else{
+            ;
+        }
         /*foreach($chats as $chat){
             //それぞれのチャットのユーザを配列にして取り出す
             $ids=$chat->users->pluck('id')->toArray();
