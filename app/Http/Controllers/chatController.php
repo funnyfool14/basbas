@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ChatController extends Controller
+class chatController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,10 +21,9 @@ class ChatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($user_id)
+    public function create()
     {
-        $chat=new Chat;
-        $chat->save();
+        //
     }
 
     /**

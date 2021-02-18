@@ -30,8 +30,8 @@ Route::group(['middleware'=>['auth']],function(){
     Route::get('friend{id}','FriendsController@index')->name('friend.index');
     
     Route::get('messages','MessageController@index')->name('messages.index');
-    Route::get('chat/{id}','MessageController@show')->name('messages.show');
-    Route::post('chat/{id}','MessageController@store')->name('messages.store');
+    Route::get('message_to/{id}','MessageController@show')->name('messages.show');
+    Route::post('message_to/{id}','MessageController@store')->name('messages.store');
 
     Route::group(['prefix'=>'users/{id}'], function () {
         Route::get('request','FriendsController@confirm')->name('request.friend');

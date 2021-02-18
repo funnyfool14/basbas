@@ -95,11 +95,6 @@ class User extends Authenticatable
         };
     }
     
-    public function messages()
-    {
-        return $this->hasMany(Message::class);
-    }
-    
     public function requests()
     {
         //自分が誰かにリクエストを送って未承認の数の取得
@@ -189,10 +184,14 @@ class User extends Authenticatable
         $this->loadcount('requested','friends','profile',);
     }
     
+    public function messages()
+    {
+        return $this->belongsToMany(Message::class,'chats','user_id','message_id')->withTimestamps();
+    }
+    
     public function chats()
     {
-        return $this->belongsToMany(Chat::class,'chats_users','user_id','chat_id')->withTimestamps();
-        //return $this->belongsToMany(Chat::class,'chats_users','user_id','chat_id')->using(Chat_user::class)->withTimestamps();
+        return $this->hasMany(Chat::class);
     }
     
 }
