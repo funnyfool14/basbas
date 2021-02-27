@@ -7,6 +7,8 @@ use App\Message;
 use App\User;
 use App\Chat;
 use App\Room;
+//日付表示のためのライブラリ
+use Carbon\Carbon;
 //これがないと”Auth::"が使えない
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,65 +20,75 @@ class MessageController extends Controller
         $own_id=\Auth::id();
         $me=\Auth::user();
         
-        $chats=$me->chats()->get();
+        $chat_ids=DB::table('users_chats')->where('user_id',$own_id)->orderBy('updated_at','desc')->pluck('chat_id');
+        $chats=Chat::findOrFail($chat_ids);
         
         return view('messages.index',[
             'chats'=>$chats,
-            //'messages'=>$messages,
-            //'users'=>$users
             ]);
     }
     
     public function show($user_id)
     {
         $own_id=\Auth::id();
-        $reciever=User::findOrFail($user_id);
+        $user=User::findOrFail($user_id);
         
+        //$user_idの関連するchat_idと共通の値をもつ中間テーブルのデータから$own_idをもつデータを取得
+        $user_chat=DB::table('users_chats')->whereIn('chat_id',function($query)use($user_id,$own_id){
+            $query->select('chat_id')->from('users_chats')->where('user_id',$user_id);
+        })->where('user_id',$own_id)->first();
+        //Chatのインスタンスがない時
+        if(is_null($user_chat)){
+            //インスタンスを生成して
+            $chat=new Chat;
+            $chat->save();
+            //中間テーブルに$user_idとown_idを代入
+            $chat->users()->sync([$own_id,$user_id]);
+            //$user_idの関連するchat_idと共通の値をもつ中間テーブルのデータから$own_idをもつデータを取得
+            $user_chat=DB::table('users_chats')->whereIn('chat_id',function($query)use($user_id,$own_id){
+                $query->select('chat_id')->from('users_chats')->where('user_id',$user_id);
+            })->where('user_id',$own_id)->first();
+        }
+        //$chat_idを中間テーブルの値から定義
+        $chat_id=$user_chat->chat_id;
+        //$chat_idからChatのインスタンスを取得
+        $chat=Chat::findOrFail($chat_id);
+        $user=User::findOrFail($user_id);
         
-        $messages=Message::where('own_id',$own_id)->where('user_id',$user_id)->orderBy('id','desc');
-        $messages=$messages->orWhere(function($messages)use($own_id,$user_id){
-            $messages->where('own_id',$user_id)->where('user_id',$own_id);})->paginate(20);
-
+        //chatに関連するmessageを取得
+        //$messages=$chat->messages()->orderBy('id','desc')->paginate(20);
+        $messages=$chat->messages()->latest()->paginate(20);
         return view('messages.show',[
             'own_id'=>$own_id,
             'user_id'=>$user_id,
-            'reciever'=>$reciever,
+            'user'=>$user,
             'messages'=>$messages,]);
-        
-        //Messageモデルでsender_idのカラムにログインユーザのidがあり
-        //かつreciever_idのカラムに指定したユーザのidがあるインスタンスを取得
-        /*$messages=Message::where('sender_id','=',$sender_id)->where('reciever_id','=',$reciever_id);
-        //AandB orWhere CandD AかつBもしくはCかつD  
-        $messages=$messages->orWhere(function($messages)use($sender_id,$reciever_id){
-            $messages->where('sender_id','=',$reciever_id);
-            $messages->where('reciever_id','=',$sender_id);
-        })->get();*/
-        
-        
-        /*return view('messages.show',[
-            'sender_id'=>$sender_id,
-            'reciever_id'=>$reciever_id,
-            'reciever'=>$reciever,
-            'messages'=>$messages,]);*/
     }
     
     
     public function store(Request $request,$user_id)
     { 
         $own_id=\Auth::id();
-        $message=new Message;
+        $user=User::findOrFail($user_id);
         
-        $message->own_id=$own_id;
-        $message->user_id=$user_id;
+        //$user_idの関連するchat_idと共通の値���もつ中間テーブルのデータから$own_idをもつデータを取得
+        $user_chat=DB::table('users_chats')->whereIn('chat_id',function($query)use($user_id,$own_id){
+            $query->select('chat_id')->from('users_chats')->where('user_id',$user_id);
+        })->where('user_id',$own_id)->first();
+        
+        $chat_id=$user_chat->chat_id;
+        $chat=Chat::findOrFail($chat_id);
+        
+        $message=new Message;
+        $message->user_id=$own_id;
+        $message->chat_id=$chat_id;
         $message->message=$request->message;
         $message->save();
         
-        $message->users()->sync([$own_id,$user_id]);
-        
-        $messages=Message::orderBy('id','desc')->get();
+        $chat->latest_message=$request->message;
+        $chat->save();
         
         return redirect(route('messages.show',[
-            'messages'=>$messages,
             'id'=>$user_id,
             ]));
     }

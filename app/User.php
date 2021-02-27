@@ -186,12 +186,16 @@ class User extends Authenticatable
     
     public function messages()
     {
-        return $this->belongsToMany(Message::class,'chats','user_id','message_id')->withTimestamps();
+        return $this->hasMany(Message::class);
     }
     
     public function chats()
     {
-        return $this->hasMany(Chat::class);
+        return $this->belongsToMany(Chat::class,'users_chats','user_id','chat_id')->withTimestamps();
     }
     
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class,'users_teams','team_id','users_id')->withTimestamps();
+    }
 }
