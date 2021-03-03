@@ -17,6 +17,7 @@ class InvitationsUsersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('invitation_id');
+            $table->integer('accept')->default(0);
             $table->timestamps();
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

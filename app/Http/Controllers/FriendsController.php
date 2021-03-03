@@ -46,7 +46,7 @@ class FriendsController extends Controller
     {
         $user=User::findOrFail($id);
         //相手のfriend_idカラムに自分のidがあるfriendsデータを抜き出す
-        $users=$user->friends()->where('friend_id',$id)->get();
+        $users=$user->friends()->where('user_id',$id)->get();
 
         return view('friend.index',[
             'users'=>$users,

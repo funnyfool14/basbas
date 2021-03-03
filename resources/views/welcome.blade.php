@@ -38,6 +38,7 @@
                     <div class="ml-2">
                         {{--リクエスト数のカウント--}}
                         {!!link_to_route('request.asked',$user->requested_count,[$user->id],['class'=>'btn btn-danger w-5'])!!}
+                        {!!link_to_route('teams.invited',$user->invited_count,[$user->id],['class'=>'btn btn-success w-5'])!!}
                     </div>
                 </div>
                 {{--ユーザ写真--}}

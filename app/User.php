@@ -111,7 +111,7 @@ class User extends Authenticatable
     public function friends()
     {   
         //承認したリクエストの数の取得
-        return $this->belongsToMany(User::class,'friends','friend_id','user_id')->where('accept',1)->withTimestamps();;
+        return $this->belongsToMany(User::class,'friends','user_id','friend_id')->where('accept',1)->withTimestamps();;
         
         // return $data1->union($data2->select(DB::raw('users.*, `friends`.`user_id` as `pivot_user_id`, `friends`.`friend_id` as `pivot_friend_id`')));
     
@@ -181,7 +181,7 @@ class User extends Authenticatable
     
     public function loadRelationshipCounts()
     {
-        $this->loadcount('requested','friends','profile',);
+        $this->loadcount('requested','friends','profile','invited',);
     }
     
     public function messages()
@@ -196,6 +196,11 @@ class User extends Authenticatable
     
     public function teams()
     {
-        return $this->belongsToMany(Team::class,'users_teams','team_id','users_id')->withTimestamps();
+        return $this->belongsToMany(Team::class,'users_teams','user_id','team_id')->withTimestamps();
+    }
+    
+    public function invited()
+    {
+        return $this->belongsToMany(Invitation::class,'invitations_users','user_id','invitation_id')->where('accept',0)->withTimestamps();
     }
 }

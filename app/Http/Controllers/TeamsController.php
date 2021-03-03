@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Team;
+use App\Invitation;
 
 class TeamsController extends Controller
 {
@@ -13,17 +15,37 @@ class TeamsController extends Controller
      */
     public function index()
     {
-        //
+        $me=\Auth::user();
+        $own_id=\Auth::id();
+        
+        //ログインユーザに関連するusers_teamsのデータを取得
+        $user_team=$me->teams()->where('user_id',$own_id)->get();
+    
+        $team_ids=$user_team->pluck('team_id');
+        $teams=Team::findOrFail($team_ids);
+        
+        return view('teams.index',[
+            'teams'=>$teams,
+            ]);
+        
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\
      */
     public function create()
     {
-        //
+        $me=\Auth::user();
+        $own_id=\Auth::id();
+        
+        $friends=$me->friends()->where('user_id',$own_id)->get();
+        //dd($friends);
+        
+        return view('teams.create',[
+            'friends'=>$friends
+            ]);
     }
 
     /**
@@ -32,9 +54,30 @@ class TeamsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function invite(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required|max:30',
+            'member1'=>'required|different:member2',
+            'member2'=>'required',
+            ]);
+        
+        $own_id=\Auth::id();
+        $member1=$request->member1;
+        $member2=$request->member2;
+        
+        $invitation=new Invitation;
+        $invitation->captain=$own_id;
+        $invitation->name=$request->name;
+        $invitation->save();
+        
+        $invitation->users()->sync([$member1,$member2]);
+        $invitation->sign();
+        
+        return view ('teams.invite',[
+            'member1'=>$member1,
+            'member2'=>$member2
+            ]);
     }
 
     /**
