@@ -69,6 +69,7 @@ class FriendsController extends Controller
         \Auth::user()->friends()->detach($friend_id);
         //指定ユーザのfriendからユーザを削除
         $user->friends()->detach($my_id);
+        
         //この記述だとリクエストの履歴が残ってしまう
         //\Auth::user()->friends()->updateExistingPivot($friend_id,['accept'=>'0']);
         

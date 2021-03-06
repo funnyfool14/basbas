@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Team;
+use App\User;
 use App\Invitation;
 
 class TeamsController extends Controller
@@ -19,13 +20,12 @@ class TeamsController extends Controller
         $own_id=\Auth::id();
         
         //ログインユーザに関連するusers_teamsのデータを取得
-        $user_team=$me->teams()->where('user_id',$own_id)->get();
-    
-        $team_ids=$user_team->pluck('team_id');
-        $teams=Team::findOrFail($team_ids);
+        $teams=$me->teams()->get();
+        $invitations=$me->invitations()->get();
         
         return view('teams.index',[
             'teams'=>$teams,
+            'invitations'=>$invitations,
             ]);
         
     }
@@ -63,21 +63,70 @@ class TeamsController extends Controller
             ]);
         
         $own_id=\Auth::id();
-        $member1=$request->member1;
-        $member2=$request->member2;
+        $friend1_id=$request->member1;
+        $friend2_id=$request->member2;
+        
+        $friend1=User::findOrFail($friend1_id);
+        $friend2=User::findOrFail($friend2_id);
         
         $invitation=new Invitation;
         $invitation->captain=$own_id;
         $invitation->name=$request->name;
         $invitation->save();
         
-        $invitation->users()->sync([$member1,$member2]);
+        $invitation->users()->sync([$own_id,$friend1_id,$friend2_id]);
         $invitation->sign();
         
         return view ('teams.invite',[
-            'member1'=>$member1,
-            'member2'=>$member2
+            'friend1'=>$friend1,
+            'friend2'=>$friend2,
             ]);
+    }
+    
+    public function invited()
+    {
+        $own_id=\Auth::id();
+        $me=\Auth::user();
+        
+        $invitations=$me->invited()->get();
+        
+        return view('teams.invited',[
+            'invitations'=>$invitations,
+            ]);
+    }
+    
+    public function accept($invitation_id)
+    {
+        $own_id=\Auth::id();
+        $me=\Auth::user();
+        
+        $invitation=Invitation::findOrFail($invitation_id);
+        $invitation->sign();
+        
+        
+        $exsit=$invitation->signed($invitation_id);
+        
+        if($exsit){
+            $team=new Team;
+            $team->name=$invitation->name;
+            $team->name=$invitation->name;
+            $team->captain=$invitation->captain;
+            $team->save();
+            
+            $users=$invitation->users()->pluck('user_id');
+            $team->users()->sync($users);
+            
+        }
+        
+        $invitations=$me->invitations()->where('accept',0)->get();
+        $teams=$me->teams()->get();
+        
+        return view('teams.index',[
+            'teams'=>$teams,
+            'invitations'=>$invitations,
+            ]);
+        
+        
     }
 
     /**

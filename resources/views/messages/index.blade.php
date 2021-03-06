@@ -3,9 +3,8 @@
     @foreach($chats as $chat)
         @foreach($chat->chat_user() as $user)
             <div class="row mt-5">
-                <div class="row col-sm-4">
-                    <h2>{!!$user->firstName!!}</h2>
-                    <h2 class="ml-2">{!!$user->lastName!!}</h2>
+                <div class="col-sm-4">
+                    <h2>{{$user->firstName.' '.$user->lastName}}</h2>
                 </div>
                 <h4 class="col-8">{{$chat->latest_message}}</h4>
             </div>
@@ -16,7 +15,9 @@
                     <div class="offset-1 col-3">
                         {!!link_to_route('messages.show','message',['id'=>$user->id],['class'=>'btn btn-outline-primary btn-block'])!!}
                     </div>
-                    <p class="right">{{$chat->dates()}}</p>
+                    @if(isset($chat->latest_message))
+                        <p class="right">{{$chat->dates()}}</p>
+                    @endif
                 </div>
         @endforeach
     @endforeach

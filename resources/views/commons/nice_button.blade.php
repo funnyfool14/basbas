@@ -7,8 +7,7 @@
     </div>
     @if(Auth::id()!=$picture->user_id)
         <h5 class="col-5 mt-2">
-            {!!link_to_route('users.show',$picture->user->firstName,['user'=>$picture->user_id])!!}
-            {!!link_to_route('users.show',$picture->user->lastName,['user'=>$picture->user_id])!!}                     
+            {!!link_to_route('users.show',$picture->user->firstName.' '.$picture->user->lastName,['user'=>$picture->user_id])!!}
         </h5>
     @endif
     <div class="col-2">

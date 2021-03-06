@@ -17,7 +17,6 @@ class TeamsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->unsignedBigInteger('captain');
-            $table->string('local');
             $table->timestamps();
             
             

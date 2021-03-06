@@ -201,6 +201,14 @@ class User extends Authenticatable
     
     public function invited()
     {
-        return $this->belongsToMany(Invitation::class,'invitations_users','user_id','invitation_id')->where('accept',0)->withTimestamps();
+        $own_id=\Auth::id();
+        return $this->belongsToMany(Invitation::class,'invitations_users','user_id','invitation_id')
+        ->where('user_id',$own_id)
+        ->where('accept',0)->withTimestamps();
+    }
+    
+    public function invitations()
+    {
+        return $this->belongsToMany(Invitation::class,'invitations_users','user_id','invitation_id')->withTimestamps();
     }
 }

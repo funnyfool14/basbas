@@ -29,8 +29,10 @@ Route::group(['middleware'=>['auth']],function(){
     Route::resource('pictures','PicturesController');
     Route::resource('teams','TeamsController');
     Route::post('invite','TeamsController@invite')->name('teams.invite');
-    Route::get('invited','TeamsController@invited')->name('teams.invited');    
-    Route::get('friend{id}','FriendsController@index')->name('friend.index');
+    Route::get('invited','TeamsController@invited')->name('teams.invited');  
+    Route::get('accept/{id}','TeamsController@accept')->name('teams.accept');
+    Route::get('friend/{id}','FriendsController@index')->name('friend.index');
+    
     
     Route::get('messages','MessageController@index')->name('messages.index');
     Route::get('message_to/{id}','MessageController@show')->name('messages.show');

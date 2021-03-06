@@ -2,7 +2,7 @@
 @section('content')
 @if(count($friends)>=2)
     <div class="">
-        <form method="POST" action="{{ route('teams.invite') }}">
+        <form method="POST" action="{{route('teams.invite')}}">
             @csrf
             <div class="form-group">
                 <label for="name">Name</label>
@@ -15,7 +15,7 @@
                     <label for='member1'>member</label>
                     <option value=''disabled selected style='display:none;'>friend の中から選択</option>
                     @foreach($friends as $friend)
-                        <option value='{{$friend->id}}'@if(old('member2')==$friend->id) selected @endif>{{$friend->firstName.' '.$friend->lastName}}</option>
+                        <option value='{{$friend->id}}'@if(old('member1')==$friend->id) selected @endif>{{$friend->firstName.' '.$friend->lastName}}</option>
                     @endforeach
                 </select>
             </div>
