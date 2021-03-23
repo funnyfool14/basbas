@@ -2,7 +2,7 @@
 @section('content')
 @if(count($friends)>=2)
     <div class="">
-        <form method="POST" action="{{route('teams.invite')}}">
+        <form method="POST" action="{{route('invitations.store')}}">
             @csrf
             <div class="form-group">
                 <label for="name">Name</label>
@@ -34,23 +34,6 @@
             </div>    
         </form>
     </div>
-    {{--{!!Form::open(['route'=>['teams.invite'],])!!}
-        <div class="form-group">
-            {!!Form::label('name','Team name')!!}
-            {!!Form::text('name',null,['class'=>'form-control'])!!}
-        </div>
-        <h4>チームメイトを２名 friendから招待する</h4>
-        
-        <div class="form-group">
-            {!!Form::label('member1','member')!!}
-            {!!Form::select('member1',$friends,null,['class'=>'form-control'])!!}
-        </div>
-        <div class="form-group">
-            {!!Form::label('member2','member')!!}
-            {!!Form::select('member2',$friends,null,['class'=>'form-control'])!!}
-        </div>
-        {!!Form::submit('Invite to the team',['class'=>'btn-block mt-4 btn-lg'])!!}
-    {!!Form::close()!!}--}}
 @else
     <div class="centering">
         <h3>friend が２人以上いるとチーム作成ができます</h3>

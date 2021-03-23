@@ -177,12 +177,6 @@ class User extends Authenticatable
         $my_id=\Auth::id();
         return $requestuser->requests()->where('friend_id',$my_id)->exists(); 
     }
-        
-    
-    public function loadRelationshipCounts()
-    {
-        $this->loadcount('requested','friends','profile','invited',);
-    }
     
     public function messages()
     {
@@ -199,16 +193,46 @@ class User extends Authenticatable
         return $this->belongsToMany(Team::class,'users_teams','user_id','team_id')->withTimestamps();
     }
     
-    public function invited()
-    {
-        $own_id=\Auth::id();
-        return $this->belongsToMany(Invitation::class,'invitations_users','user_id','invitation_id')
-        ->where('user_id',$own_id)
-        ->where('accept',0)->withTimestamps();
-    }
     
     public function invitations()
     {
-        return $this->belongsToMany(Invitation::class,'invitations_users','user_id','invitation_id')->withTimestamps();
+        return $this->belongsToMany(Invitation::class,'invitations_users','user_id','invitation_id')->withPivot(['accept'])->withTimestamps();
+    }
+    
+    public function invited()//TOPのチームに招待されている数のカウント
+    {
+        return $this->invitations()->where('accept',0)->withTimestamps();
+    }    
+    
+     public function signed($invitation_id)//招待を受け参加した時の判定
+    {
+        return $this->invitations()->where('invitation_id',$invitation_id)->where('accept',1)->exists();
+    }
+    
+    public function not_signed($invitation_id)//招待を受け返事をしてない時の判定
+    {
+        return $this->invitations()->where('invitation_id',$invitation_id)->where('accept',0)->exists();
+    }
+    
+    public function reinvite()//メンバー招待し直すチームを呼び出す/InvitationController reinvite()
+    {
+        //ログインユーザが関連する中間テーブルでaccept２のInvitation_idを配列で取り出す
+        $invitation_ids=DB::table('invitations_users')->whereIn('invitation_id',function ($query){
+            $query->select('invitation_id')->from('invitations_users')->where('user_id',\Auth::id());
+        })->where('accept',2)->pluck('invitation_id');
+        //invitatio_idからログインユーザがcaptainでチーム結成してないInvitationのインスタンスを呼び出す
+        return Invitation::where('captain',\Auth::id())->where('team_id',null)->find($invitation_ids);
+    }
+    
+    public function reinvite_count()//acceptが0か1のレコードを数える/
+    {
+        //return $this->has('invitations.inviting_users','>=',2)->count();
+        return Invitation::has('inviting_users', '>=', 2)->get()->count();
+        return $this->invitations()->;
+    }
+    
+    public function loadRelationshipCounts()
+    {
+        $this->loadcount('requested','friends','profile','invited',);
     }
 }

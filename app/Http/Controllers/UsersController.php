@@ -20,12 +20,11 @@ class UsersController extends Controller
             $manyShoes=$user->shoes()->orderby('id','desc')->paginate(1);
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
             $profile=$user->profile()->first();
-            
-            foreach($pictures as $picture)
-            $picture->loadRelationshipCounts();
+            $reinvite_count=$user->reinvite_count();
             $user->loadRelationshipCounts();
             
-            $data=['user'=>$user,'manyShoes'=>$manyShoes,'pictures'=>$pictures,'allPictures'=>$allPictures,'profile'=>$profile];
+            $data=['user'=>$user,'manyShoes'=>$manyShoes,'pictures'=>$pictures,
+            'allPictures'=>$allPictures,'profile'=>$profile,'reinvite_count'=>$reinvite_count];
         
         return view('welcome',$data);}
             

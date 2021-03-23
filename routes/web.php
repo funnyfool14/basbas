@@ -28,9 +28,10 @@ Route::group(['middleware'=>['auth']],function(){
     Route::resource('shoes','ShoesController');
     Route::resource('pictures','PicturesController');
     Route::resource('teams','TeamsController');
-    Route::post('invite','TeamsController@invite')->name('teams.invite');
-    Route::get('invited','TeamsController@invited')->name('teams.invited');  
-    Route::get('accept/{id}','TeamsController@accept')->name('teams.accept');
+    Route::resource('invitations','InvitationsController');
+    Route::delete('invitations/quit/{id}','InvitationsController@quit')->name('invitations.quit');
+    Route::get('invitations/reinvite/{id}','InvitationsController@reinvite')->name('invitations.reinvite');
+    Route::post('invitations/reinvite/{id}','InvitationsController@restore')->name('invitations.restore');
     Route::get('friend/{id}','FriendsController@index')->name('friend.index');
     
     

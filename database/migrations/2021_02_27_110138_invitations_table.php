@@ -15,9 +15,12 @@ class InvitationsTable extends Migration
     {
         Schema::create('invitations', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('team_id')->nullable();
             $table->string('name');
             $table->unsignedBigInteger('captain');
             $table->timestamps();
+            
+            $table->foreign('team_id')->references('id')->on('teams');
         });
     }
 

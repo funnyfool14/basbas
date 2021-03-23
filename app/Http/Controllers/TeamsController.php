@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Team;
 use App\User;
 use App\Invitation;
+use Illuminate\Support\Facades\DB;
 
 class TeamsController extends Controller
 {
@@ -19,13 +20,27 @@ class TeamsController extends Controller
         $me=\Auth::user();
         $own_id=\Auth::id();
         
-        //ログインユーザに関連するusers_teamsのデータを取得
+        //user_idにログインユーザのidがある中間テーブルのデータの中からaceptが0の値をもつデータを配列として変数に代入
+        //ログインユーザが０か１にしててまだ０が残ってる未結成のチーム
+        /*$invitation_ids=DB::table('invitations_users')->whereIn('invitation_id',function($query) use ($own_id){
+            $query->select('invitation_id')->from('invitations_users')->where('user_id',$own_id)->where('accept','!=',2);
+        })->where('accept',0)->pluck('invitation_id');*/
+        
+        //ログインユーザが断ってないintationで結成前のデータを取得
+        $invitation_ids=$me->invitations()->where('accept','!=',2)->pluck('invitation_id');
+        $invitations=Invitation::with('users')->where('team_id',null)->find($invitation_ids);
+        //ログインユーザの所属チーム
         $teams=$me->teams()->get();
-        $invitations=$me->invitations()->get();
+        //断ってないinvitation チーム作成数の制限のために使用
+        $invited=$me->invitations()->whereIn('accept',[0,1])->get();
+        //断ったinvitation ”やっぱり参加”用
+        $rejections=$me->invitations()->where('accept',2)->get();
         
         return view('teams.index',[
             'teams'=>$teams,
             'invitations'=>$invitations,
+            'invited'=>$invited,
+            'rejections'=>$rejections
             ]);
         
     }
@@ -37,15 +52,7 @@ class TeamsController extends Controller
      */
     public function create()
     {
-        $me=\Auth::user();
-        $own_id=\Auth::id();
-        
-        $friends=$me->friends()->where('user_id',$own_id)->get();
-        //dd($friends);
-        
-        return view('teams.create',[
-            'friends'=>$friends
-            ]);
+
     }
 
     /**
@@ -54,80 +61,6 @@ class TeamsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function invite(Request $request)
-    {
-        $request->validate([
-            'name'=>'required|max:30',
-            'member1'=>'required|different:member2',
-            'member2'=>'required',
-            ]);
-        
-        $own_id=\Auth::id();
-        $friend1_id=$request->member1;
-        $friend2_id=$request->member2;
-        
-        $friend1=User::findOrFail($friend1_id);
-        $friend2=User::findOrFail($friend2_id);
-        
-        $invitation=new Invitation;
-        $invitation->captain=$own_id;
-        $invitation->name=$request->name;
-        $invitation->save();
-        
-        $invitation->users()->sync([$own_id,$friend1_id,$friend2_id]);
-        $invitation->sign();
-        
-        return view ('teams.invite',[
-            'friend1'=>$friend1,
-            'friend2'=>$friend2,
-            ]);
-    }
-    
-    public function invited()
-    {
-        $own_id=\Auth::id();
-        $me=\Auth::user();
-        
-        $invitations=$me->invited()->get();
-        
-        return view('teams.invited',[
-            'invitations'=>$invitations,
-            ]);
-    }
-    
-    public function accept($invitation_id)
-    {
-        $own_id=\Auth::id();
-        $me=\Auth::user();
-        
-        $invitation=Invitation::findOrFail($invitation_id);
-        $invitation->sign();
-        
-        
-        $exsit=$invitation->signed($invitation_id);
-        
-        if($exsit){
-            $team=new Team;
-            $team->name=$invitation->name;
-            $team->name=$invitation->name;
-            $team->captain=$invitation->captain;
-            $team->save();
-            
-            $users=$invitation->users()->pluck('user_id');
-            $team->users()->sync($users);
-            
-        }
-        
-        $invitations=$me->invitations()->where('accept',0)->get();
-        $teams=$me->teams()->get();
-        
-        return view('teams.index',[
-            'teams'=>$teams,
-            'invitations'=>$invitations,
-            ]);
-        
-        
-    }
 
     /**
      * Display the specified resource.
@@ -169,6 +102,7 @@ class TeamsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+     
     public function destroy($id)
     {
         //

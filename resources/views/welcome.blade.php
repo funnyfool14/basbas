@@ -33,14 +33,17 @@
             <div class="col-sm-6">
             {{--ユーザ名--}}
                 <div class="row">
-                    <h3 class="offset-6">{{ Auth::user()->firstName.' '.Auth::user()->lastName}}</h3>
+                    <h3 class="offset-6">{{Auth::user()->firstName.' '.Auth::user()->lastName}}</h3>
                     <div class="ml-2">
                         {{--リクエスト数のカウント--}}
                         @if($user->requested_count)
                             {!!link_to_route('request.asked',$user->requested_count,[$user->id],['class'=>'btn btn-danger w-5'])!!}
                         @endif
                         @if($user->invited_count)
-                            {!!link_to_route('teams.invited',$user->invited_count,[],['class'=>'btn btn-success w-5'])!!}
+                            {!!link_to_route('invitations.index',$user->invited_count,[],['class'=>'btn btn-success w-5'])!!}
+                        @endif
+                        @if(($reinvite_count)>0)
+                            {!!link_to_route('invitations.reinvite',$reinvite_count,[$user->id],['class'=>'btn btn-secondary w-5'])!!}
                         @endif
                     </div>
                 </div>

@@ -1,26 +1,48 @@
 @extends('commons.layouts')
 @section('content')
-    @if(count($teams)>0)
+    {{--所属チームがある--}}
+    @if($teams->isNotEmpty())
+        <h4 class="text-center">所属チーム情報</h4>
         @foreach($teams as $team)
-            <div class="">
+            <div class="mt-2">
                 <h2>{{$team->name}}</h2>
             </div>
         @endforeach
-        @if(count($invitations)>0)
-            @foreach($invitations as $invitation)
-                <h2>{{$invitation->name}}</h2>
-                {{--<h2>{{$invitation->unsigned}}の承認待ち</h2>--}}
-            @endforeach
+        {{--招待を受けている--}}
+        @if($invitations->isNotEmpty())
+            @include('invitations.answer')
         @endif
+        {{--一度断った未結成チーム--}}
+        @if($rejections->isNotEmpty())
+            @include('invitations.rejoin')
+        @endif
+    {{--所属チームがなく招待を受けてる--}}    
+    @elseif($invitations->isNotEmpty())
+        @include('invitations.answer')
+        {{--一度断った招待--}}
+        @if($rejections->isNotEmpty())
+            @include('invitations.rejoin')
+        @endif    
+    {{--所属チームがなく招待を一度断った--}}
+    @elseif($rejections->isNotEmpty())
+        @include('invitations.rejoin')
+    {{--所属も招待も受けてない--}}    
     @else
         <div class="centering">
             <h3>所属チームの情報がありません</h3>
+        </div>
+    @endif
+    {{--断ってない招待が３つ以下--}}
+    @if(count($invited)<=10)
+        <div class="text-center">
             <div class="mt-5 offset-4 col-4">
-                {!!link_to_route('users.index','find a team',[],['class'=>'btn btn-outline-success btn-block'])!!}{{--仮ボタン--}}
-            </div>
-            <div class="mt-5 offset-4 col-4">
-                {!!link_to_route('teams.create','create a team',[],['class'=>'btn btn-outline-primary btn-block'])!!}
+                {!!link_to_route('invitations.create','create a team',[],['class'=>'btn btn-outline-success btn-block'])!!}
             </div>
         </div>
     @endif
+        <div class="text-center mt-5">
+            <div class="mt-5 offset-4 col-4">
+                {!!link_to_route('users.index','チームを探す',[],['class'=>'btn btn-outline-primary btn-block'])!!}{{--仮ボタン--}}
+            </div>
+        </div>
 @endsection(‘content’)
