@@ -116,15 +116,9 @@ class InvitationsController extends Controller
             $team->invitation_id=$invitation_id;
             $team->captain=$invitation->captain;
             $team->save();
-            
+
             $invitation->team_id=$team->id;
             $invitation->save();
-            
-            //招待を断ったユーザ
-            $reject=$invitation->users()->where('accept',2)->pluck('user_id');
-            $invitation->users()->detach($reject);
-            
-            
             $users=$invitation->users()->where('accept',1)->pluck('user_id');
             $team->users()->sync($users);
         }

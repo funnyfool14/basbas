@@ -8,7 +8,7 @@
                 <h2>{{$team->name}}</h2>
             </div>
         @endforeach
-        {{--招待を受けている--}}
+        {{--招待を受けているorしている--}}
         @if($invitations->isNotEmpty())
             @include('invitations.answer')
         @endif

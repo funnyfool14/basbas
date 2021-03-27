@@ -226,9 +226,7 @@ class User extends Authenticatable
     
     public function reinvite_count()//acceptが0か1のレコードを数える/
     {
-        //return $this->has('invitations.inviting_users','>=',2)->count();
-        return Invitation::has('inviting_users', '>=', 2)->get()->count();
-        return $this->invitations()->;
+        return Invitation::has('inviting_users', '<=',2)->where('captain',\Auth::id())->count();
     }
     
     public function loadRelationshipCounts()

@@ -63,11 +63,15 @@ class Invitation extends Model
         })->find($friend_ids);
     }
     
-    public function inviting_users()//acceptni0か1のレコードがあるinvitation
+    public function inviting_users()//acceptni0か1のレコード
     {
-        $hoge=$this->users()->where('accept',0)->orWhere('accept',1)->pluck('invitation_id');
-        dd($hoge);
-        return $this->users()->where('accept',0)->orWhere('accept',1);
+        //return $this->users()->where('accept',0)->orWhere('accept',1);
+        return $this->users()->wherePivotIn('accept', [0, 1]);
+        /*$own_id=\Auth::id();
+        
+        return DB::table('invitations_users')->whereIn('invitation_id',function($query)use($own_id){
+            $query->select('invitation_id')->from('invitations_users')->where('user_id',$own_id);
+        })->wherePivotIn('accept', [0, 1]);*/
     }
     
 }

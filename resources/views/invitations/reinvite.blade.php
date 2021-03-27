@@ -8,7 +8,7 @@
                 <form method="POST" action="{{route('invitations.restore',$invitation->id)}}">
                     @csrf
                     <h4 class='mt-4'>チームメイトを friendから招待する</h4>
-                    @if(count($invitation->accept())==2)
+                    @if(count($invitation->waiting())==2)
                         <div class="">
                             <label for='formInputName' class='mt-2'>member</label>
                             <select class='form-control'name='member1'>
@@ -19,7 +19,7 @@
                                 @endforeach
                             </select>    
                         </div>
-                    @elseif(count($invitation->accept())==1)
+                    @elseif(count($invitation->waiting())==1)
                         <div class="">
                             <label for='formInputName' class='mt-2'>member</label>
                             <select class='form-control'name='member1'>
