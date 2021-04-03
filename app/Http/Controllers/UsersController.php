@@ -21,6 +21,9 @@ class UsersController extends Controller
             $pictures=$user->pictures()->orderby('created_at','desc')->get();
             $profile=$user->profile()->first();
             $reinvite_count=$user->reinvite_count();
+            
+            foreach($pictures as $picture)
+            $picture->loadRelationshipCounts();
             $user->loadRelationshipCounts();
             
             $data=['user'=>$user,'manyShoes'=>$manyShoes,'pictures'=>$pictures,

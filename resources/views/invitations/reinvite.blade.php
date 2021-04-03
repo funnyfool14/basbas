@@ -1,7 +1,7 @@
 @extends('commons.layouts')
 @section('content')
     @foreach($invitations as $invitation)
-        @if(count($invitation->waiting())==3)
+        @if(count($invitation->waiting())>=3)
         @else
             <h3 class='mt-5 mb-3'>{{$invitation->name}}</h3>
             <div class="">

@@ -27,13 +27,13 @@ Route::group(['middleware'=>['auth']],function(){
     Route::resource('profile','ProfileController');
     Route::resource('shoes','ShoesController');
     Route::resource('pictures','PicturesController');
-    Route::resource('teams','TeamsController');
+    Route::resource('team','TeamController');
     Route::resource('invitations','InvitationsController');
     Route::delete('invitations/quit/{id}','InvitationsController@quit')->name('invitations.quit');
     Route::get('invitations/reinvite/{id}','InvitationsController@reinvite')->name('invitations.reinvite');
     Route::post('invitations/reinvite/{id}','InvitationsController@restore')->name('invitations.restore');
     Route::get('friend/{id}','FriendsController@index')->name('friend.index');
-    
+    Route::resource('introduction','IntroductionController');
     
     Route::get('messages','MessageController@index')->name('messages.index');
     Route::get('message_to/{id}','MessageController@show')->name('messages.show');

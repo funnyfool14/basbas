@@ -1,3 +1,13 @@
+.bg{
+  width: 100%;
+  height:100vh;
+  background-image: url(../image/basket_coat.jpg);
+  background-position: center center; /*画像を常に上下左右の中央に配置させる*/
+  /*background-repeat: no-repeat; /*画像を繰り返し表示しないようにする*/
+  background-attachment: fixed; /*ページなどのコンテンツの高さが画像より大きい場合は自動で調整してくれる*/
+  background-size: cover;/*画面、ブラウザのサイズに基づいて、背景画像を調整*/
+}
+
 .xxxx{
     line-height:  0px;
 }
@@ -47,6 +57,39 @@
     
 }
 
+.team_pic{
+    margin-top: 40px;
+    border-radius: 50%;
+    width: 500px;
+    height: 500px;
+    object-fit: cover;
+    
+}
+
 .profile_edit{
     margin-top: 100px;
+}
+
+.team_pic_small{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+}
+
+.logo_pic{
+    margin-bottom: 20px;
+    width: 300px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.logo_pic_small{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 150px;
+    height: 60px;
+    object-fit: cover;
 }
