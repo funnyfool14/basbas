@@ -19,6 +19,10 @@ class IntroductionsTable extends Migration
             $table->integer('accept_opponents')->default(0);
             $table->integer('accept_members')->default(0);
             $table->string('local')->nullable();
+            $table->string('coat')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('generation')->nullable();
+            $table->string('level')->nullable();
             $table->unsignedBigInteger('deputy')->nullable();
             $table->string('logo_pic')->nullable();
             $table->string('team_pic')->nullable();

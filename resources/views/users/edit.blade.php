@@ -87,8 +87,7 @@
                 {{--表示右側--}}
                 <div class="col-sm-6">
                     <div class="row">
-                        <h3 class="text-right">{{ Auth::user()->firstName}}</h3>
-                        <h3 class="text-right ml-2">{{ Auth::user()->lastName}}</h3>
+                        <h3 class="text-right">{{ Auth::user()->firstName.' '.Auth::user()->lastName}}</h3>
                     </div>
                     <div class="text-right">
                         {!!Form::model($user,['route'=>['users.update',$user->id],'method'=>'put'])!!}

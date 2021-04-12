@@ -8,6 +8,7 @@ use App\User;
 use App\Invitation;
 use App\Introduction;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class TeamController extends Controller
 {
@@ -73,12 +74,10 @@ class TeamController extends Controller
     {
         $team=Team::find($id);
         $members=$team->members();
-        $captain=User::find($team->captain);
         $introduction=$team->introduction()->first();
         
         return view('team.show',[
             'team'=>$team,
-            'captain'=>$captain,
             'members'=>$members,
             'introduction'=>$introduction,
             ]);
@@ -93,14 +92,14 @@ class TeamController extends Controller
     public function edit($team_id)
     {
         $team=Team::find($team_id);
-        $introduction=$team->introduction()->get();
+        $introduction=$team->introduction()->first();
         
-        if($introduction->isEmpty()){
+        if(empty($introduction)){
             $introduction=new Introduction;
             $introduction->team_id=$team_id;
             $introduction->save();
         }
-        
+
         return view('team.edit',[
             'team'=>$team,
             'introduction'=>$introduction,
@@ -119,31 +118,41 @@ class TeamController extends Controller
     {
         $request->validate([
             'local'=>'max:20',
+            'coat'=>'max:20',
             'logo_pic'=>'image',
             'team_pic'=>'image',
             'local'=>'max:20',
             'coment'=>'max:255',
             ]);
-            
-        $introduction->team_id=$team_id;
+        
+        $team=Team::find($team_id);
+        $introduction=Introduction::where('team_id',$team_id)->first();
+        
         $introduction->local=$request->local;
-        $introduction->deputy=$request->depty->id;
+        $introduction->coat=$request->coat;
+        $introduction->level=$request->level;
+        $introduction->deputy=$request->deputy;
         $introduction->coment=$request->coment;
         
-        
+        if($request->file('logo_pic')){
         $logo_pic=$request->file('logo_pic');
         $logo_path=Storage::disk('s3')->putfile('logo_album',$logo_pic,'public');
         $logo_url=Storage::disk('s3')->url($logo_path);
         $introduction->logo_pic=$user_url;
-            
+        }
+        
+        if($request->file('team_pic')){    
         $team_pic=$request->file('team_pic');
         $logo_path=Storage::disk('s3')->putfile('team_album',$team_pic,'public');
         $team_url=Storage::disk('s3')->url($team_path);
         $introduction->team_pic=$team_url;
+        }
         
         $introduction->save();
         
-        return redirect(route('team.show'));
+        return redirect(route('team.show',[
+            'team'=>$team
+            ]));
     }
 
     /**
