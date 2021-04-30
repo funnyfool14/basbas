@@ -209,4 +209,5 @@ class InvitationsController extends Controller
             'invitations'=>$invitations,
             ]);
      }
+     
 }

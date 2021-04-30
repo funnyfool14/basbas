@@ -42,7 +42,7 @@
     @endif
         <div class="text-center mt-5">
             <div class="mt-5 offset-4 col-4">
-                {!!link_to_route('users.index','チームを探す',[],['class'=>'btn btn-outline-primary btn-block'])!!}{{--仮ボタン--}}
+                {!!link_to_route('team.search','チームを探す',[],['class'=>'btn btn-outline-primary btn-block'])!!}
             </div>
         </div>
 @endsection(‘content’)

@@ -11,10 +11,10 @@
                             {{--画像投稿ボタン--}}
                             {!!link_to_route('pictures.create','new pic',[],['class'=>'btn btn-outline-success btn-block'])!!}
                         </div>
+                        <div class="mt-2">
                             {{--各ユーザの最新のメッセージ確認--}}
-                            <div class="mt-2">
-                                {!!link_to_route('messages.index','message',[],['class'=>'btn btn-outline-secondary btn-block'])!!}
-                            </div>
+                            {!!link_to_route('messages.index','message',[],['class'=>'btn btn-outline-secondary btn-block'])!!}
+                        </div>
                         <div class="mt-2">
                             {{--friend一覧へ--}}
                             {!!link_to_route('friend.index','friends',['id'=>$user->id],['class'=>'btn btn-outline-primary btn-block'])!!}

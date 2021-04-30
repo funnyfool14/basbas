@@ -89,9 +89,10 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($team_id)
+    public function edit($team_id)//IntroductionControllerに移行
+        
     {
-        $team=Team::find($team_id);
+        /*$team=Team::find($team_id);
         $introduction=$team->introduction()->first();
         
         if(empty($introduction)){
@@ -103,8 +104,7 @@ class TeamController extends Controller
         return view('team.edit',[
             'team'=>$team,
             'introduction'=>$introduction,
-            ]);
-        
+            ]);*/
     }
 
     /**
@@ -114,9 +114,9 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $team_id)
+    public function update(Request $request, $team_id)//IntroductionControllerに移行
     {
-        $request->validate([
+        /*$request->validate([
             'local'=>'max:20',
             'coat'=>'max:20',
             'logo_pic'=>'image',
@@ -128,8 +128,11 @@ class TeamController extends Controller
         $team=Team::find($team_id);
         $introduction=Introduction::where('team_id',$team_id)->first();
         
+        $team->name=$request->name;
         $introduction->local=$request->local;
         $introduction->coat=$request->coat;
+        $introduction->gender=$request->gender;
+        $introduction->generation=$request->generation;
         $introduction->level=$request->level;
         $introduction->deputy=$request->deputy;
         $introduction->coment=$request->coment;
@@ -138,21 +141,22 @@ class TeamController extends Controller
         $logo_pic=$request->file('logo_pic');
         $logo_path=Storage::disk('s3')->putfile('logo_album',$logo_pic,'public');
         $logo_url=Storage::disk('s3')->url($logo_path);
-        $introduction->logo_pic=$user_url;
+        $introduction->logo_pic=$logo_url;
         }
         
         if($request->file('team_pic')){    
         $team_pic=$request->file('team_pic');
-        $logo_path=Storage::disk('s3')->putfile('team_album',$team_pic,'public');
+        $team_path=Storage::disk('s3')->putfile('team_album',$team_pic,'public');
         $team_url=Storage::disk('s3')->url($team_path);
         $introduction->team_pic=$team_url;
         }
         
+        $team->save();
         $introduction->save();
         
         return redirect(route('team.show',[
             'team'=>$team
-            ]));
+            ]));*/
     }
 
     /**
@@ -165,5 +169,70 @@ class TeamController extends Controller
     public function destroy($id)
     {
         //
+    }
+    
+    public function accept_opponents($team_id)
+    {
+        $team=Team::find($team_id);
+        $introduction=$team->introduction()->first();
+        $introduction->accept_opponents=1;
+        
+        $introduction->save();
+        
+        return redirect(route('team.show',[
+            'team'=>$team,]
+        ));
+        
+    }
+    
+    public function reject_opponents($team_id)
+    {
+        $team=Team::find($team_id);
+        $introduction=$team->introduction()->first();
+        $introduction->accept_opponents=0;
+        
+        $introduction->save();
+        
+        return redirect(route('team.show',[
+            'team'=>$team,]
+        ));
+        
+    }
+    
+    public function accept_members($team_id)
+    {
+        $team=Team::find($team_id);
+        $introduction=$team->introduction()->first();
+        $introduction->accept_members=1;
+        
+        $introduction->save();
+        
+        return redirect(route('team.show',[
+            'team'=>$team,]
+        ));
+        
+    }
+    
+    public function reject_members($team_id)
+    {
+        $team=Team::find($team_id);
+        $introduction=$team->introduction()->first();
+        $introduction->accept_members=0;
+        
+        $introduction->save();
+        
+        return redirect(route('team.show',[
+            'team'=>$team,]
+        ));
+        
+    }
+    
+    public function search()
+    {
+        $teams=Team::all();
+
+        return view ('team.search',[
+            'teams'=>$teams,
+            ]);
     }
 }

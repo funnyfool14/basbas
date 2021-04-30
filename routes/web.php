@@ -28,12 +28,24 @@ Route::group(['middleware'=>['auth']],function(){
     Route::resource('shoes','ShoesController');
     Route::resource('pictures','PicturesController');
     Route::resource('team','TeamController');
+    Route::get('team.search','TeamController@search')->name('team.search');
+    Route::put('accept_opponents/{id}','TeamController@accept_opponents')->name('team.accept_opponents');
+    Route::put('reject_opponents/{id}','TeamController@reject_opponents')->name('team.reject_opponents');
+    Route::put('accept_members/{id}','TeamController@accept_members')->name('team.accept_members');
+    Route::put('reject_members/{id}','TeamController@reject_members')->name('team.reject_members');
     Route::resource('invitations','InvitationsController');
     Route::delete('invitations/quit/{id}','InvitationsController@quit')->name('invitations.quit');
     Route::get('invitations/reinvite/{id}','InvitationsController@reinvite')->name('invitations.reinvite');
     Route::post('invitations/reinvite/{id}','InvitationsController@restore')->name('invitations.restore');
     Route::get('friend/{id}','FriendsController@index')->name('friend.index');
     Route::resource('introduction','IntroductionController');
+    //入部申込
+    Route::get('application/{id}','ApplicationsController@join')->name('application.join');
+    Route::get('application/index/{application}','ApplicationsController@index')->name('application.index');
+    Route::post('application/{application}','ApplicationsController@message')->name('application.message');
+    Route::delete('application/{message}','ApplicationsController@destroy')->name('application.message_delete');
+    Route::put('application/{message}','ApplicationsController@check')->name('application.message_check');
+    Route::put('application/recheck/{message}','ApplicationsController@recheck')->name('application.message_recheck');
     
     Route::get('messages','MessageController@index')->name('messages.index');
     Route::get('message_to/{id}','MessageController@show')->name('messages.show');

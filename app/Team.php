@@ -18,17 +18,26 @@ class Team extends Model
     {
             $introduction=$this->introduction()->first();
             if($introduction){
+                //副キャプテンがいる時
                 if($introduction->deputy){
+                    //キャプテンと副キャプテン以外のメンバーを返す
                     return $this->users()->whereNotIn('user_id',[$this->captain,$this->deputy()->id])->get();
                 }
                 else{
+                    //副キャプテンがいなければキャプテン以外のメンバーを返す
                     return $this->users()->where('user_id','!=',$this->captain)->get();
                 }
             }
             else{
+                //intoroductionがまだなければキャプテン以外のメンバーを返す
                 return $this->users()->where('user_id','!=',$this->captain)->get();
             }
-            
+    }
+        
+    public function is_member()//募集中表示のメンバー判定
+    {
+        return $this->users()->where('user_id',\Auth::id())->exists();
+        
     }
     
      public function appointment()//キャプテン以外のメンバー/副キャプテンの任命
@@ -39,6 +48,7 @@ class Team extends Model
     {
         return User::find($this->captain);
     }
+    
     public function deputy()
     {
         $introduction=$this->introduction()->first();
@@ -46,5 +56,10 @@ class Team extends Model
         
         return User::find($user_id);
     }
-     
+    
+    public function application()
+    {
+        return $this->hasOne(Application::class)->first();
+    }
+    
 }
