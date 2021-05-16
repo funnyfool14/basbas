@@ -11,7 +11,7 @@ class Team_message extends Model
         return $this->belongsTo(User::class)->first();
     }
     
-    public function team()//messageからテームを呼び出す
+    public function team()//messageからテームを呼び出す/applicatin.showをメッセージ振り分けるために使用
     {
         $application=Application::find($this->application_id);
         return Team::find($application->team_id)->first();

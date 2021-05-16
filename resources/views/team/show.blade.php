@@ -1,6 +1,7 @@
 @extends('commons.layouts')
 @section('content')
 <div class="row">
+    {{--画面左側--}}
     <div class="col-sm-6">
         <div class="row mb-5">
             <h1 class='mt-5 mb-5'>{{$team->name}}</h1>
@@ -31,47 +32,60 @@
         </div>
         <div class='mt-5'>
             @if($team->is_member())
-                    <div class="mt-2">
-                        {{--メッセージボードボタン--}}
-                        <div class='col-sm-4'>
-                            {!!link_to_route('team.show','掲示板作成予定',[$team->id],['class'=>'btn btn-outline-primary btn-block'])!!}
-                        </div>
+                <div class="mt-2">
+                    {{--メッセージボードボタン--}}
+                    <div class='col-sm-4'>
+                        {!!link_to_route('team.show','掲示板作成予定',[$team->id],['class'=>'btn btn-outline-primary btn-block'])!!}
                     </div>
-                    <div class="mt-2">
-                        {{--他チームとの連絡--}}
-                        <div class='col-sm-4'>
-                            {!!link_to_route('team.show','他チーム交流',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
-                        </div>
+                </div>
+                <div class="mt-2">
+                    {{--他チームとの連絡--}}
+                    <div class='col-sm-4'>
+                        {!!link_to_route('team.show','他チーム交流',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
                     </div>
-                    <div class="mt-2">
-                        @if($team->application())
-                            {{--入部申込確認--}}
+                </div>
+                <div class="mt-2">
+                    {{--入部申込確認--}}
+                    @if($introduction)    
+                        @if(($introduction->accept_members)==1)
                             <div class='row'>
                                 <div class='col-sm-4'>
                                     {!!link_to_route('application.index','入部問い合わせ',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
                                 </div>
-                                <p class='btn btn-danger ml-1'>{{$team->application()->unchecked_messages_count()}}</p>
+                                @if(($team->application()->unchecked_messages_count())>=1)
+                                    <p class='btn btn-danger ml-1'>{{$team->application()->unchecked_messages_count()}}</p>
+                                @endif
                             </div>
-                        @endif 
-                    </div>
+                        @endif
+                    @endif
+                </div>
             @else
                 <div class="col-4">
                     <div class="mt-2">
                         {{--他チームとの連絡--}}
                         {!!link_to_route('team.show','チーム交流',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
                     </div>
-                        <div class="mt-2">
-                        {{--入部申込確認--}}
-                        {!!link_to_route('application.join','問い合わせ',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
+                    <div class="mt-2">
+                        @if($introduction)    
+                            @if(($introduction->accept_members)==1)    
+                                {{--入部申込確認--}}
+                                @if($team->applicant())
+                                    {!!link_to_route('application.show','問い合わせ',[$connect_id],['class'=>'btn btn-outline-success btn-block'])!!}
+                                @else
+                                    {!!link_to_route('application.apply','問い合わせ',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
+                                @endif
+                            @endif
+                        @endif
                     </div>
                 </div>
-            @endif 
-        </div>
+            @endif
+        </div>    
     </div>
     {{--画面右側--}}
     <div class="col-sm-6">
         <div class='mb-2'>
             {{--introduction入力済み--}}
+            {{--acceptボタン--}} 
             @if($introduction)
                 <div class='accept_button'>
                     {{--キャプテン用--}}
@@ -85,14 +99,18 @@
                     @else
                         <div class='row'>
                             <div class='col-sm-6 btn'>
-                        @if(($introduction->accept_opponents)==1)
-                            <button class='btn btn-outline-primary btn-block'>対戦相手募集中</button>
-                        @endif
+                                @if(($introduction->accept_opponents)==1)
+                                    <button class='btn btn-outline-primary btn-block'>対戦相手募集中</button>
+                                @endif
                             </div>
                             <div class='col-sm-6 btn'>
-                        @if(($introduction->accept_members)==1)
-                            {{link_to_route('application.join','新メンバー募集中',[$team->id],['class'=>'btn btn-outline-primary btn-block'])}}
-                        @endif
+                                @if(($introduction->accept_members)==1)
+                                    @if($team->applicant())
+                                        {{link_to_route('application.show','新メンバー募集中',[$connect_id],['class'=>'btn btn-outline-primary btn-block'])}}
+                                    @else
+                                        {{link_to_route('application.apply','新メンバー募集中',[$team->id],['class'=>'btn btn-outline-primary btn-block'])}}
+                                    @endif    
+                                @endif
                             </div>
                         </div>
                     @endif
@@ -106,8 +124,12 @@
             {{--introduction未入力--}}
             @else
                 @if(($team->captain)==Auth::id())
-                    @include('team.show_button')
-                @endif    
+                    @include('team.show_accept')
+                    {{--編集ボタン--}}
+                    <div class="offset-sm-10 col-sm-2">
+                        {{link_to_route('introduction.edit','edit',[$team->id],['class'=>'btn btn-outline-primary btn-block'])}}
+                    </div> 
+                @endif
                 <img class="team_pic"src="{{asset('image/team_pic2.jpg')}}" alt="">
             @endif
         </div>    
@@ -149,6 +171,5 @@
                 </div>    
             @endif
         @endif
-    </div>
-</div>    
+    </div> 
 @endsection('content')

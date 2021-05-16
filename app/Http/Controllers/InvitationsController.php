@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Invitation;
 use App\Team;
+use App\Application;
 use Illuminate\Support\Facades\DB;
 
 class InvitationsController extends Controller
@@ -113,21 +114,28 @@ class InvitationsController extends Controller
             
             $team=new Team;
             $team->name=$invitation->name;
-            $team->invitation_id=$invitation_id;
+            //$team->invitation_id=$invitation_id;/teamのテーブルを変更
             $team->captain=$invitation->captain;
             $team->save();
 
-            $invitation->team_id=$team->id;
-            $invitation->save();
+            //$invitation->team_id=$team->id;
+            //$invitation->save();
             $users=$invitation->users()->where('accept',1)->pluck('user_id');
             $team->users()->sync($users);
+            $invitation->delete();
+            
+            $application=new Application;
+            $application->team_id=$team->id;
+            $application->save();
+            
+            
         }
         
         /*$invitation_ids=DB::table('invitations_users')->whereIn('invitation_id',function($query) use ($own_id){
             $query->select('invitation_id')->from('invitations_users')->where('user_id',$own_id);
         })->where('accept',0)->pluck('invitation_id');*/
         
-        return redirect(route('teams.index'));
+        return redirect(route('team.index'));
     }
 
     /**
@@ -188,7 +196,7 @@ class InvitationsController extends Controller
         $invitation=Invitation::find($invitation_id);
         $invitation->not_sign($own_id);
         
-        return redirect(route('teams.index'));
+        return redirect(route('team.index'));
     }
     
      public function quit($invitation_id)
@@ -196,7 +204,7 @@ class InvitationsController extends Controller
         $invitation=Invitation::find($invitation_id);
         $invitation->delete();
         
-        return redirect(route('teams.index'));         
+        return redirect(route('team.index'));         
      }
      
      public function reinvite($own_id)

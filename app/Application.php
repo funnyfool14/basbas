@@ -8,7 +8,7 @@ class Application extends Model
 {
     public function messages()
     {
-        return $this->hasMany(Team_message::class)->where('application_id',$this->id)->orderBy('id','desc')->get();
+        return $this->hasMany(Team_message::class)->orderBy('created_at','desc')->get();
     }
     
     public function unchecked_messages_count()
@@ -22,8 +22,34 @@ class Application extends Model
         return $this->belongsToMany(User::class,'users_applications','application_id','user_id')->withTimestamps();
     }
     
-    /*public function user()//4/29削除
+    public function connect()//中間テーブルのデータを呼び出す
     {
-        return $this->users()->where('user_id',\Auth::id())->first();
-    }*/
+        return \DB::table('users_applications')->where('application_id',$this->id)->where('user_id',\Auth::id())->first();
+    }
+    
+    public function team()
+    {
+        return $this->belongsTo(Team::class)->first();
+    }
+    
+    public function applicant()
+    {
+        return $this->users()->where('user_id',\Auth::id())->exists();
+    }
+    
+    public function not_applicant()
+    {
+        return $this->users()->where('user_id',\Auth::id())->doesntExist();
+    }
+    
+    public function last_message()//中間テーブルのlast_message呼び出す
+    {
+        return DB::table('users_applications')->where('id',$connect_id)->first()->last_message;
+    }
+    
+    public function apply()//中間テーブルのacceptの値を判別/application.showの入部申込ボタンに使用
+    {
+        return $this->connect()->accept;
+    }
+    
 }

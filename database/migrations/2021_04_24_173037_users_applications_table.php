@@ -18,6 +18,7 @@ class UsersApplicationsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('application_id');
             $table->integer('accept')->default(0);
+            $table->text('last_message')->nullable();
             $table->timestamps();
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

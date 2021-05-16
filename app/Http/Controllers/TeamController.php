@@ -75,12 +75,24 @@ class TeamController extends Controller
         $team=Team::find($id);
         $members=$team->members();
         $introduction=$team->introduction()->first();
+        if($team->application()->connect()){
+            $connect_id=$team->application()->connect()->id;
+        }
         
+        
+        if($team->applicant()){
         return view('team.show',[
             'team'=>$team,
             'members'=>$members,
             'introduction'=>$introduction,
+            'connect_id'=>$connect_id
             ]);
+        }
+        return view('team.show',[
+            'team'=>$team,
+            'members'=>$members,
+            'introduction'=>$introduction,
+        ]);
     }
 
     /**

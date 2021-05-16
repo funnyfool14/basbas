@@ -233,4 +233,26 @@ class User extends Authenticatable
     {
         $this->loadcount('requested','friends','profile','invited',);
     }
+    
+    public function application()
+    {
+        return $this->belongsToMany(Application::class,'users_applications','user_id','application_id')->withTimestamps();
+    }
+    
+    
+    public function apply_message($team_id)//(application.index)で$applicantから呼び出し
+    {
+        $connect_id=DB::table('users_applications')->where('user_id',$this->id)->where('application_id',function($application_id)use($team_id){
+            $application_id->select('id')->from('applications')->where('team_id',$team_id);
+        })->first()->id;
+        
+        return DB::table('users_applications')->where('id',$connect_id)->first()->last_message;
+    }
+    
+    public function application_connect($team_id)//userのidからusers_applicationsのidを呼び出す/(application.index)から(application.show)に遷移
+    {
+        return DB::table('users_applications')->where('user_id',$this->id)->where('application_id',function($application_id)use($team_id){
+            $application_id->select('id')->from('applications')->where('team_id',$team_id);
+        })->first();
+    }
 }

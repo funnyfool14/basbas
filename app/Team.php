@@ -37,8 +37,13 @@ class Team extends Model
     public function is_member()//募集中表示のメンバー判定
     {
         return $this->users()->where('user_id',\Auth::id())->exists();
-        
     }
+    public function not_member($user_id)//非メンバー判定
+    {
+        return $this->users()->where('user_id',$user_id)->doesntExist();
+    }
+    
+    
     
      public function appointment()//キャプテン以外のメンバー/副キャプテンの任命
      {
@@ -61,5 +66,17 @@ class Team extends Model
     {
         return $this->hasOne(Application::class)->first();
     }
+    
+    public function applicant()
+    {
+        return $this->application()->users()->where('user_id',\Auth::id())->exists();
+    }
+   /* public function unchecked_messages_count()
+    {
+        $aprications=$this->applications();
+        foreach($aprications as $application){
+            $
+        }
+    }*/
     
 }

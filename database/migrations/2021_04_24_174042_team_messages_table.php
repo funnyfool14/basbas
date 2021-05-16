@@ -16,6 +16,7 @@ class TeamMessagesTable extends Migration
         Schema::create('team_messages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('connect_id');
             $table->unsignedBigInteger('application_id');
             $table->text('message');
             $table->integer('check')->default(0);

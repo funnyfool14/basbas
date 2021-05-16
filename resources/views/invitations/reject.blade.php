@@ -13,7 +13,7 @@
         </div>
         <div class="col-3">
             {{--チームの一覧画面へ--}}
-            {!!link_to_route('teams.index','もう少し考える',[],['class'=>'btn btn-outline-success btn-block'])!!}
+            {!!link_to_route('team.index','もう少し考える',[],['class'=>'btn btn-outline-success btn-block'])!!}
         </div>
     </div>
 @endsection('content')

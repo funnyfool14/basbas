@@ -71,7 +71,10 @@ class MessageController extends Controller
         $own_id=\Auth::id();
         $user=User::findOrFail($user_id);
         
-        //$user_idの関連するchat_idと共通の値���もつ中間テーブルのデータから$own_idをもつデータを取得
+        $request->validate([
+            'message'=>'required|max:100']);
+        
+        //$user_idの関連するchat_idと共通の値をもつ中間テーブルのデータから$own_idをもつデータを取得
         $user_chat=DB::table('users_chats')->whereIn('chat_id',function($query)use($user_id,$own_id){
             $query->select('chat_id')->from('users_chats')->where('user_id',$user_id);
         })->where('user_id',$own_id)->first();

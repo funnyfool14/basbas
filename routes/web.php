@@ -40,12 +40,16 @@ Route::group(['middleware'=>['auth']],function(){
     Route::get('friend/{id}','FriendsController@index')->name('friend.index');
     Route::resource('introduction','IntroductionController');
     //入部申込
-    Route::get('application/{id}','ApplicationsController@join')->name('application.join');
+    Route::get('apply/{id}','ApplicationsController@apply')->name('application.apply');
+    Route::get('application/{id}','ApplicationsController@show')->name('application.show');
     Route::get('application/index/{application}','ApplicationsController@index')->name('application.index');
     Route::post('application/{application}','ApplicationsController@message')->name('application.message');
     Route::delete('application/{message}','ApplicationsController@destroy')->name('application.message_delete');
     Route::put('application/{message}','ApplicationsController@check')->name('application.message_check');
     Route::put('application/recheck/{message}','ApplicationsController@recheck')->name('application.message_recheck');
+    Route::put('application/request/{id}','ApplicationsController@request')->name('application.request');
+    Route::get('application/accept_check/{connect_id}','ApplicationsController@accept_check')->name('application.accept_check');
+    Route::put('application/accept/{id}','ApplicationsController@accept')->name('application.accept');
     
     Route::get('messages','MessageController@index')->name('messages.index');
     Route::get('message_to/{id}','MessageController@show')->name('messages.show');
