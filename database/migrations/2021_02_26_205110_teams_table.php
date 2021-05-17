@@ -15,7 +15,6 @@ class TeamsTable extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->bigIncrements('id');
-            //$table->unsignedBigInteger('invitation_id');
             $table->string('name');
             $table->unsignedBigInteger('captain');
             $table->timestamps();
