@@ -15,13 +15,15 @@
          	    <div class="col-sm-3">
      	            {{link_to_route(('application.show'),'メッセージ',[$applicant->application_connect($team->id)->id],['class'=>'btn btn-block btn-outline-success'])}}
 	            </div>
-	            @if(($team->captain())==Auth::user())
-	         	    @include('application.accept_button')
-	    		@else($team->introduction())
-	    			@if(($team->deputy())==Auth::user())
-	         	    	@include('application.accept_button')
-	    			@endif
-	    		@endif
+	            @if(($applicant->application_connect($team->id)->accept)=='1')
+		            @if(($team->captain())==Auth::user())
+		         	    @include('application.accept_button')
+	    			@else($team->introduction())
+	    				@if(($team->deputy())==Auth::user())
+	         		    	@include('application.accept_button')
+	    				@endif
+		    		@endif
+				@endif
 	    	</div>   
         @endforeach
     </div>    

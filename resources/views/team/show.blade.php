@@ -31,6 +31,7 @@
             @endforeach
         </div>
         <div class='mt-5'>
+            {{--ログインユーザがチームメンバー--}}
             @if($team->is_member())
                 <div class="mt-2">
                     {{--メッセージボードボタン--}}
@@ -59,6 +60,7 @@
                         @endif
                     @endif
                 </div>
+            {{--ログインユーザがチームメンバーではない--}}    
             @else
                 <div class="col-4">
                     <div class="mt-2">
@@ -69,8 +71,10 @@
                         @if($introduction)    
                             @if(($introduction->accept_members)==1)    
                                 {{--入部申込確認--}}
+                                {{--問い合わせ済み--}}
                                 @if($team->applicant())
                                     {!!link_to_route('application.show','問い合わせ',[$connect_id],['class'=>'btn btn-outline-success btn-block'])!!}
+                                {{--問い合わせしてない--}}
                                 @else
                                     {!!link_to_route('application.apply','問い合わせ',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
                                 @endif
@@ -86,7 +90,7 @@
         <div class='mb-2'>
             {{--introduction入力済み--}}
             {{--acceptボタン--}} 
-            @if($introduction)
+            @if($introduction){{--カルでは問題ないがデプロイでここの@ifが効いてない--}}
                 <div class='accept_button'>
                     {{--キャプテン用--}}
                     @if(($team->captain())==Auth::user())
