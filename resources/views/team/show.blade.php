@@ -98,22 +98,20 @@
                         @include('team.show_accept')
                     @else
                         <div class='row'>
-                            @if($introduction)
-                                <div class='col-sm-6 btn'>
-                                    @if(($introduction->accept_opponents)==1)
-                                        <button class='btn btn-outline-primary btn-block'>対戦相手募集中</button>
-                                    @endif
-                                </div>
-                                <div class='col-sm-6 btn'>
-                                    @if(($introduction->accept_members)==1)
-                                        @if($team->applicant())
-                                            {{link_to_route('application.show','新メンバー募集中',[$connect_id],['class'=>'btn btn-outline-primary btn-block'])}}
-                                        @else
-                                            {{link_to_route('application.apply','新メンバー募集中',[$team->id],['class'=>'btn btn-outline-primary btn-block'])}}
-                                        @endif    
-                                    @endif
-                                </div>
-                            @endif    
+                            <div class='col-sm-6 btn'>
+                                @if(($introduction->accept_opponents)==1)
+                                    <button class='btn btn-outline-primary btn-block'>対戦相手募集中</button>
+                                @endif
+                            </div>
+                            <div class='col-sm-6 btn'>
+                                @if(($introduction->accept_members)==1)
+                                    @if($team->applicant())
+                                        {{link_to_route('application.show','新メンバー募集中',[$connect_id],['class'=>'btn btn-outline-primary btn-block'])}}
+                                    @else
+                                        {{link_to_route('application.apply','新メンバー募集中',[$team->id],['class'=>'btn btn-outline-primary btn-block'])}}
+                                    @endif    
+                                @endif
+                            </div>
                         </div>
                     @endif
                 </div>

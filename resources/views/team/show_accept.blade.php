@@ -1,4 +1,5 @@
 <div class='row'>
+    @if($introduction)
     {{--対戦相手--}}
     <div class='col-sm-6'>
         @if(($introduction->accept_opponents)=='0')
@@ -15,4 +16,5 @@
             <button class='btn btn-primary btn-block'>新メンバー募集中</button>
         @endif
     </div>
+    @endif
 </div>
