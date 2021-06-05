@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'stack'),
+    'default' => env('LOG_CHANNEL', 'daily'),
 
     /*
     |--------------------------------------------------------------------------
@@ -35,16 +35,16 @@ return [
     */
 
     'channels' => [
-        'stack' => [
+        'stack' => [ 
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['single'],//singleから変更するとログが出ない
             'ignore_exceptions' => false,
         ],
 
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
-            'level' => 'debug',
+            'level' => 'debug', //debug以上の重要度のログを出力
         ],
 
         'daily' => [

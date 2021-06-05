@@ -37,7 +37,7 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        $id=\Auth::id();
+        /*$id=\Auth::id();
         
         $request->validate([
             'nickname'=>'max:20',
@@ -71,7 +71,7 @@ class ProfileController extends Controller
         
         return redirect(route('users.show',[
             'user'=>$id,
-            ]));
+            ]));*/
     }
 
     /**
@@ -137,6 +137,8 @@ class ProfileController extends Controller
             
             $profile->save();
         }
+            
+        \Log::info(\Auth::user()->firstName.\Auth::user()->lastName.' のプロフィールの更新');
         
         return redirect(route('users.show',[
             'user'=>$id,

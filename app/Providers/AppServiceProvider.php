@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+//use Illuminate\Routing\UrlGenerator;//追記してみた
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        \DB::listen(function ($query) {
+            $sql = $query->sql;
+            for ($i = 0; $i < count($query->bindings); $i++) {
+                $sql = preg_replace("/\?/", $query->bindings[$i], $sql, 1);
+            }
+            \Log::debug("SQL", ["sql" => $sql]);                                                                
+        });
     }
     public const HOME = '/';
     /**
@@ -21,5 +28,9 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(){\URL::forceScheme('https');}
+    public function boot(){\URL::forceScheme('http');}//デフォルトhttps
+    /*public function boot(UrlGenerator $url)
+    {
+        $url->forceScheme('https');
+    }*/
 }

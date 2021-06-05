@@ -8,6 +8,7 @@ use App\User;
 use App\Picture;
 use App\Message;
 use App\Profile;
+//use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
 {
@@ -28,7 +29,10 @@ class UsersController extends Controller
             
             $data=['user'=>$user,'manyShoes'=>$manyShoes,'pictures'=>$pictures,
             'allPictures'=>$allPictures,'profile'=>$profile,'reinvite_count'=>$reinvite_count];
-        
+
+            \Log::info(\Auth::user()->firstName.\Auth::user()->lastName.' のトップ画面');
+            //\Log::info(%-5p %d [%t] %m%n);
+
         return view('welcome',$data);}
             
         else{
@@ -36,7 +40,8 @@ class UsersController extends Controller
             /*foreach($allPictures as $picture)
             $picture->loadRelationshipCounts();*/
             
-            
+            \Log::info('ログインか登録を求める画面');
+
         return view('welcome',$data);
         }
     }
@@ -53,9 +58,10 @@ class UsersController extends Controller
             $profile=$user->profile()->orderby('created_at','desc')->first();
             //$profile=Profile::findOrFail($id)->orderby('id','desc')->first();
 
-            
-        
             $data=['user'=>$user,'name'=>$name,'manyShoes'=>$manyShoes,'pictures'=>$pictures,'profile'=>$profile];}
+
+            \Log::info(\Auth::user()->firstName.\Auth::user()->lastName.' のプロフィールの編集画面');
+
         return view('users.edit',$data);
     }
     
@@ -74,6 +80,9 @@ class UsersController extends Controller
             
             $user->save();
         }
+
+        \Log::info('ユーザ名の変更');
+
         return redirect('/');
     }
     
@@ -98,10 +107,12 @@ class UsersController extends Controller
             //$picture->loadRelationshipCounts();
             /*$messages=$user->messages()->orderby('created_at','desc')->get();
             foreach($messages as $message);*/
-            
+
             $data=['user'=>$user,'manyShoes'=>$manyShoes,'pictures'=>$pictures,
             'allPictures'=>$allPictures,'profile'=>$profile,/*'picture'=>$picture,/*'message'=>$message,*/];
-        
+
+            \Log::info(\Auth::user()->firstName.\Auth::user()->lastName.' のプロフィールを見る');
+            
         return view('users.show',$data);
         }
         

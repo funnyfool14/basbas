@@ -12,6 +12,8 @@ class PicturesController extends Controller
     {
         $picture=new Picture;
         
+        \Log::debug('投稿写真の選択');
+        
         return view('pictures.create',
         ['picture'=>$picture,]);
     }
@@ -34,6 +36,8 @@ class PicturesController extends Controller
             'pic'=>$url,
             'content'=>$request->content,
             ]);
+            
+            \Log::info('写真を投稿');
         
         return redirect('/',);
     }
