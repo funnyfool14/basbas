@@ -34,12 +34,31 @@ return [
     |
     */
 
+    /*'channels' => [
+        'stack' => [ 
+            'driver' => 'stack',
+            'channels' => ['single'],//singleからdailyに変更するとログが出ない
+            'ignore_exceptions' => false,
+        ],*/
+
     'channels' => [
         'stack' => [ 
             'driver' => 'stack',
-            'channels' => ['single'],//singleから変更するとログが出ない
+            'channels' => [
+                'daily',
+                'errors',
+            ],
             'ignore_exceptions' => false,
         ],
+        
+        //エラーログ追記
+        'errors' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/error.log'),
+            'level' => 'error',
+            'days' => 360,
+        ],
+
 
         'single' => [
             'driver' => 'single',
@@ -51,7 +70,7 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
-            'days' => 14,
+            'days' => 360,
         ],
 
         'slack' => [

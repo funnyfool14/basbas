@@ -14,6 +14,7 @@ class Team extends Model
     {
         return $this->hasOne(Introduction::class);
     }
+    
     public function members()//キャプテンと副キャプテンを除外/チームのメンバー一覧
     {
             $introduction=$this->introduction()->first();
@@ -49,6 +50,7 @@ class Team extends Model
      {
          return $this->users()->where('user_id','!=',$this->captain)->get();
      }
+
     public function captain()
     {
         return User::find($this->captain);

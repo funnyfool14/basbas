@@ -228,11 +228,6 @@ return [
 
     ],
 
-    /*'log' => env('APP_LOG', 'daily'), // logファイルを日付ごとに出力
-
-    'log_level' => env('APP_LOG_LEVEL', 'info'), // logレベルdebug
-
-    'log_max_files' => '31',  // dailyログの場合のlogファイルの保存期間*/
 
 
 

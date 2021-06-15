@@ -55,6 +55,12 @@ class User extends Authenticatable
         return $this->hasMany(Shoe::class);
     }
     
+    public function get_shoes()
+    {
+        return $this->hasMany(Shoe::class)->get();
+    }
+
+
     public function pictures()
     {
         return $this->hasMany(Picture::class);
@@ -111,7 +117,7 @@ class User extends Authenticatable
     public function friends()
     {   
         //承認したリクエストの数の取得
-        return $this->belongsToMany(User::class,'friends','user_id','friend_id')->where('accept',1)->withTimestamps();;
+        return $this->belongsToMany(User::class,'friends','user_id','friend_id')->where('accept',1)->withTimestamps();
         
         // return $data1->union($data2->select(DB::raw('users.*, `friends`.`user_id` as `pivot_user_id`, `friends`.`friend_id` as `pivot_friend_id`')));
     
