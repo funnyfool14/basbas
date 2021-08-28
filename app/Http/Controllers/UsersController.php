@@ -31,7 +31,6 @@ class UsersController extends Controller
             'allPictures'=>$allPictures,'profile'=>$profile,'reinvite_count'=>$reinvite_count];
 
             \Log::info(\Auth::user()->firstName.\Auth::user()->lastName.' のトップ画面');
-            //\Log::info(%-5p %d [%t] %m%n);
 
         return view('welcome',$data);}
             

@@ -25,7 +25,7 @@ class HoopsController extends Controller
 
    
    //$query->where(['pref','city','area','phone','detail1','detail2','detail3'], 'like', '%'.$search.'%');
-/**
+/*
     public function index()
     {
         $hoops=Hoop::all();
@@ -52,12 +52,12 @@ class HoopsController extends Controller
             'detail3'=>'max:30',
             ]);
         Hoop::create([
-            'name'=>$request->name,
-            'adress'=>$request->adress,
-            'phone'=>$request->phone,
-            'detail1'=>$request->detail1,
-            'detail2'=>$request->detail2,
-            'detail3'=>$request->detail3,
+            'name' => $request->name,
+            'adress' => $request->adress,
+            'phone' => $request->phone,
+            'detail1' => $request->detail1,
+            'detail2' => $request->detail2,
+            'detail3' => $request->detail3,
             ]);
         
         return redirect()->route('hoops.index');

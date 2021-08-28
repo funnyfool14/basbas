@@ -28,10 +28,10 @@ class UserTest extends TestCase
         ->see('>Bas×Bas');
     }*/
 
-    public function test_get_shoes()
+    public function test_shoes()
     {
         $user = User::find(1);
-        $response = $user->get_shoes();
+        $response = $user->shoes()->first();
 
         $this->assertSame('adidas',$response['brand']);
 
