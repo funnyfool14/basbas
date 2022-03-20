@@ -18,10 +18,7 @@ class HoopsTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('adress');
-            $table->string('phone')->nullable();
             $table->string('detail1')->nullable();
-            $table->string('detail2')->nullable();
-            $table->string('detail3')->nullable();
         });
     }
 

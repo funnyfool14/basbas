@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  nginx:
+    image: nginx:1.21.1-alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./docker/nginx/conf/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./public:/var/www/work/public
+      - ./storage:/var/www/work/storage
+    depends_on:
+      - app
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    volumes:
+      - .:/var/www/work
+      - ./docker/app/conf/app.ini:/usr/local/etc/php/conf.d/app.ini
+    depends_on:
+      - db_basbas
+  mail:
+    image: mailhog/mailhog
+    ports: 
+      - '8025:8025'
+      - '1025:1025'
+  db_basbas:
+    image: mysql:8.0
+    container_name: db_basbas
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: basbas
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db-volume:/var/lib/mysql
+  phpmyadmin_tasklist:
+    container_name: phpmyadmin_basbas
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db_basbas
+      - PMA_PORT=3306
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    links:
+      - db_basbas
+    ports:
+      - 8087:80
+    volumes:
+      - /sessions
+volumes:
+  db-volume:

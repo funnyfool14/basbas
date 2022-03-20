@@ -12,7 +12,7 @@
                                 @if(empty($shoes->shoes_pic))
                                     <img class="shoes_pic_small"src="{{asset('image/shoes_pic.jpg')}}" alt="">
                                 @else
-                                    <img class="shoes_pic_small"src={!!$shoes->shoes_pic!!} alt="">
+                                    <img class="shoes_pic_small"src="{{asset('storage/'.$shoes->shoes_pic)}}" alt="">
                                 @endif
                             </div>
                             <div class="mt-1 col-9">
@@ -101,7 +101,7 @@
                     @if(empty($profile->user_pic))
                         <img class="user_pic"src="{{asset('image/user_pic.jpg')}}" alt="">
                     @else
-                        <img class="user_pic"src={!!$profile->user_pic!!} alt="">
+                        <img class="user_pic"src="{{asset('storage/'.$user->pic)}}" alt="">
                     @endif
                     
                 </div>
@@ -109,7 +109,7 @@
             <div class="row mt-4">
                 @foreach($pictures as $picture)
                     <div class="col-4">
-                        <img class="mt-1"src={!!$picture->pic!!} alt="" width=100%></li>
+                        <img class="mt-1"src="{{asset('storage/'.$picture->pic)}}" alt="" width=100%></li>
                         {{--link_to_routeだとgetメソッドにルートされる
                         {!!link_to_route('pictures.destroy','delete',[$picture->id],['class'=>'text-danger'])!!}--}}
                         <div class="mb-2">

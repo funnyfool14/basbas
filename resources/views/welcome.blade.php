@@ -53,7 +53,7 @@
             <div class="row mt-4">
                 @foreach($pictures as $picture)
                     <div class="col-sm-4">
-                        <img class="mt-1"src={!!$picture->pic!!} alt="" width=100%></li>
+                        <img class="mt-1"src="{{asset('storage/'.$picture->pic)}}" alt="" width=100%></li>
                         @include('commons.nice_button')
                     </div>
                 @endforeach

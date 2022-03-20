@@ -28,15 +28,21 @@ class ShoesController extends Controller
             'shoes_pic'=>'image'
             ]);
             
-        if(!is_null($request->shoes_pic)){
+        /*if(!is_null($request->shoes_pic)){
             $shoes_pic=$request->file('shoes_pic');
             $shoes_path=Storage::disk('s3')->putfile('shoes_album',$shoes_pic,'public');
-            $shoes_url=Storage::disk('s3')->url($shoes_path);
+            $shoes_url=Storage::disk('s3')->url($shoes_path);*/
+        if($request->shoes_pic){
+            $shoes_pic = $request->file('shoes_pic');
+            $path = $shoes_pic->store('storage','public');
+        
             $request->user()->shoes()->create([
             'brand'=>$request->brand,
             'model'=>$request->model,
             'size'=>$request->size,
-            'shoes_pic'=>$shoes_url,]);
+            //'shoes_pic'=>$shoes_url,
+            'shoes_pic'=>$path,
+        ]);
         }
         
         else{$request->user()->shoes()->create([
@@ -70,11 +76,17 @@ class ShoesController extends Controller
             ]);
             
         if(\Auth::id()==$user->id){
-            if(!is_null($request->shoes_pic)){
+            /*if(!is_null($request->shoes_pic)){
                 $shoes_pic=$request->file('shoes_pic');
                 $shoes_path=Storage::disk('s3')->putfile('shoes_album',$shoes_pic,'public');
                 $shoes_url=Storage::disk('s3')->url($shoes_path);
                 $shoes->shoes_pic=$shoes_url;
+            }*/
+
+            if($request->shoes_pic){
+                $shoes_pic = $request->file('shoes_pic');
+                $path = $shoes->pic->store('storage','public');
+                $shoes->shoes_pic = $path;
             }
                
             $shoes->brand=$request->brand;

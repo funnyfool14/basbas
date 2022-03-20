@@ -5,11 +5,8 @@
             @foreach($hoops as $hoop)
                 <ul class="list-unstyled mt-4">
                     <li>
-                        <h2>{!!$hoop->name!!}</h2>
-                        <div class="row ml-4">
-                            <a class="mr-1">@</a>
-                            <h5>{!!$hoop->adress!!}</h5>
-                        </div>
+                        <h2>{{link_to_route(('hoops.show'),$hoop->name,[$hoop->id],[])}}</h2>
+                        <h5 class ="ml-3">{!!'@ '.$hoop->adress!!}</h5>
                     </li>
                 </ul>
             @endforeach

@@ -37,7 +37,7 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        /*$id=\Auth::id();
+        $user=\Auth::user();
         
         $request->validate([
             'nickname'=>'max:20',
@@ -49,15 +49,6 @@ class ProfileController extends Controller
             'coment'=>'max:255',
             'user_pic'=>'image',
             ]);
-            
-        if(!is_null($request->user_pic)){
-            $user_pic=$request->file('user_pic');
-            $user_path=Storage::disk('s3')->putfile('user_album',$user_pic,'public');
-            $user_url=Storage::disk('s3')->url($user_path);
-            $request->user()->profile()->create([
-            'user_pic'=>$user_url
-            ]);
-        }    
                 
             $request->user()->profile()->create([
             'nickname'=>$request->nickname,
@@ -68,10 +59,21 @@ class ProfileController extends Controller
             'favorite_player'=>$request->favorite_player,
             'coment'=>$request->coment,
             ]);
+
+        if($request->user_pic){
+
+            $user_pic = $request->file('user_pic');
+            $path = $user_pic->store('storage','public');
+
+            $profile = $user->profile()->first();
+            $profile->user_pic = $path;
+            $profile->save();
+
+        }
         
         return redirect(route('users.show',[
-            'user'=>$id,
-            ]));*/
+            'user'=>$user,
+            ]));
     }
 
     /**
@@ -115,18 +117,22 @@ class ProfileController extends Controller
             'coment'=>'max:255',
             'user_pic'=>'image'
             ]);
-        
+
         $profile=Profile::findOrFail($profile_id);
         $id=$profile->user_id;
 
         if(\Auth::id()==$id){
-        
-            if(!is_null($request->user_pic)){    
+            if($request->user_pic){
+                $user_pic = $request->file('user_pic');
+                $path = $user_pic->store('storage','public');
+                $profile->user_pic = $path;
+            }
+            /*if(!is_null($request->user_pic)){    
                 $user_pic=$request->file('user_pic');
                 $user_path=Storage::disk('s3')->putfile('user_album',$user_pic,'public');
                 $user_url=Storage::disk('s3')->url($user_path);
                 $profile->user_pic=$user_url;
-                }
+                }*/
             $profile->nickname=$request->nickname;
             $profile->gender=$request->gender;
             $profile->birthplace=$request->birthplace;

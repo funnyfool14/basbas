@@ -12,10 +12,9 @@ class PicturesController extends Controller
     {
         $picture=new Picture;
         
-        \Log::debug('投稿写真の選択');
-        
-        return view('pictures.create',
-        ['picture'=>$picture,]);
+        return view('pictures.create',[
+            'picture' => $picture,
+        ]);
     }
     
     public function store(Request $request)
@@ -23,21 +22,16 @@ class PicturesController extends Controller
         $request->validate([
             'pic'=>'required|image',
             'content'=>'max:255']);
-        /**
-         * 自動生成されたファイル名が付与されてS3に保存される。
-         * 第三引数に'public'を付与しないと外部からアクセスできないので注意。
-         */
-        $picture=$request->file('pic');
-        $path = Storage::disk('s3')->putFile('album', $picture, 'public');
-        /* ファイルパスから参照するURLを生成する */
-        $url = Storage::disk('s3')->url($path);
+
+        //$user = \Auth::user();
+
+        $pic = $request->file('pic');
+        $path = $pic->store('storage','public');
         
         $request->user()->pictures()->create([
-            'pic'=>$url,
-            'content'=>$request->content,
-            ]);
-            
-            \Log::info('写真を投稿');
+        'pic' => $path,
+        //'content'=>$request->content,
+        ]);
         
         return redirect('/',);
     }

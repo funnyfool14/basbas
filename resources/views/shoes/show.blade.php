@@ -15,7 +15,7 @@
             @if(is_null($shoes->shoes_pic))
                 <img class="shoes_pic"src="{{asset('image/shoes_pic.jpg')}}" alt="">
             @else
-                <img class="shoes_pic"src="{{asset($shoes->shoes_pic)}}" alt="">
+                <img class="shoes_pic"src="{{asset('storage/'.$shoes->shoes_pic)}}" alt="">
             @endif
         @endforeach
     @endif

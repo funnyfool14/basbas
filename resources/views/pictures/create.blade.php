@@ -1,16 +1,16 @@
 @extends('commons.layouts')
 @section('content')
-    <div class="text-center">
+    <div class="centering">
         {!!Form::model($picture,['route'=>'pictures.store','files'=>true])!!}
         <div class="form-group">
             {!!Form::file('pic')!!}
         </div>
-        <div class="form-group">
+        {{--<div class="form-group">
             {!!Form::label('content','コメント')!!}
-            {!!Form::text('content',null,['class'=>'form-control'])!!}
-        </div>
+            {!!Form::textarea('content',null,['class'=>'form-control'])!!}
+        </div>--}}
         <div class="form-group">
-            {!!Form::submit('upload',['class'=>'col-8 mt-4 btn-lg '])!!}
+            {!!Form::submit('upload',['class'=>'col-sm-4 mt-4 btn-primary'])!!}
         </div>
         {!!Form::close()!!}
     </div>

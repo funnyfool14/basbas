@@ -46,18 +46,12 @@ class HoopsController extends Controller
         $request->validate([
             'name'=>'required|max:30',
             'adress'=>'required|max:100',
-            'phene'=>'max:20',
-            'detail1'=>'max:30',
-            'detail2'=>'max:30',
-            'detail3'=>'max:30',
+            'detail'=>'max:255',
             ]);
         Hoop::create([
             'name' => $request->name,
             'adress' => $request->adress,
-            'phone' => $request->phone,
-            'detail1' => $request->detail1,
-            'detail2' => $request->detail2,
-            'detail3' => $request->detail3,
+            'detail1' => $request->detail,
             ]);
         
         return redirect()->route('hoops.index');
@@ -71,7 +65,11 @@ class HoopsController extends Controller
      */
     public function show($id)
     {
-        //
+        $hoop = Hoop::find($id);
+
+        return view ('hoops.show',[
+            'hoop' => $hoop,
+        ]);
     }
 
     /**

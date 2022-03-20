@@ -16,6 +16,7 @@ class UsersController extends Controller
     {
         $data=[];
         $allPictures=Picture::orderby('id','desc')->get();
+        
         if(\Auth::check()){ 
             $user=\Auth::user();
             $manyShoes=$user->shoes()->orderby('id','desc')->paginate(1);

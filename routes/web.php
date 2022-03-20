@@ -14,8 +14,6 @@
 Route::get('/', 'UsersController@index');
 //Route::get('users','UsersController@show')->name('users.show');
 
-Route::get('hoops','HoopsController@index')->name('hoops.index');
-
 Route::get('signup','Auth\RegisterController@showRegistrationForm')->name('signup.get');
 Route::post('signup','Auth\RegisterController@register')->name('signup.post');
 Route::get('login','Auth\LoginController@showLoginForm')->name('login');
@@ -75,8 +73,10 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('nice','NiceController@take_nice')->name('nice.picture');
     });
     
+Route::get('hoops','HoopsController@index')->name('hoops.index');
     Route::get('hoops/register','HoopsController@create')->name('hoops.create');
     Route::post('hoops','HoopsController@store')->name('hoops.store');
+    Route::get('hoops/{hoop}','HoopsController@show')->name('hoops.show');
     //Route::group(['prefix'=>'hoops/{id}'],function(){});
 
 });
