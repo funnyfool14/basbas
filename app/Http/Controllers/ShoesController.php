@@ -85,7 +85,7 @@ class ShoesController extends Controller
 
             if($request->shoes_pic){
                 $shoes_pic = $request->file('shoes_pic');
-                $path = $shoes->pic->store('storage','public');
+                $path = $shoes_pic->store('storage','public');
                 $shoes->shoes_pic = $path;
             }
                
