@@ -33,13 +33,13 @@
         <div class='mt-5'>
             {{--ログインユーザがチームメンバー--}}
             @if($team->is_member())
-                <div class="mt-2">
+                <div class="mt-2 row">
                     {{--メッセージボードボタン--}}
                     <div class='col-sm-4'>
                         {!!link_to_route('team.show','掲示板作成予定',[$team->id],['class'=>'btn btn-outline-primary btn-block'])!!}
                     </div>
                 </div>
-                <div class="mt-2">
+                <div class="mt-2 row">
                     {{--他チームとの連絡--}}
                     <div class='col-sm-4'>
                         {!!link_to_route('team.show','他チーム交流',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
@@ -49,39 +49,38 @@
                     {{--入部申込確認--}}
                     @if($introduction)    
                         @if(($introduction->accept_members)==1)
-                            <div class='row'>
-                                <div class='col-sm-4'>
-                                    {!!link_to_route('application.index','入部問い合わせ',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
-                                </div>
-                                @if(($team->application()->unchecked_messages_count())>=1)
-                                    <p class='btn btn-danger ml-1'>{{$team->application()->unchecked_messages_count()}}</p>
-                                @endif
+                        <div class='row'>
+                            <div class='col-sm-4'>
+                                {!!link_to_route('application.index','入部問い合わせ',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
                             </div>
+                            @if(($team->application()->unchecked_messages_count())>=1)
+                            <p class='btn btn-danger ml-1'>{{$team->application()->unchecked_messages_count()}}</p>
+                            @endif
+                        </div>
                         @endif
                     @endif
                 </div>
             {{--ログインユーザがチームメンバーではない--}}    
             @else
-                {{--<div class="col-4">
-                        <div class="mt-2">
-                            {{--他チームとの連絡--}}
-                            {!!link_to_route('team.show','チーム交流',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
-                        </div>
-                    </div>--}}
+                <div class="col-4">
                     <div class="mt-2">
-                        @if($introduction)    
-                            @if(($introduction->accept_members)==1)    
-                                {{--入部申込確認--}}
-                                {{--問い合わせ済み--}}
-                                @if($team->applicant())
-                                    {!!link_to_route('application.show','問い合わせ',[$connect_id],['class'=>'btn btn-outline-success btn-block'])!!}
-                                {{--問い合わせしてない--}}
-                                @else
-                                    {!!link_to_route('application.apply','問い合わせ',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
-                                @endif
+                        {{--他チームとの連絡--}}
+                        {{--{!!link_to_route('team.show','チーム交流',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}--}}
+                    </div>
+                </div>
+                <div class="mt-2">
+                    @if($introduction)    
+                        @if(($introduction->accept_members)==1)    
+                            {{--入部申込確認--}}
+                            {{--問い合わせ済み--}}
+                            @if($team->applicant())
+                            {!!link_to_route('application.show','問い合わせ',[$connect_id],['class'=>'btn btn-outline-success btn-block'])!!}
+                            {{--問い合わせしてない--}}
+                            @else
+                            {!!link_to_route('application.apply','問い合わせ',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
                             @endif
                         @endif
-                    </div>
+                    @endif
                 </div>
             @endif
         </div>    

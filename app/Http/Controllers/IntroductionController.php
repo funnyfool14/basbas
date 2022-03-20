@@ -107,17 +107,15 @@ class IntroductionController extends Controller
         $introduction->coment=$request->coment;
         
         if($request->file('logo_pic')){
-        $logo_pic=$request->file('logo_pic');
-        $logo_path=Storage::disk('s3')->putfile('logo_album',$logo_pic,'public');
-        $logo_url=Storage::disk('s3')->url($logo_path);
-        $introduction->logo_pic=$logo_url;
+        $logo_pic = $request->file('logo_pic');
+        $logo_path = $logo_pic->store('storage','public');
+        $introduction->logo_pic=$logo_path;
         }
         
         if($request->file('team_pic')){    
         $team_pic=$request->file('team_pic');
-        $team_path=Storage::disk('s3')->putfile('team_album',$team_pic,'public');
-        $team_url=Storage::disk('s3')->url($team_path);
-        $introduction->team_pic=$team_url;
+        $team_path=$team_pic->store('storage','public');
+        $introduction->team_pic=$team_path;
         }
         
         $team->save();

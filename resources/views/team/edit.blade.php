@@ -77,7 +77,7 @@
                 </div>
                 <div class="form-group">
                     <label for="coment">チーム紹介</label>
-                    <input type="text" class="form-control" name="coment" value="{{ old('coment',$introduction->coment) }}">
+                    <textarea type="text" class="form-control" name="coment">"{{ old('coment',$introduction->coment) }}"</textarea>
                 </div>
             </div>
         </div>

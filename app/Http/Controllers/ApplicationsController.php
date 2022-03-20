@@ -150,7 +150,7 @@ class ApplicationsController extends Controller
         $user_id=User::find(function($user_id)use($connect_id){
             $user_id->select('user_id')->from('users_applications')->where('id',$connect_id);
         })->id;
-        
+
         $application=Application::find(function($application_id)use($connect_id){
             $application_id->select('application_id')->from('users_applications')->where('id',$connect_id);
         });
@@ -160,10 +160,12 @@ class ApplicationsController extends Controller
         //checkが０のteam_messageの全てのcheckを１にする
         //$unchecked_messages=Team_message::where('connect_id',$connect_id)->where('check','0')->get();
         $unchecked_messages=Team_message::where('connect_id',$connect_id)->where('check','0')->get();
-        foreach ($unchecked_messages as $unchecked_message)
-            $unchecked_message -> check = 1 ;
-            $unchecked_message -> save();
         
+        if(count($unchecked_messages)>1){
+            foreach ($unchecked_messages as $unchecked_message)
+                $unchecked_message -> check = 1 ;
+                $unchecked_message -> save();
+        }
         //対象のユーザがメンバーでなければチームに加え入部申請のデータを消す
         if($team->not_member($user_id)){
         $team->users()->attach($user_id);
