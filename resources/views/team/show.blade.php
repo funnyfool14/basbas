@@ -62,11 +62,12 @@
                 </div>
             {{--ログインユーザがチームメンバーではない--}}    
             @else
-                <div class="col-4">
-                    <div class="mt-2">
-                        {{--他チームとの連絡--}}
-                        {!!link_to_route('team.show','チーム交流',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
-                    </div>
+                {{--<div class="col-4">
+                        <div class="mt-2">
+                            {{--他チームとの連絡--}}
+                            {!!link_to_route('team.show','チーム交流',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
+                        </div>
+                    </div>--}}
                     <div class="mt-2">
                         @if($introduction)    
                             @if(($introduction->accept_members)==1)    

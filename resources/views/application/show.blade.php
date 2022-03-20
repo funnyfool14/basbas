@@ -3,7 +3,7 @@
 {{--メッセージ送信ボタンと申し込みボタン--}}
     {{--メッセージボタンでメッセージ送信--}} 
     <div class='row'>
-        <h1 class='mb-5'>{{$team->name}}</h1>
+        <h1 class='mb-5'>{{link_to_route('team.show',$team->name,[$team->id],[])}}</h1>
         <div class='offset-sm-1 col-sm-4'>
             @if($team->applicant())
                 @if(($application->apply())==0)
