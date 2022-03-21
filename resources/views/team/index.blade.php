@@ -4,7 +4,7 @@
     @if($teams->isNotEmpty())
         <h4 class="text-center">所属チーム情報</h4>
         @foreach($teams as $team)
-            <div class="mt-4 text-center">
+            <div class="mt-5 text-center">
                 <h2>{!!link_to_route('team.show',$team->name,[$team->id],['class'=>'text text-outline-primary'])!!}</h2>
             </div>
         @endforeach
@@ -34,14 +34,14 @@
     @endif
     {{--断ってない招待が３つ以下--}}
     @if(count($invited)<=10)
-        <div class="text-center">
-            <div class="mt-5 offset-4 col-4">
+        <div class="centering">
+            <div class="offset-4 col-4">
                 {!!link_to_route('invitations.create','create a team',[],['class'=>'btn btn-outline-success btn-block'])!!}
             </div>
         </div>
     @endif
-        <div class="text-center mt-5">
-            <div class="mt-5 offset-4 col-4">
+        <div class="text-center">
+            <div class="mt-3 offset-4 col-4">
                 {!!link_to_route('team.search','チームを探す',[],['class'=>'btn btn-outline-primary btn-block'])!!}
             </div>
         </div>
