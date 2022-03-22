@@ -37,6 +37,6 @@
     @endif
     {{--編集ボタン--}}
     <div class="col-sm-2">
-        {{link_to_route('introduction.edit','edit',[$team->id],['class'=>'btn btn-outline-primary btn-block'])}}
+        {{link_to_route('introduction.edit','編集',[$team->id],['class'=>'btn btn-outline-primary btn-block'])}}
     </div> 
 </div> 

@@ -41,9 +41,9 @@
                 </div>
                 <div class="mt-2 row">
                     {{--他チームとの連絡--}}
-                    <div class='col-sm-4'>
+                    {{--<div class='col-sm-4'>
                         {!!link_to_route('team.show','他チーム交流',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
-                    </div>
+                    </div>--}}
                 </div>
                 <div class="mt-2">
                     {{--入部申込確認--}}
@@ -104,7 +104,7 @@
                         <div class='row'>
                             <div class='col-sm-6 btn'>
                                 @if(($introduction->accept_opponents)==1)
-                                {{link_to_route('team.contact','対戦相手募集中',[$team->id],['class'=>'btn btn-outline-warning btn-block'])}}
+                                {{link_to_route('messages.show','対戦相手募集中',[$team->captain],['class'=>'btn btn-outline-warning btn-block'])}}
                                 @endif
                             </div>
                             <div class='col-sm-6 btn'>

@@ -23,8 +23,8 @@
                     <div class="col-8">
                         @if(Auth::id()==$user->id){{--ユーザ情報編集画面ボタン--}}
                             <div class="edit">
-                                <h2 class="text-right ml-2">{!!link_to_route('users.show','detail',['user'=>$user->id],)!!} </h2>
-                                <h2 class="mb-5 text-right ml-2">{!!link_to_route('users.edit','edit',['user'=>$user->id])!!} </h2>
+                                <h4 class="text-right ml-2">{!!link_to_route('users.show','詳細',['user'=>$user->id],)!!} </h4>
+                                <h4 class="mb-5 text-right ml-2">{!!link_to_route('users.edit','編集',['user'=>$user->id])!!} </h4>
                             </div>
                         @endif
                     </div>

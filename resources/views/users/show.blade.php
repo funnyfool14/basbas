@@ -35,7 +35,7 @@
             @endif
             {{--topに戻る--}}
             <div class="text-right mt-4">
-                <h3>{!!link_to_route('users.index','back to top',[])!!}</h3>
+                <h4>{!!link_to_route('users.index','戻る',[])!!}</h4>
             </div>
         </div>
         <div class="row">
