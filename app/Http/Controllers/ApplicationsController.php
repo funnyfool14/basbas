@@ -134,17 +134,25 @@ class ApplicationsController extends Controller
         
         return back();
     }
+
     public function accept_check($connect_id)
     {
         $applicant=User::find(function($user_id)use($connect_id){
             $user_id->select('user_id')->from('users_applications')->where('id',$connect_id);
         });
+        $application = Application::find( function ($application_id) use ($connect_id){
+            $application_id->select('application_id')->from('users_applications')->where('id',$connect_id);
+        });
+
+        $team = $application->team();
         
         return view('application.accept_check',[
             'connect_id'=>$connect_id,
             'applicant'=>$applicant,
+            'team' => $team
             ]);
     }
+
     public function accept($connect_id)
     {
         $user_id=User::find(function($user_id)use($connect_id){
@@ -161,7 +169,7 @@ class ApplicationsController extends Controller
         //$unchecked_messages=Team_message::where('connect_id',$connect_id)->where('check','0')->get();
         $unchecked_messages=Team_message::where('connect_id',$connect_id)->where('check','0')->get();
         
-        if(count($unchecked_messages)>1){
+        if(count($unchecked_messages)>=1){
             foreach ($unchecked_messages as $unchecked_message)
                 $unchecked_message -> check = 1 ;
                 $unchecked_message -> save();
@@ -178,4 +186,57 @@ class ApplicationsController extends Controller
              'team'=>$team,
              ]));
     }
+    
+    public function reject_check($connect_id)
+    {
+        $applicant=User::find(function($user_id)use($connect_id){
+            $user_id->select('user_id')->from('users_applications')->where('id',$connect_id);
+        });
+        $application = Application::find( function ($application_id) use ($connect_id){
+            $application_id->select('application_id')->from('users_applications')->where('id',$connect_id);
+        });
+
+        $team = $application->team();
+        
+        return view('application.reject_check',[
+            'connect_id'=>$connect_id,
+            'applicant'=>$applicant,
+            'team' => $team
+            ]);
+    }
+
+    public function reject($connect_id)
+    {
+        $user_id=User::find(function($user_id)use($connect_id){
+            $user_id->select('user_id')->from('users_applications')->where('id',$connect_id);
+        })->id;
+
+        $application=Application::find(function($application_id)use($connect_id){
+            $application_id->select('application_id')->from('users_applications')->where('id',$connect_id);
+        });
+        
+        $team=$application->team();
+        
+        //checkが０のteam_messageの全てのcheckを１にする
+        //$unchecked_messages=Team_message::where('connect_id',$connect_id)->where('check','0')->get();
+        $unchecked_messages=Team_message::where('connect_id',$connect_id)->where('check','0')->get();
+        
+        if(count($unchecked_messages)>=1){
+            foreach ($unchecked_messages as $unchecked_message){
+                $unchecked_message -> check = 1 ;
+                $unchecked_message -> save();
+            }
+        }
+        //対象のユーザがメンバーでなければチームに加え入部申請のデータを消す
+
+        $application->users()->detach($user_id);
+        
+
+
+        return redirect(route('team.show',[
+             'team'=>$team,
+             ]));
+    }
+
+    
 }

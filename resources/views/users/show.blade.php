@@ -34,8 +34,8 @@
                 @endif
             @endif
             {{--topに戻る--}}
-            <div class="text-right mt-4">
-                <h4>{!!link_to_route('users.index','戻る',[])!!}</h4>
+            <div class="offset-sm-8 col-sm-4 mt-4 mb-2">
+                <div>{!!link_to_route('users.index','戻る',[],["class"=>"btn btn-block btn-success rounded-pill"])!!} </div>
             </div>
         </div>
         <div class="row">

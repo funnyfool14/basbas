@@ -48,6 +48,7 @@ Route::group(['middleware'=>['auth']],function(){
     Route::post('invitations/reinvite/{id}','InvitationsController@restore')->name('invitations.restore');
     Route::get('friend/{id}','FriendsController@index')->name('friend.index');
     Route::resource('introduction','IntroductionController');
+
     //入部申込
     Route::get('apply/{id}','ApplicationsController@apply')->name('application.apply');
     Route::get('application/{id}','ApplicationsController@show')->name('application.show');
@@ -59,7 +60,10 @@ Route::group(['middleware'=>['auth']],function(){
     Route::put('application/request/{id}','ApplicationsController@request')->name('application.request');
     Route::get('application/accept_check/{connect_id}','ApplicationsController@accept_check')->name('application.accept_check');
     Route::put('application/accept/{id}','ApplicationsController@accept')->name('application.accept');
+    Route::get('application/reject_check/{id}','ApplicationsController@reject_check')->name('application.reject_check');
+    Route::get('application/reject/{id}','ApplicationsController@reject')->name('application.reject');
     
+
     Route::get('messages','MessageController@index')->name('messages.index');
     Route::get('message_to/{id}','MessageController@show')->name('messages.show');
     Route::post('message_to/{id}','MessageController@store')->name('messages.store');

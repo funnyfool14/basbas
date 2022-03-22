@@ -31,7 +31,7 @@
         @method('POST')
         <div class='row'>
             <div class="form-group col-sm-9">
-                <input type="text" class="form-control" name="message" value=''>
+                <textarea type="text" class="form-control" style ="height:40px" name="message" ></textarea>
             </div>
             <div class='ml-3 col-sm-2'>
                 <button type="submit" class='btn btn-outline-success btn-block'>send</button>

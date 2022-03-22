@@ -11,7 +11,7 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 1; $i <= 15; $i++) {
+        for($i = 16; $i <= 30; $i++) {
             DB::table('users')->insert([
             'firstName' => 'テスト',
             'lastName' => $i,
