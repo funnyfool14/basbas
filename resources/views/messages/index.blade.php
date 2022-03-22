@@ -7,11 +7,10 @@
                 <h2>{{link_to_route('users.show',$user->firstName.' '.$user->lastName,[$user->id],[])}}</h2>
             </div>
             <h4 class="col-8">{{link_to_route('messages.show',$chat->latest_message,[$chat->id],[])}}</h4>
-                @if(isset($chat->latest_message))
-                    <p class="right">{{$chat->dates()}}</p>
-                @endif
-            </div>
-            </div>
+            @if(isset($chat->latest_message))
+            <p class="right">{{$chat->dates()}}</p>
+            @endif
+        </div>
         @endforeach
     @endforeach
     {{--<div class="">
