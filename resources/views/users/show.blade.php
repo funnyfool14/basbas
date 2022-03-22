@@ -20,7 +20,7 @@
                 @if(count($user->teams()->get())>=1)
                     <h5 class = "">{{"参加チーム"}}</h4>
                     @foreach($user->teams()->get() as $team)
-                    <h4 class="">{{link_to_route('team.show',$team->name,[$team->name],[])}}</h4>
+                    <h4 class="">{{link_to_route('team.show',$team->name,[$team->id],[])}}</h4>
                     @endforeach
                 @endif
             </div>
