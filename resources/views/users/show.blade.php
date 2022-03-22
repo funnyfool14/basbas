@@ -16,15 +16,23 @@
                 <h3 class="offset-6">{{$user->firstName}}</h3>
                 <h3 class="ml-2">{{$user->lastName}}</h3>
             </div>
-                {{--ユーザ写真--}}
-                @include('users.picture')
-                @if(isset($profiles))
-                    @if(!is_null($profile->coment))
-                        <div class="mt-2">
-                            <h5 class="text-right">{{$profile->coment}}</h5>
-                        </div>
-                    @endif
+            <div class = "text-right">
+                @if(count($user->teams()->get())>=1)
+                    <h5 class = "">{{"参加チーム"}}</h4>
+                    @foreach($user->teams()->get() as $team)
+                    <h4 class="">{{link_to_route('team.show',$team->name,[$team->name],[])}}</h4>
+                    @endforeach
                 @endif
+            </div>
+            {{--ユーザ写真--}}
+            @include('users.picture')
+            @if(isset($profiles))
+                @if(!is_null($profile->coment))
+                    <div class="mt-2">
+                        <h5 class="text-right">{{$profile->coment}}</h5>
+                    </div>
+                @endif
+            @endif
             {{--topに戻る--}}
             <div class="text-right mt-4">
                 <h3>{!!link_to_route('users.index','back to top',[])!!}</h3>

@@ -15,6 +15,7 @@ class ChatsTable extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('team_id')->nullable();
             $table->text('latest_message')->nullable();
             $table->timestamps();
         });

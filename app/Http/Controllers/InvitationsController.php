@@ -7,6 +7,7 @@ use App\User;
 use App\Invitation;
 use App\Team;
 use App\Application;
+use App\Chat;
 use Illuminate\Support\Facades\DB;
 
 class InvitationsController extends Controller
@@ -127,7 +128,10 @@ class InvitationsController extends Controller
             $application=new Application;
             $application->team_id=$team->id;
             $application->save();
-            
+
+            $chat = new Chat;
+            $chat->team_id = $team->id;
+            $chat->save();
             
         }
         

@@ -27,8 +27,8 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 {!!Form::model($shoes,['route'=>['shoes.edit',$shoes->id],'method'=>'get','class'=>'xxxx'])!!}
-    　                          {!!Form::submit('edit',['class'=>'btn btn-outline-secondary btn-sm btn-block'])!!}
-                            　  {!!Form::close()!!}
+                                {!!Form::submit('edit',['class'=>'btn btn-outline-secondary btn-sm btn-block'])!!}
+                                {!!Form::close()!!}
                             </div>
                             <div class="col-sm-6">
                                 {!!Form::model($shoes,['route'=>['shoes.destroy',$shoes->id],'method'=>'delete','class'=>'xxxx'])!!}

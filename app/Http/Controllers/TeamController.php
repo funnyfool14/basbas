@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Team;
+use App\Chat;
 use App\User;
+use App\Message;
 use App\Invitation;
 use App\Introduction;
+use Request as UserRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -239,12 +242,80 @@ class TeamController extends Controller
         
     }
     
-    public function search()
+    /*public function search()
     {
         $teams=Team::all();
 
         return view ('team.search',[
             'teams'=>$teams,
             ]);
+    }*/
+    
+    public function result(Request $request)
+    {
+        
+        $search = UserRequest::get('word');
+
+        if($search){
+            $teams = Team::query()->where('name','like','%'.$search.'%')->get();
+            $invited=\Auth::user()->invitations()->whereIn('accept',[0,1])->get();
+
+            return view ('team.result',[
+                'teams' => $teams,
+                'invited' => $invited,
+            ]);
+        }
+
+        if(empty($search)){
+            return redirect (route ('team.index'));
+        }   
+    }
+
+    public function chat($team_id)
+    {
+        $team = Team::find($team_id);
+        $chat = Chat::where('team_id',$team_id)->first();
+        $messages = $chat->messages()->latest()->paginate(20);
+
+        return view ('team.chat',[
+            'team' => $team,
+            'messages' => $messages,
+            'chat' => $chat,
+        ]);
+    }
+    
+    
+    public function message(Request $request, $team_id)
+    { 
+        $user=User::findOrFail($team_id);
+        
+        $request->validate([
+            'message'=>'required|max:100']);
+        
+        $team = Team::find($team_id);
+        $chat = Chat::where('team_id',$team_id)->first();
+        
+        $message = new Message;
+        $message->user_id = \Auth::id();
+        $message->chat_id = $chat->id;
+        $message->message = $request->message;
+        $message->save();
+        
+        $chat->latest_message = $request->message;
+        $chat->save();
+        
+        return redirect(route('team.chat',[
+            'team' => $team,
+            ]));
+    }
+
+    public function contact($team_id)
+    {
+        $team = Team::find($team_id);
+        $user = Auth::user();
+
+        return view ('team.chat',[
+            'team' => $team,
+        ]);
     }
 }

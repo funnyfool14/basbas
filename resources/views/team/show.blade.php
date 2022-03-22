@@ -36,7 +36,7 @@
                 <div class="mt-2 row">
                     {{--メッセージボードボタン--}}
                     <div class='col-sm-4'>
-                        {!!link_to_route('team.show','掲示板作成予定',[$team->id],['class'=>'btn btn-outline-primary btn-block'])!!}
+                        {!!link_to_route('team.chat','掲示板',[$team->id],['class'=>'btn btn-outline-primary btn-block'])!!}
                     </div>
                 </div>
                 <div class="mt-2 row">
@@ -68,16 +68,16 @@
                         {{--{!!link_to_route('team.show','チーム交流',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}--}}
                     </div>
                 </div>
-                <div class="mt-2">
+                <div class="">
                     @if($introduction)    
                         @if(($introduction->accept_members)==1)    
                             {{--入部申込確認--}}
                             {{--問い合わせ済み--}}
                             @if($team->applicant())
-                            {!!link_to_route('application.show','問い合わせ',[$connect_id],['class'=>'btn btn-outline-success btn-block'])!!}
+                            {{--{!!link_to_route('application.show','問い合わせ',[$connect_id],['class'=>'btn btn-outline-success btn-block'])!!}--}}
                             {{--問い合わせしてない--}}
                             @else
-                            {!!link_to_route('application.apply','問い合わせ',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}
+                            {{--{!!link_to_route('team.conatct','問い合わせ',[$team->id],['class'=>'btn btn-outline-success btn-block'])!!}--}}
                             @endif
                         @endif
                     @endif
@@ -104,7 +104,7 @@
                         <div class='row'>
                             <div class='col-sm-6 btn'>
                                 @if(($introduction->accept_opponents)==1)
-                                    <button class='btn btn-outline-primary btn-block'>対戦相手募集中</button>
+                                {{link_to_route('team.contact','対戦相手募集中',[$team->id],['class'=>'btn btn-outline-warning btn-block'])}}
                                 @endif
                             </div>
                             <div class='col-sm-6 btn'>

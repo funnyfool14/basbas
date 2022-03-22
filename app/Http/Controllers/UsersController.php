@@ -8,6 +8,9 @@ use App\User;
 use App\Picture;
 use App\Message;
 use App\Profile;
+use DB;
+use Request as UserRequest;
+
 //use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
@@ -116,5 +119,28 @@ class UsersController extends Controller
         return view('users.show',$data);
         }
         
+    }
+
+    public function search()
+    {
+        return view ('users.search');
+    }
+
+
+    public function result(Request $request)
+    {
+        $search = UserRequest::get('name');
+
+        if($search){
+            $users = User::query()->where('firstName','like','%'.$search.'%')->orWhere('lastName','like','%'.$search.'%')->get();
+
+            return view ('users.result',[
+                'users' => $users,
+            ]);
+        }
+
+        if(empty($search)){
+            return view ('users.search');
+        }   
     }
 }

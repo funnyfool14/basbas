@@ -7,6 +7,7 @@
         <div class="collapse navbar-collapse" id="nav-bar">
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav text-right">
+                <li class="nav-item">{!!link_to_route('users.search','Search',[],['class'=>'nav-link'])!!}</li>
                 <li class="nav-item">{!!link_to_route('hoops.index','Hoops',[],['class'=>'nav-link'])!!}</li>
                 <li class="nav-item">{!!link_to_route('team.index','Team',[],['class'=>'nav-link'])!!}</li>
                 <li class="nav-item">{!!link_to_route('pictures.index','Pics',[],['class'=>'nav-link'])!!}</li>

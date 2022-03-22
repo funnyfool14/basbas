@@ -18,11 +18,11 @@
                 {!!Form::open(['method' => 'GET']) !!}
                 {!!Form::label('s','adress search',['class'=>'text-secondary'])!!}
                 {!!Form::text('s',null,['class'=>'form-control']) !!}
-                {!!Form::submit('search',['class'=>'btn btn-outline-primary btn-block mt-2'])!!}
+                {!!Form::submit('コートを探す',['class'=>'btn btn-outline-primary btn-block mt-2'])!!}
                 {!!Form::close() !!}
             </div>
             {{--Hoop登録画面--}}
-            {!!link_to_route('hoops.create','register',[],['class'=>'btn btn-outline-secondary btn-block mt-3'])!!}
+            {!!link_to_route('hoops.create','コートを登録',[],['class'=>'btn btn-outline-success btn-block mt-3'])!!}
         </aside>
     </div>
 @endsection(‘content’)

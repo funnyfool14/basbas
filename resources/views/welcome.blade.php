@@ -60,10 +60,10 @@
             </div>
         </div>
     @else{{--ユーザ以外の表示画面--}}
-        <div class="text-center">
-            <h1>{!!link_to_route('login','log in',[],)!!}</h1>
+        <div class="centering">
+            <h2>{!!link_to_route('login','ログイン',[],)!!}</h2>
             <p class="mt-4">or</p>
-            <h1 class="mb-5">{!!link_to_route('signup.get','register',[],)!!} </h1>
+            <h2 class="mb-5">{!!link_to_route('signup.get','ユーザ登録',[],)!!} </h2>
             <h1 class="mt-5">Bas×Bas</h1>
         </div>
         @include('commons.pictures')

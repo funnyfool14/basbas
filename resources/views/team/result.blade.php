@@ -2,36 +2,22 @@
 @section('content')
 <div class = "row">
     <div class = "col-sm-8">
-        {{--所属チームがある--}}
+        <h4 class="text-center">検索結果</h4>
         @if($teams->isNotEmpty())
-            <h4 class="text-center">所属チーム情報</h4>
             @foreach($teams as $team)
+                @if($team->not_member(\Auth::id()))
                 <div class="mt-5 text-center">
                     <h2>{!!link_to_route('team.show',$team->name,[$team->id],['class'=>'text text-outline-primary'])!!}</h2>
                 </div>
+                @else
+                <div class="centering">
+                    <h3>該当チームがありません</h3>
+                </div>
+                @endif
             @endforeach
-            {{--招待を受けているorしている--}}
-            @if($invitations->isNotEmpty())
-                @include('invitations.answer')
-            @endif
-            {{--一度断った未結成チーム--}}
-            @if($rejections->isNotEmpty())
-                @include('invitations.rejoin')
-            @endif
-        {{--所属チームがなく招待を受けてる--}}    
-        @elseif($invitations->isNotEmpty())
-            @include('invitations.answer')
-            {{--一度断った招待--}}
-            @if($rejections->isNotEmpty())
-                @include('invitations.rejoin')
-            @endif    
-        {{--所属チームがなく招待を一度断った--}}
-        @elseif($rejections->isNotEmpty())
-            @include('invitations.rejoin')
-        {{--所属も招待も受けてない--}}    
         @else
             <div class="centering">
-                <h3>所属チームの情報がありません</h3>
+                <h3>該当チームがありません</h3>
             </div>
         @endif
     </div>

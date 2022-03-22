@@ -2,9 +2,10 @@
 @section('content')
     {{--メッセージ確認--}}
     <div class="bg-warning mb-5">
-        <h4>{{link_to_route('users.show','　'.$user->firstName.' '.$user->lastName,[$user->id],[])}}</h4>
+        <h4>{{link_to_route('team.show','　'.$team->name.' の掲示板',[$team->id],[])}}</h4>
     </div>
-    {!!Form::open(['route'=>['messages.store',$user_id],'method'=>'post'])!!}
+    @if($team->is_member(Auth::id()))
+    {!!Form::open(['route'=>['team.message',$team->id],'method'=>'post'])!!}
     <div class="row mb-5">
         <div class="col-10">
             {!!Form::textarea('message',null,['class'=>'form-control' ,'rows'=>'1'])!!}
@@ -14,5 +15,6 @@
         </div>    
     </div>
     {!!Form::close()!!}
+    @endif
     @include('messages.room')
 @endsection(‘content’)

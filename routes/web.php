@@ -22,15 +22,26 @@ Route::get('logout','Auth\LoginController@logout')->name('logout.get');
 
 Route::group(['middleware'=>['auth']],function(){
     Route::resource('users','UsersController');
+    Route::get('search','UsersController@search')->name('users.search');
+    Route::get('result','UsersController@result')->name('users.result');
+
     Route::resource('profile','ProfileController');
     Route::resource('shoes','ShoesController');
     Route::resource('pictures','PicturesController');
+
+    Route::get('team/search','TeamController@search')->name('team.search');
+    Route::get('team/result','TeamController@result')->name('team.result');
+
     Route::resource('team','TeamController');
-    Route::get('team.search','TeamController@search')->name('team.search');
     Route::put('accept_opponents/{id}','TeamController@accept_opponents')->name('team.accept_opponents');
     Route::put('reject_opponents/{id}','TeamController@reject_opponents')->name('team.reject_opponents');
     Route::put('accept_members/{id}','TeamController@accept_members')->name('team.accept_members');
     Route::put('reject_members/{id}','TeamController@reject_members')->name('team.reject_members');
+    Route::get('chat/{team}','TeamController@chat')->name('team.chat');
+    Route::post('chat/{team}','TeamController@message')->name('team.message');
+    Route::get('contact/{team}','TeamController@contact')->name('team.contact');
+
+
     Route::resource('invitations','InvitationsController');
     Route::delete('invitations/quit/{id}','InvitationsController@quit')->name('invitations.quit');
     Route::get('invitations/reinvite/{id}','InvitationsController@reinvite')->name('invitations.reinvite');
