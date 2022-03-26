@@ -44,7 +44,7 @@
                 @if($message->applicant())
                     <div class="text-right">
                         <div class='row'>
-             	            <h3 class='col-sm-10'>{{$message->message}}</h3>
+             	            <h3 class='col-sm-10'>{!!nl2br(e($message->message))!!}</h3>
              	            {{--メッセージ送信者に削除ボタン--}}
              	            <div class='col-sm-2'>
                  	            @if(($message->user_id)==Auth::id())
@@ -79,7 +79,7 @@
                                 @else
                                 <div class='offset-sm-1'>{{''}}</div>
                             @endif
-             	            <h3 class='offset-sm-1'>{{$message->message}}</h3>
+             	            <h3 class='offset-sm-1'>{!!nl2br(e($message->message))!!}</h3>
                         </div>   
                  	    <h4 class='ml-5'>{{$message->user()->firstName.' '.$message->user()->lastName}}</h4>
 	                </div>
