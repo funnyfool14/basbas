@@ -17,10 +17,19 @@ class Team_message extends Model
         return Team::find($application->team_id)->first();
     }
     
-    public function applicant()//messageのuser_idがメンバーのidじゃない
+    /*public function applicant()//messageのuser_idがメンバーのidじゃない
     {
         $team=$this->team();
         
         return $team->users()->where('user_id',$this->user_id)->doesntExist();
+    }*/
+
+
+    
+    public function applicant()//messageのuser_idがメンバーのid
+    {
+        $team=$this->team();
+        
+        return $team->users()->where('user_id',$this->user_id)->exists();
     }
 }

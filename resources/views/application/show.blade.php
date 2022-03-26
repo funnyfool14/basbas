@@ -2,7 +2,7 @@
 @section('content')
 {{--メッセージ送信ボタンと申し込みボタン--}}
     {{--メッセージボタンでメッセージ送信--}} 
-<div>    
+<div class ="row">    
     <h1 class='mb-5'>{{link_to_route('team.show',$team->name,[$team->id],[])}}</h1>
     <div class='offset-sm-1 col-sm-4'>
         @if($team->applicant())
@@ -21,6 +21,8 @@
             @endif
         @endif
     </div>
+</div>
+<div>
     <form method='POST' action='{{route('application.message',['application'=>$connect_id])}}' enctype='multipart/form-data'>
         @csrf
         @method('POST')
