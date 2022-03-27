@@ -11,9 +11,9 @@ class FriendTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 3; $i <= 12; $i++) {
+        for($i = 9; $i <= 12; $i++) {
             DB::table('friends')->insert([
-            'user_id' => '2',
+            'user_id' => '8',
             'friend_id' => $i,
             'accept' => '1',
             ]);
