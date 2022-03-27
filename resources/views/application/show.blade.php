@@ -40,47 +40,47 @@
     @foreach($messages as $message)
         <div class='mt-5'>
             @if($message->applicant())
-                <div class="text-right">
-                    <div class='row'>
-                        <h3 class='col-sm-10'>{!!nl2br(e($message->message))!!}</h3>
-                        {{--メッセージ送信者に削除ボタン--}}
-                        <div class='col-sm-2'>
-                            @if(($message->user_id)==Auth::id())
-                            <form method='POST' action='{{route('application.message_delete',['message'=>$message->id])}}' enctype='multipart/form-data'>
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class='btn btn-outline-danger btn-sm'>delete</button>
-                            </form>
-                            {{--キャプテンと副キャプテンに既読チェックボタン--}}    
-                            @elseif(($team->captain())==Auth::user())
-                            @include('application.message_check')
-                            @elseif($team->introduction())
-                                @if(($team->deputy())==Auth::user())
-                                @include('application.message_check')
-                                @endif
-                            @endif
-                        </div>
-                    </div>    
-                    <h4 class='mr-5'>{{$message->user()->firstName.' '.$message->user()->lastName}}</h4>
-                </div>
-            @else
-                <div class='text-left'>
-                    <div class='row'>
+            <div class="text-right">
+                <div class='row'>
+                    <h3 class='col-sm-10'>{!!nl2br(e($message->message))!!}</h3>
+                    {{--メッセージ送信者に削除ボタン--}}
+                    <div class='col-sm-2'>
                         @if(($message->user_id)==Auth::id())
-                        <div class='form-group col-sm-1 '>
-                            <form method='POST' action='{{route('application.message_delete',['message'=>$message->id])}}' enctype='multipart/form-data'>
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class='btn btn-outline-danger btn-sm btn-block'>delete</button>
-                            </form>
-                        </div>
-                        @else
-                        <div class='offset-sm-1'>{{''}}</div>
+                        <form method='POST' action='{{route('application.message_delete',['message'=>$message->id])}}' enctype='multipart/form-data'>
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class='btn btn-outline-danger btn-sm'>delete</button>
+                        </form>
+                        {{--キャプテンと副キャプテンに既読チェックボタン--}}    
+                        @elseif(($team->captain())==Auth::user())
+                        @include('application.message_check')
+                        @elseif($team->introduction())
+                            @if(($team->deputy())==Auth::user())
+                            @include('application.message_check')
+                            @endif
                         @endif
-                        <h3 class='offset-sm-1'>{!!nl2br(e($message->message))!!}</h3>
-                    </div>   
-                    <h4 class='ml-5'>{{$message->user()->firstName.' '.$message->user()->lastName}}</h4>
-                </div>
+                    </div>
+                </div>    
+                <h4 class='mr-5'>{{$message->user()->firstName.' '.$message->user()->lastName}}</h4>
+            </div>
+            @else
+            <div class='text-left'>
+                <div class='row'>
+                    @if(($message->user_id)==Auth::id())
+                    <div class='form-group col-sm-1 '>
+                        <form method='POST' action='{{route('application.message_delete',['message'=>$message->id])}}' enctype='multipart/form-data'>
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class='btn btn-outline-danger btn-sm btn-block'>delete</button>
+                        </form>
+                    </div>
+                    @else
+                    <div class='offset-sm-1'>{{''}}</div>
+                    @endif
+                    <h3 class='offset-sm-1'>{!!nl2br(e($message->message))!!}</h3>
+                </div>   
+                <h4 class='ml-5'>{{$message->user()->firstName.' '.$message->user()->lastName}}</h4>
+            </div>
             @endif
         </div>
     @endforeach

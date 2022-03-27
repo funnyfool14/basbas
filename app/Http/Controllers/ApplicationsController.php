@@ -170,9 +170,10 @@ class ApplicationsController extends Controller
         $unchecked_messages=Team_message::where('connect_id',$connect_id)->where('check','0')->get();
         
         if(count($unchecked_messages)>=1){
-            foreach ($unchecked_messages as $unchecked_message)
+            foreach ($unchecked_messages as $unchecked_message){
                 $unchecked_message -> check = 1 ;
                 $unchecked_message -> save();
+            }
         }
         //対象のユーザがメンバーでなければチームに加え入部申請のデータを消す
         if($team->not_member($user_id)){

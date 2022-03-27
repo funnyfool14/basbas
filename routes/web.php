@@ -59,7 +59,7 @@ Route::group(['middleware'=>['auth']],function(){
     Route::put('application/recheck/{message}','ApplicationsController@recheck')->name('application.message_recheck');
     Route::put('application/request/{id}','ApplicationsController@request')->name('application.request');
     Route::get('application/accept_check/{connect_id}','ApplicationsController@accept_check')->name('application.accept_check');
-    Route::put('application/accept/{id}','ApplicationsController@accept')->name('application.accept');
+    Route::get('application/accept/{id}','ApplicationsController@accept')->name('application.accept');
     Route::get('application/reject_check/{id}','ApplicationsController@reject_check')->name('application.reject_check');
     Route::get('application/reject/{id}','ApplicationsController@reject')->name('application.reject');
     

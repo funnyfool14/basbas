@@ -18,7 +18,6 @@ class TeamMessagesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('connect_id');
             $table->unsignedBigInteger('application_id')->nullable();
-            $table->unsignedBigInteger('team_id')->nullable();
             $table->text('message');
             $table->integer('check')->default(0);
             $table->timestamps();
