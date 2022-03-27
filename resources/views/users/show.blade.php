@@ -26,12 +26,10 @@
             </div>
             {{--ユーザ写真--}}
             @include('users.picture')
-            @if(isset($profiles))
-                @if(!is_null($profile->coment))
-                    <div class="mt-2">
-                        <h5 class="text-right">{{$profile->coment}}</h5>
-                    </div>
-                @endif
+            @if($user->profile()->coment)
+            <div class="mt-2">
+                <h5 class="text-right">{!!nl2br(e($profile->coment))!!}</h5>
+            </div>
             @endif
             {{--topに戻る--}}
             <div class="offset-sm-8 col-sm-4 mt-4 mb-2">

@@ -78,7 +78,7 @@
                             </div>
                             <div class="form-group">  
                                 {!!Form::label('coment','コメント')!!}
-                                {!!Form::text('coment',null,['class'=>'form-control'])!!}
+                                {!!Form::textarea('coment',null,['class'=>'form-control'])!!}
                             </div>
                             {!!Form::submit('register',['class'=>'mt-2 btn btn-outline-primary'])!!}
                         {!!Form::close()!!}

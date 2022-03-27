@@ -70,7 +70,7 @@ class ProfileController extends Controller
             $profile->save();
 
         }
-        
+
         return redirect(route('users.show',[
             'user'=>$user,
             ]));
@@ -143,8 +143,7 @@ class ProfileController extends Controller
             
             $profile->save();
         }
-            
-        \Log::info(\Auth::user()->firstName.\Auth::user()->lastName.' のプロフィールの更新');
+
         
         return redirect(route('users.show',[
             'user'=>$id,
