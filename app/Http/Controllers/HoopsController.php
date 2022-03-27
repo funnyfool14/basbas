@@ -66,7 +66,7 @@ class HoopsController extends Controller
     public function show($id)
     {
         $hoop = Hoop::find($id);
-
+        
         return view ('hoops.show',[
             'hoop' => $hoop,
         ]);
