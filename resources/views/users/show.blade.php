@@ -26,7 +26,7 @@
             </div>
             {{--ユーザ写真--}}
             @include('users.picture')
-            @if($user->profile()->coment)
+            @if(!is_null($profile->coment))
             <div class="mt-2">
                 <h5 class="text-right">{!!nl2br(e($profile->coment))!!}</h5>
             </div>
